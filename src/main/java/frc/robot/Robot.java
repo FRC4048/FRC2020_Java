@@ -7,9 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.logging.Logging;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
 
   /**
@@ -54,6 +55,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------DISABLED----------");
+
   }
 
   @Override
@@ -66,11 +69,20 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------AUTO INIT----------");
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    StringBuilder gameInfo = new StringBuilder();
+    gameInfo.append("Match Number=");
+		gameInfo.append(DriverStation.getInstance().getMatchNumber());
+		gameInfo.append(", Alliance Color=");
+		gameInfo.append(DriverStation.getInstance().getAlliance().toString());
+		gameInfo.append(", Match Type=");
+		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
+		Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+   
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
   }
 
   /**
@@ -86,6 +98,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------TELEOP INIT----------");
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
