@@ -18,8 +18,30 @@ public class CommandLoggingProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        log("Invoking " + method.getName());
-        return method.invoke(target, args);
+        System.out.println(method.getName());
+        switch(method.getName()) {
+            case "initialize":
+                log("initialize");
+                return method.invoke(target, args);
+            case "end":
+                log("end");
+                return method.invoke(target, args);
+            case "isFinished":
+                Boolean result = (Boolean) method.invoke(target, args);
+                if(result) { 
+                    log("isFinished");
+                }
+                return result;
+            case "isTimedOut":
+                Boolean timedResult = (Boolean) method.invoke(target, args);
+                if(timedResult) {
+                    log("isTimedOut");
+                }
+                return timedResult;
+            default:
+                log("Invoking " + method.getName());
+                return method.invoke(target, args);
+        }
     }
 
     private void log(final String text) {

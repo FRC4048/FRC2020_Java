@@ -17,6 +17,8 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TestLog;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.logging.CommandLoggingProxy;
+import frc.robot.utils.logging.LogCommandWrapper;
+import frc.robot.utils.logging.MarkPlaceCommand;
 import frc.robot.utils.logging.ProxyFactory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -34,7 +36,7 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private Joystick joyLeft = new Joystick(0);
   private JoystickButton testLog = new JoystickButton(joyLeft, 7);
-
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -51,8 +53,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    TestLog testLogCommand = new TestLog();
-    testLog.whenPressed(ProxyFactory.create(testLogCommand, "TestLog")); //To make a command logged
+    Command testLogCommand = new TestLog().withTimeout(2);
+    testLog.whenPressed(new LogCommandWrapper(testLogCommand, "TestLog"));
+    
+    Command markPlaceCommand = new MarkPlaceCommand();
+    testLog.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand"));
   }
 
 
