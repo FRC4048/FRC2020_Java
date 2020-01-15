@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.utils;
 
 public interface IRangeFinder {
   double getDistanceInInches();
