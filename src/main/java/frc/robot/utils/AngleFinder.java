@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.utils;
 
 /**
  * Helper class to calculate the angle of the robot in relation to a flat
