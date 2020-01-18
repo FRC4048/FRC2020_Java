@@ -34,6 +34,8 @@ public class RobotContainer {
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  public AutoChooser autoChooser = new AutoChooser();
+  
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -61,8 +63,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  //public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+    //return m_autoCommand;
+  //}
 }

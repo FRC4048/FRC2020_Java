@@ -25,7 +25,6 @@ import frc.robot.commands.*;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  public static AutoChooser autoChooser = new AutoChooser();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -35,9 +34,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
- 
-    autoChooser.AddOptions();
-    autoChooser.Initialize();
+
+    m_robotContainer.autoChooser.AddOptions();
+    m_robotContainer.autoChooser.Initialize();
   }
 
   /**
@@ -62,8 +61,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------DISABLED----------");
-   
-
   }
 
   @Override
@@ -75,7 +72,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------AUTO INIT----------");
     // schedule the autonomous command (example)
     StringBuilder gameInfo = new StringBuilder();
@@ -86,6 +83,11 @@ public class Robot extends TimedRobot {
 		gameInfo.append(", Match Type=");
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+    m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
+                                                      m_robotContainer.autoChooser.getAction());
+
+
+
     
     //autoChooser.Print();
    
