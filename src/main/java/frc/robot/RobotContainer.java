@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
@@ -62,6 +64,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    TrajectoryConfig config = new TrajectoryConfig(0.9144 /*3 feet per second*/, 0.3048 /*1 foot per second^2*/)
+                                                  .setKinematics(new DifferentialDriveKinematics(0.2032)); //TODO make this into constants 
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }

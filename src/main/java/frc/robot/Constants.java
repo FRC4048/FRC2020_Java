@@ -20,4 +20,7 @@ public final class Constants {
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
+
+    public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
+    public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
 }
