@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -33,10 +34,11 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
@@ -46,28 +48,27 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
-  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft, 1); // TODO: change this based on what we use
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
+    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
     // Configure the button bindings
     configureButtonBindings();
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
-    driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); //TODO update this button
+    driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -75,16 +76,31 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    TrajectoryConfig config = new TrajectoryConfig(3, 3).setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS); //TODO make this into constants
-    
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1,0), new Translation2d(1.5,0)), new Pose2d(2, 0, new Rotation2d(0)), config);
+    // Create config for trajectory
+    TrajectoryConfig config = new TrajectoryConfig(0.5,0.5)
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS);
+    // An example trajectory to follow. All units in meters.
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        Collections.emptyList(),// List.of(new Translation2d(1, 0), new Translation2),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(2, 0, new Rotation2d(0)),
+        // Pass config
+        config);
 
-    //TODO get values from the characterization thing for this
-    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
-      new RamseteController(), new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV, Constants.DRIVETRAIN_KA),
-      Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
-      new PIDController(13.2, 0, 0), new PIDController(13.2, 0, 0), driveTrain::tankDriveVolts, driveTrain);
-    // An ExampleCommand will run in autonomous
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, driveTrain::getPose,
+        new RamseteController(),
+        new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
+            Constants.DRIVETRAIN_KA),
+        Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
+        new PIDController(1, 0, 0), new PIDController(1, 0, 0),
+        // RamseteCommand passes volts to the callback
+        driveTrain::tankDriveVolts, driveTrain);
+
+    // Run path following command, then stop at the end.
     return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
   }
 }

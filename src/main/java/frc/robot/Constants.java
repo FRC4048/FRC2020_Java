@@ -26,9 +26,9 @@ public final class Constants {
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
     
-    public static final double DRIVETRAIN_KS = 0.841;
-    public static final double DRIVETRAIN_KV = 1.44;
-    public static final double DRIVETRAIN_KA = 0.335;
+    public static final double DRIVETRAIN_KS = 0.644;
+    public static final double DRIVETRAIN_KV = 0.566;
+    public static final double DRIVETRAIN_KA = 0.142;
 
-    public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.2032);
+    public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(2.1569939645342884);
 }

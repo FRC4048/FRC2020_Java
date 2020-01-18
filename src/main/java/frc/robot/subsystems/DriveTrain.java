@@ -40,7 +40,7 @@ public class DriveTrain extends SubsystemBase {
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
     leftEncoder = new Encoder(2,3);
-    rightEncoder = new Encoder(0,1);
+    rightEncoder = new Encoder(0,1, true);
     navX = new AHRS(SPI.Port.kMXP);
 
 
@@ -50,8 +50,8 @@ public class DriveTrain extends SubsystemBase {
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
     left1.setInverted(true);
     left2.setInverted(true);
-    right1.setInverted(true);
-    right2.setInverted(true);
+    // right1.setInverted(true);
+    // right2.setInverted(true);
     
     //Todo: set the distance per pulse of the encoders
 
@@ -61,15 +61,17 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void drive(double speedLeft, double speedRight){
-    // speedLeft = Math.signum(speedLeft) * Math.pow(speedLeft, 2);
-    // speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
-    driveTrain.tankDrive(speedLeft, speedRight);
+    speedLeft = Math.signum(speedLeft) * Math.pow(speedLeft, 2);
+    speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
+    // driveTrain.tankDrive(speedLeft, speedRight);
+    left1.set(speedLeft);
+    right1.set(speedRight);
   }
 
   /**
    * Gets the angle of the robot
    * 
-   * @return angle of robot between 0-360
+   * @return angle of robot between -180-180
    */
   public double getAngle() {
     return Math.IEEEremainder(navX.getAngle(), 360);
@@ -80,6 +82,9 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
+    SmartDashboard.putNumber("Angle", getAngle());
+    SmartDashboard.putNumber("LeftEncoder", leftEncoder.getDistance());
+    SmartDashboard.putNumber("RightEncoder", rightEncoder.getDistance());
   }
  
   /**
@@ -112,6 +117,8 @@ public class DriveTrain extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    SmartDashboard.putNumber("leftEncoder Speed", leftEncoder.getRate());
+    SmartDashboard.putNumber("rightEncoder Speed", rightEncoder.getRate());
     return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
   }
 
