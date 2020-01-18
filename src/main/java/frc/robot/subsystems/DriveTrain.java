@@ -66,8 +66,13 @@ public class DriveTrain extends SubsystemBase {
     driveTrain.tankDrive(speedLeft, speedRight);
   }
 
+  /**
+   * Gets the angle of the robot
+   * 
+   * @return angle of robot between 0-360
+   */
   public double getAngle() {
-    return navX.getAngle();
+    return Math.IEEEremainder(navX.getAngle(), 360);
   }
 
   @Override
@@ -112,6 +117,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     left1.setVoltage(leftVolts);
-    right1.setVoltage(-rightVolts);
+    // right1.setVoltage(-rightVolts);
+    right1.setVoltage(rightVolts);
   }
 }

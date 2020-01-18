@@ -75,15 +75,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    TrajectoryConfig config = new TrajectoryConfig(0.9144 /*3 feet per second*/, 0.3048 /*1 foot per second^2*/)
-                                                  .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS); //TODO make this into constants
+    TrajectoryConfig config = new TrajectoryConfig(3, 3).setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS); //TODO make this into constants
     
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1,0), new Translation2d(2,0)), new Pose2d(3, 0, new Rotation2d(0)), config);
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1,0), new Translation2d(1.5,0)), new Pose2d(2, 0, new Rotation2d(0)), config);
 
     //TODO get values from the characterization thing for this
     RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
-      new RamseteController(), new SimpleMotorFeedforward(.221, 1.98, 0.207), Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
-      new PIDController(1, 0, 0), new PIDController(1, 0, 0), driveTrain::tankDriveVolts, driveTrain);
+      new RamseteController(), new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV, Constants.DRIVETRAIN_KA),
+      Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
+      new PIDController(13.2, 0, 0), new PIDController(13.2, 0, 0), driveTrain::tankDriveVolts, driveTrain);
     // An ExampleCommand will run in autonomous
     return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
   }
