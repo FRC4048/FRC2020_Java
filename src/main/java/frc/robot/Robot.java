@@ -84,9 +84,10 @@ public class Robot extends TimedRobot {
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
 		Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
    
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
-    // }
+    
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
   }
 
   /**

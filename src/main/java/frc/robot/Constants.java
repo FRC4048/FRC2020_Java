@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -23,4 +25,7 @@ public final class Constants {
 
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
+    
+
+    public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.2032);
 }

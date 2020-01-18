@@ -7,11 +7,21 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
@@ -19,6 +29,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -65,8 +76,15 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     TrajectoryConfig config = new TrajectoryConfig(0.9144 /*3 feet per second*/, 0.3048 /*1 foot per second^2*/)
-                                                  .setKinematics(new DifferentialDriveKinematics(0.2032)); //TODO make this into constants 
+                                                  .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS); //TODO make this into constants
+    
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1,0), new Translation2d(2,0)), new Pose2d(3, 0, new Rotation2d(0)), config);
+
+    //TODO get values from the characterization thing for this
+    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
+      new RamseteController(), new SimpleMotorFeedforward(.221, 1.98, 0.207), Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
+      new PIDController(1, 0, 0), new PIDController(1, 0, 0), driveTrain::tankDriveVolts, driveTrain);
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
   }
 }

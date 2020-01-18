@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
@@ -98,5 +99,19 @@ public class DriveTrain extends SubsystemBase {
   public void resetOdodemtry(Pose2d pose) {
     resetEncoders();
     driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getAngle()));
+  }
+
+  /**
+   * Returns the current wheel speeds of the robot.
+   *
+   * @return The current wheel speeds.
+   */
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    left1.setVoltage(leftVolts);
+    right1.setVoltage(-rightVolts);
   }
 }
