@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.logging.Logging;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,10 +20,12 @@ import frc.robot.utils.logging.Logging;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+
+
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-
+  public static AutoChooser autoChooser = new AutoChooser();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -32,6 +35,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+ 
+    autoChooser.AddOptions();
+    autoChooser.Initialize();
   }
 
   /**
@@ -56,6 +62,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------DISABLED----------");
+   
 
   }
 
@@ -78,12 +85,14 @@ public class Robot extends TimedRobot {
 		gameInfo.append(DriverStation.getInstance().getAlliance().toString());
 		gameInfo.append(", Match Type=");
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
-		Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+    Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+    
+    //autoChooser.Print();
    
     // if (m_autonomousCommand != null) {
     //   m_autonomousCommand.schedule();
     // }
-  }
+    }
 
   /**
    * This function is called periodically during autonomous.
