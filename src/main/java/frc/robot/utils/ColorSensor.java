@@ -45,9 +45,6 @@ public class ColorSensor {
     //Checks if the color is Red, Blue, Green, Yellow, or Unknown
     public ColorValue getColor(){
         Color detectedColor = colorSensor.getColor();
-        SmartDashboard.putNumber("Red", detectedColor.red);
-        SmartDashboard.putNumber("Green", detectedColor.green);
-        SmartDashboard.putNumber("Blue", detectedColor.blue);
         
         ColorMatchResult match = m_colorMatcher.matchColor(detectedColor);
 
