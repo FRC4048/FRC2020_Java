@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
@@ -76,18 +77,29 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS,
+                                       Constants.DRIVETRAIN_KV,
+                                       Constants.DRIVETRAIN_KA),
+            Constants.DIFFERENTIAL_DRIVE_KINEMATICS, 10);
+
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(0.5,0.5)
             // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS);
+            .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS)
+            .addConstraint(autoVoltageConstraint);
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        Collections.emptyList(),// List.of(new Translation2d(1, 0), new Translation2),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2, 0, new Rotation2d(0)),
+        //Collections.emptyList(),
+         List.of(
+            new Translation2d(1, 1),
+            new Translation2d(2, -1)),
+        // ),        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(3, 0, new Rotation2d(0)),
         // Pass config
         config);
 
@@ -96,7 +108,7 @@ public class RobotContainer {
         new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
             Constants.DRIVETRAIN_KA),
         Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
-        new PIDController(1, 0, 0), new PIDController(1, 0, 0),
+        new PIDController(1.0, 0, 0), new PIDController(1.0, 0, 0),
         // RamseteCommand passes volts to the callback
         driveTrain::tankDriveVolts, driveTrain);
 
