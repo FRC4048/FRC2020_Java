@@ -25,6 +25,7 @@ import frc.robot.commands.*;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,10 +34,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
-
-    m_robotContainer.autoChooser.AddOptions();
-    m_robotContainer.autoChooser.Initialize();
+   
+    m_robotContainer.autoChooser.initialize();
   }
 
   /**
@@ -83,7 +82,7 @@ public class Robot extends TimedRobot {
 		gameInfo.append(", Match Type=");
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
-    m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
+    frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                       m_robotContainer.autoChooser.getAction());
 
 

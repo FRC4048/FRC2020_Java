@@ -8,7 +8,6 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AutonomousCommands.AutoCrossLine;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
 /**
@@ -23,7 +22,7 @@ public class AutoChooser {
     }
     //all actions driver choose at beginning of match
     enum Action {
-        DO_NOTHING, DEPOSIT, CROSS_LINE;
+        DO_NOTHING, DEPOSIT, CROSS_LINE, PICKUP;
     }
     //all commmands during autonomous
     enum AutoCommand {
@@ -36,20 +35,22 @@ public class AutoChooser {
         positionChooser = new SendableChooser<Position>();
         actionChooser = new SendableChooser<Action>();
     }
-    public void AddOptions(){
+    public void addOptions(){
         positionChooser.addOption(Position.LEFT.name(), Position.LEFT);
         positionChooser.addOption(Position.MIDDLE.name(), Position.MIDDLE);
         positionChooser.addOption(Position.RIGHT.name(), Position.RIGHT); 
         actionChooser.setDefaultOption(Action.DO_NOTHING.name(), Action.DO_NOTHING);
         actionChooser.addOption(Action.DEPOSIT.name(), Action.DEPOSIT);
         actionChooser.addOption(Action.CROSS_LINE.name(), Action.CROSS_LINE);
+        actionChooser.addOption(Action.PICKUP.name(), Action.PICKUP);
+
     }
-    public void Initialize() {
+    public void initialize() {
         ShuffleboardTab tab = Shuffleboard.getTab("Driver");
-        tab.add("Position", positionChooser);
-        tab.add("Action", actionChooser);
+        tab.add("Autonomous Position", positionChooser);
+        tab.add("Autonomous Action", actionChooser);
     }
-    public void Print(){
+    public void print(){
         System.out.println(positionChooser.getSelected());
         System.out.println(actionChooser.getSelected());
     }
@@ -72,6 +73,17 @@ public class AutoChooser {
             return AutoCommand.CROSS_LINE;
         }
         else if (a == Action.DEPOSIT){
+            if (p == Position.LEFT){
+                return AutoCommand.LEFT_DEPOSIT;
+            }   
+            else if (p == Position.MIDDLE){
+                return AutoCommand.MIDDLE_DEPOSIT;
+            }
+            else if (p == Position.RIGHT){
+                return AutoCommand.RIGHT_DEPOSIT;
+            }
+        }
+        else if (a == Action.PICKUP){
             if (p == Position.LEFT){
                 return AutoCommand.LEFT_DEPOSIT;
             }   
