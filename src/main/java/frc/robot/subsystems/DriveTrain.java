@@ -46,6 +46,10 @@ public class DriveTrain extends SubsystemBase {
     driveTrain.tankDrive(speedLeft, speedRight);
   }
 
+  public void lc_drive(double speed){
+    left1.set(speed);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run    
