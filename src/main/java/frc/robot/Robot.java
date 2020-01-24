@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-   
+    m_robotContainer = new RobotContainer();
     m_robotContainer.autoChooser.initialize();
   }
 
@@ -83,10 +83,7 @@ public class Robot extends TimedRobot {
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
-                                                      m_robotContainer.autoChooser.getAction());
-
-
-
+                                                       m_robotContainer.autoChooser.getAction());
     
     //autoChooser.Print();
    
@@ -109,10 +106,11 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------TELEOP INIT----------");
-
+ 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    System.out.println(m_robotContainer.m_PowerDistPanel.getPDP());
   }
 
   /**

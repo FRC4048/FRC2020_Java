@@ -14,6 +14,7 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PowerDistPanel;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,6 +32,8 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
+
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -47,6 +50,8 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
     // Configure the button bindings
     configureButtonBindings();
+    m_PowerDistPanel.getPDP();
+    
   }
 
   /**
