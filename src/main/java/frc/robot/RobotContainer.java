@@ -85,21 +85,20 @@ public class RobotContainer {
             Constants.DIFFERENTIAL_DRIVE_KINEMATICS, 10);
 
     // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(0.7,0.5)
+    TrajectoryConfig config = new TrajectoryConfig(Constants.DRIVEAUTO_MAX_VELOCITY, Constants.DRIVEAUTO_MAX_ACCEL)
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS)
             .addConstraint(autoVoltageConstraint);
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
+        // Start position of the Robot
         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
-        // Pass through these two interior waypoints, making an 's' curve path
-        // Collections.emptyList(),
+        // Waypoints on the trajectory
         List.of(
             new Translation2d(1, 0),
             new Translation2d(1, 1),
             new Translation2d(0, 1)
-        ),        // End 3 meters straight ahead of where we started, facing forward
+        ),        // The final position of the Robot
         new Pose2d(0, 0, new Rotation2d(Math.toRadians(-90))),
         // Pass config
         config);
@@ -109,7 +108,8 @@ public class RobotContainer {
         new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
             Constants.DRIVETRAIN_KA),
         Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
-        new PIDController(2, 0, 0), new PIDController(2, 0, 0),
+        new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
+        new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
         // RamseteCommand passes volts to the callback
         driveTrain::tankDriveVolts, driveTrain);
 
