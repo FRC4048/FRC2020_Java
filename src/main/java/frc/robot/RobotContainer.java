@@ -12,6 +12,7 @@ import frc.robot.commands.ControlPanel.Deploy;
 import frc.robot.commands.ControlPanel.RotateCount;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ControlPanel;
@@ -30,9 +31,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driveTrain = new DriveTrain();
-  public final ControlPanel m_controlPanel = new ControlPanel();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public final ControlPanel controlPanel = new ControlPanel();
+  private final CompressorSubsystem compressor = new CompressorSubsystem();
+  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+  private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
@@ -41,8 +43,6 @@ public class RobotContainer {
   private JoystickButton spinTest = new JoystickButton(controller, 3);
 
   public AutoChooser autoChooser = new AutoChooser();
-
-  Compressor testCompressor = new Compressor(Constants.PCM_CAN_ID); //TODO: DELETE THIS
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -53,8 +53,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
-
-    testCompressor.setClosedLoopControl(true); //TODO: DELETE THIS
   }
 
   /**
@@ -66,13 +64,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); //TODO update this button
-    spinTest.whenPressed(new RotateCount(m_controlPanel));
+    spinTest.whenPressed(new RotateCount(controlPanel));
   }
 
   public void shuffleboardDebug(){
-    SmartShuffleboard.putCommand("Control Panel", "Extend", new Deploy(m_controlPanel, true));
-    SmartShuffleboard.putCommand("Control Panel", "Retract", new Deploy(m_controlPanel, false));
-    SmartShuffleboard.putCommand("Control Panel", "Rotate Count", new RotateCount(m_controlPanel));
+    SmartShuffleboard.putCommand("Control Panel", "Extend", new Deploy(controlPanel, true));
+    SmartShuffleboard.putCommand("Control Panel", "Retract", new Deploy(controlPanel, false));
+    SmartShuffleboard.putCommand("Control Panel", "Rotate Count", new RotateCount(controlPanel));
 
   }
   /**
