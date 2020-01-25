@@ -20,4 +20,11 @@ public final class Constants {
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
+    public static final int PCM_CAN_ID = 10; //TODO: Change to what we use.
+    public static final int CONTROL_PANEL_SOLENOID = 0; //TODO: Change to what we use.
+    public static final int WHEEL_SPINNER_CAN = 7; //TODO: Change to what we use.
+    public static final int COLOR_SENSOR_ID = 5; //TODO: Change to what we use.
+    public static final int[] CONTROL_PANEL_ENCODERS = {4, 5}; //TODO: Change to what we use.
+
+    public static final int TARGET_CONTROL_PANEL_REVOLUTIONS = 100; //TODO: Change to what we use.
 }
