@@ -51,7 +51,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     m_PowerDistPanel.getPDP();
-    
+    autoChooser.initialize();
   }
 
   /**

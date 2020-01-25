@@ -85,13 +85,13 @@ public class AutoChooser {
         }
         else if (a == Action.PICKUP){
             if (p == Position.LEFT){
-                return AutoCommand.LEFT_DEPOSIT;
+                return AutoCommand.LEFT_PICKUP;
             }   
             else if (p == Position.MIDDLE){
-                return AutoCommand.MIDDLE_DEPOSIT;
+                return AutoCommand.MIDDLE_PICKUP;
             }
             else if (p == Position.RIGHT){
-                return AutoCommand.RIGHT_DEPOSIT;
+                return AutoCommand.RIGHT_PICKUP;
             }
         }
         return AutoCommand.CROSS_LINE;
