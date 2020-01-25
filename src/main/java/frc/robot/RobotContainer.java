@@ -25,9 +25,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.Drive;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
@@ -47,8 +45,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driveTrain = new DriveTrain();
 
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
@@ -114,6 +110,7 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
     case CROSS_LINE:
+      //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
       autoCommand = ramseteCommand[0].andThen(ramseteCommand[1].andThen(() -> driveTrain.tankDriveVolts(0, 0)));
       break;
     default:
@@ -129,7 +126,7 @@ public class RobotContainer {
    * @param trajectory
    * @return the RamseteCommand based on the trajectory passed in
    */
-  public RamseteCommand createRamseteCommand(Trajectory trajectory) {
+  private RamseteCommand createRamseteCommand(Trajectory trajectory) {
     return new RamseteCommand(trajectory, driveTrain::getPose,
       new RamseteController(),
       new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,

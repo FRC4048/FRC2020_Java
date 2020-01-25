@@ -90,7 +90,6 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
-    SmartDashboard.putString("Pose", getPose().toString());
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
   }
 
