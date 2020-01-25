@@ -28,6 +28,7 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -83,31 +84,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS,
-                                       Constants.DRIVETRAIN_KV,
-                                       Constants.DRIVETRAIN_KA),
-            Constants.DIFFERENTIAL_DRIVE_KINEMATICS, 10);
+      
+      Trajectory trajectory = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 0, 0).build();
 
-    // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(Constants.DRIVEAUTO_MAX_VELOCITY, Constants.DRIVEAUTO_MAX_ACCEL)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(Constants.DIFFERENTIAL_DRIVE_KINEMATICS)
-            .addConstraint(autoVoltageConstraint);
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start position of the Robot
-        new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
-        // Waypoints on the trajectory
-        List.of(
-          // new Translation2d(1, 1)
-        ),        // The final position of the Robot
-        new Pose2d(1.7526,1.2192,new Rotation2d(Math.toRadians(90))),
-        // Pass config
-        config);
-
-      RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, driveTrain::getPose,
+      RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
         new RamseteController(),
         new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
             Constants.DRIVETRAIN_KA),

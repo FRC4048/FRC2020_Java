@@ -98,9 +98,10 @@ public class Robot extends TimedRobot {
     //autoChooser.Print();
    
     
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
+    m_robotContainer.getAutonomousCommand().schedule();
   }
 
   /**
