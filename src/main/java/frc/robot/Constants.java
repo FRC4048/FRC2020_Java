@@ -32,12 +32,12 @@ public final class Constants {
 
     public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = 0.00303832381;
 
-    public static final double DRIVETRAIN_P = 1;
+    public static final double DRIVETRAIN_P = 7;
     public static final double DRIVETRAIN_I = 0;
     public static final double DRIVETRAIN_D = 0;
 
-    public static final double DRIVEAUTO_MAX_VELOCITY = 0.7;
-    public static final double DRIVEAUTO_MAX_ACCEL = 0.5;
+    public static final double DRIVEAUTO_MAX_VELOCITY = 1;
+    public static final double DRIVEAUTO_MAX_ACCEL = 0.6;
 
     public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
 }

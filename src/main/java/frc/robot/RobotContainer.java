@@ -95,15 +95,13 @@ public class RobotContainer {
         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
         // Waypoints on the trajectory
         List.of(
-            new Translation2d(1, 0),
-            new Translation2d(1, 1),
-            new Translation2d(0, 1)
+          // new Translation2d(1, 1)
         ),        // The final position of the Robot
-        new Pose2d(0, 0, new Rotation2d(Math.toRadians(-90))),
+        new Pose2d(1.7526,1.2192,new Rotation2d(Math.toRadians(90))),
         // Pass config
         config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, driveTrain::getPose,
+      RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, driveTrain::getPose,
         new RamseteController(),
         new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
             Constants.DRIVETRAIN_KA),

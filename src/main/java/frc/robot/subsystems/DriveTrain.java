@@ -91,8 +91,6 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
-    SmartDashboard.putNumber("Angle", getAngle());
-    SmartDashboard.putString("Pose", getPose().toString());
   }
 
   /**
