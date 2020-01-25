@@ -40,4 +40,15 @@ public final class Constants {
     public static final double DRIVEAUTO_MAX_ACCEL = 0.6;
 
     public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
+
+    public static final int XBOX_A_BUTTON = 1;
+    public static final int XBOX_B_BUTTON = 2;
+    public static final int XBOX_X_BUTTON = 3;
+    public static final int XBOX_Y_BUTTON = 4;
+    public static final int XBOX_LEFT_BUMPER = 5;
+    public static final int XBOX_RIGHT_BUMPER = 6;
+    public static final int XBOX_BACK_BUTTON = 7;
+    public static final int XBOX_START_BUTTON = 8;
+    public static final int XBOX_LEFT_STICK_PRESS = 9;
+    public static final int XBOX_RIGHT_STICK_PRESS = 10;
 }
