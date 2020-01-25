@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,9 +25,13 @@ import frc.robot.utils.logging.Logging;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+
+
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+
+  private Diagnostics diagnostics;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -36,6 +42,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    diagnostics = new Diagnostics();
   }
 
   /**
@@ -60,7 +67,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------DISABLED----------");
-
   }
 
   @Override
@@ -72,7 +78,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------AUTO INIT----------");
     // schedule the autonomous command (example)
     final StringBuilder gameInfo = new StringBuilder();
@@ -82,7 +88,14 @@ public class Robot extends TimedRobot {
 		gameInfo.append(DriverStation.getInstance().getAlliance().toString());
 		gameInfo.append(", Match Type=");
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
-		Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+    Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+    frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
+                                                      m_robotContainer.autoChooser.getAction());
+
+
+
+    
+    //autoChooser.Print();
    
     
     if (m_autonomousCommand != null) {
@@ -121,6 +134,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    diagnostics.reset();
   }
 
   /**
@@ -128,5 +142,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    diagnostics.refresh();
   }
 }
