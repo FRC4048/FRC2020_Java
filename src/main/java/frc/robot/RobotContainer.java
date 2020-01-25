@@ -79,25 +79,65 @@ public class RobotContainer {
   }
 
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * Takes the auto mode and converts it into a command/commandgroup that will be run.
+   * 
+   * @param autoOption the enum of the auto running
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-      
-      Trajectory trajectory = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 0, 0).build();
+  public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption) {
+    Trajectory[] trajectory = new Trajectory[10]; //Arbitrary number to allow as many as we want can add more if needed
+    Command autoCommand; //Command that will actuall be returned in this method
 
-      RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
-        new RamseteController(),
-        new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
+    //Set up trajectories
+    switch(autoOption) {
+    //TODO Change the crossline auto to actually make sense, this is currently just an example
+    case CROSS_LINE:
+      //Start at 0, 0 facing to 0, drive 2 meters forward
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();   
+      //Start where the last one ended and drive end up in the same place we started
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build(); 
+      //Theoretically more trajectory objects could be added
+      break;
+    default:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
+      break;
+    }
+    
+    //This assigns all of your trajectories to ramsete commands
+    RamseteCommand[] ramseteCommand = new RamseteCommand[10]; 
+    for(int i = 0; i < trajectory.length; i++) {
+      if(trajectory[i] != null) {
+        ramseteCommand[i] = createRamseteCommand(trajectory[i]);
+      }
+    }
+
+    //Set up the actual auto sequenece here using the inline command groups.
+    switch(autoOption){
+    case CROSS_LINE:
+      autoCommand = ramseteCommand[0].andThen(ramseteCommand[1].andThen(() -> driveTrain.tankDriveVolts(0, 0)));
+      break;
+    default:
+      autoCommand = ramseteCommand[0].andThen(() -> driveTrain.tankDriveVolts(0, 0));
+      break;
+    }
+    
+    return autoCommand;
+  }
+
+  /**
+   * Creates a RamseteCommand for the trajectory 
+   * @param trajectory
+   * @return the RamseteCommand based on the trajectory passed in
+   */
+  public RamseteCommand createRamseteCommand(Trajectory trajectory) {
+    return new RamseteCommand(trajectory, driveTrain::getPose,
+      new RamseteController(),
+      new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
             Constants.DRIVETRAIN_KA),
-        Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
-        new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
-        new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
-        // RamseteCommand passes volts to the callback
-        driveTrain::tankDriveVolts, driveTrain);
-
-    // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
+      Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
+      new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
+      new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
+      // RamseteCommand passes volts to the callback
+      driveTrain::tankDriveVolts, driveTrain);
   }
 }
