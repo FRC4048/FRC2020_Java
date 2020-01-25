@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    Logging.instance().writeAllData();
   }
 
   /**
@@ -75,7 +76,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------AUTO INIT----------");
+    Logging.instance().writeAllTitles();
     // schedule the autonomous command (example)
     StringBuilder gameInfo = new StringBuilder();
     gameInfo.append("Match Number=");
@@ -100,6 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override
@@ -109,7 +113,8 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------TELEOP INIT----------");
- 
+    Logging.instance().writeAllTitles();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

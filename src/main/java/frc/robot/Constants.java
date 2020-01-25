@@ -23,12 +23,9 @@ public final class Constants {
     public static final int MOTOR_RIGHT2_ID = 4;
 
     //PDP Ports
-    public static final int PDP_STEERING_FR = 8;
-    public static final int PDP_STEERING_FL = 11;
-    public static final int PDP_STEERING_BL = 4;
-    public static final int PDP_STEERING_BR = 7;
-    public static final int PDP_DRIVE_FR = 0;
-    public static final int PDP_DRIVE_FL = 3;
-    public static final int PDP_DRIVE_BL = 13;
-    public static final int PDP_DRIVE_BR = 15;
+    
+    public static final int PDP_DRIVE_R1 = 0;
+    public static final int PDP_DRIVE_R2 = 1;
+    public static final int PDP_DRIVE_L1 = 13;
+    public static final int PDP_DRIVE_L2 = 15;
 }
