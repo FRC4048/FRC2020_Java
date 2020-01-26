@@ -7,8 +7,10 @@
 
 package frc.robot;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -100,21 +102,18 @@ public class RobotContainer {
     }
     
     //This assigns all of your trajectories to ramsete commands
-    RamseteCommand[] ramseteCommand = new RamseteCommand[10]; 
-    for(int i = 0; i < trajectory.length; i++) {
-      if(trajectory[i] != null) {
-        ramseteCommand[i] = createRamseteCommand(trajectory[i]);
-      }
-    }
+    List<Command> trajectoryCommands = Arrays.stream(trajectory)
+        .map(tr -> createRamseteCommand(tr))
+        .collect(Collectors.toList());
 
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
     case CROSS_LINE:
       //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
-      autoCommand = ramseteCommand[0].andThen(ramseteCommand[1].andThen(() -> driveTrain.tankDriveVolts(0, 0)));
+      autoCommand = trajectoryCommands.get(0).andThen(trajectoryCommands.get(1).andThen(() -> driveTrain.tankDriveVolts(0, 0)));
       break;
     default:
-      autoCommand = ramseteCommand[0].andThen(() -> driveTrain.tankDriveVolts(0, 0));
+      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
       break;
     }
     
