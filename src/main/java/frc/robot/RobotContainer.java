@@ -104,6 +104,7 @@ public class RobotContainer {
     
     //This assigns all of your trajectories to ramsete commands
     List<Command> trajectoryCommands = Arrays.stream(trajectory)
+        .filter(tr -> tr != null)
         .map(tr -> new TrajectoryFollower(tr, driveTrain))
         .collect(Collectors.toList());
 
