@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import frc.robot.commands.Drive;
+import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
