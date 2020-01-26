@@ -7,15 +7,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utils.MotorUtils; 
 
 public class StalledMotor extends CommandBase {
-  public static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
   private final DriveTrain driveTrain;
-  private final MotorUtils driveStall = new MotorUtils(, 1, 5.0, 2.0);
+  private final MotorUtils driveStall = new MotorUtils(1, 5.0, 2.0);
   /**
    * Creates a new StalledMotor.
    */

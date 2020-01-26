@@ -107,7 +107,7 @@ public class MotorUtils {
 			DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
 			final double timeStalled = now - time;
 
-			if (now - time > timeout)
+			if (timeStalled > timeout)
 			{
 				Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "Motor stall, PDP channel =" + PDPChannel);
 				return true;
