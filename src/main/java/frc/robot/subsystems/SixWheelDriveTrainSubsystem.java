@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class DriveTrain extends SubsystemBase {
+public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
   private WPI_TalonSRX right1;
   private WPI_TalonSRX left2;
@@ -33,7 +33,7 @@ public class DriveTrain extends SubsystemBase {
   /**
    * Creates a new DriveTrain.
    */
-  public DriveTrain() {
+  public SixWheelDriveTrainSubsystem() {
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);

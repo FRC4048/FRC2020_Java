@@ -27,7 +27,8 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.Drive;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
@@ -45,7 +46,7 @@ import frc.robot.Robot;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain driveTrain = new DriveTrain();
+  private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -103,7 +104,7 @@ public class RobotContainer {
     
     //This assigns all of your trajectories to ramsete commands
     List<Command> trajectoryCommands = Arrays.stream(trajectory)
-        .map(tr -> createRamseteCommand(tr))
+        .map(tr -> new TrajectoryFollower(tr, driveTrain))
         .collect(Collectors.toList());
 
     //Set up the actual auto sequenece here using the inline command groups.
@@ -118,22 +119,5 @@ public class RobotContainer {
     }
     
     return autoCommand;
-  }
-
-  /**
-   * Creates a RamseteCommand for the trajectory 
-   * @param trajectory
-   * @return the RamseteCommand based on the trajectory passed in
-   */
-  private RamseteCommand createRamseteCommand(Trajectory trajectory) {
-    return new RamseteCommand(trajectory, driveTrain::getPose,
-      new RamseteController(),
-      new SimpleMotorFeedforward(Constants.DRIVETRAIN_KS, Constants.DRIVETRAIN_KV,
-            Constants.DRIVETRAIN_KA),
-      Constants.DIFFERENTIAL_DRIVE_KINEMATICS, driveTrain::getWheelSpeeds,
-      new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
-      new PIDController(Constants.DRIVETRAIN_P, Constants.DRIVETRAIN_I, Constants.DRIVETRAIN_D),
-      // RamseteCommand passes volts to the callback
-      driveTrain::tankDriveVolts, driveTrain);
   }
 }
