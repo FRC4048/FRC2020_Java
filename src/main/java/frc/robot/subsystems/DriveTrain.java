@@ -38,7 +38,7 @@ public class DriveTrain extends SubsystemBase {
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
-    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID);
+    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
     rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1], true);
     navX = new AHRS(SPI.Port.kMXP);
 
