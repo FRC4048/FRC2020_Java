@@ -1,18 +1,18 @@
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 
 public class Drive extends CommandBase {
-  private final DriveTrain driveTrain;
+  private final SixWheelDriveTrainSubsystem driveTrain;
   private final DoubleSupplier leftSpeed;
   private final DoubleSupplier rightSpeed;
   /**
    * Creates a new Drive.
    */
-  public Drive(DriveTrain driveTrain, DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
+  public Drive(SixWheelDriveTrainSubsystem driveTrain, DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
     this.leftSpeed = leftSpeed; 
     this.rightSpeed = rightSpeed;
     this.driveTrain = driveTrain;
