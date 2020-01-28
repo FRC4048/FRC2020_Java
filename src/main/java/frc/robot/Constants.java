@@ -41,6 +41,21 @@ public final class Constants {
 
     public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
 
+    public static final int STAGE_MOTOR_ID = 11;
+    public static final int CONVEYOR_MOTOR_ID = 12;
+    public static final int SHOOTER_MOTOR_ID = 13;
+
+    public static final int SLOT1_A_ID = 4;
+    public static final int SLOT1_B_ID = 5;
+    public static final int SLOT2_A_ID = 6;
+    public static final int SLOT2_B_ID = 7;
+    public static final int SLOT3_A_ID = 8;
+    public static final int SLOT3_B_ID = 9;
+    public static final int SLOT4_A_ID = 10;
+    public static final int SLOT4_B_ID = 11;
+    public static final int SLOT5_A_ID = 12;
+    public static final int SLOT5_B_ID = 13;
+
     public static final int XBOX_A_BUTTON = 1;
     public static final int XBOX_B_BUTTON = 2;
     public static final int XBOX_X_BUTTON = 3;
