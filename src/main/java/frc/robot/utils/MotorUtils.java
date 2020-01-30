@@ -96,6 +96,8 @@ public class MotorUtils {
 	{
 		final double currentValue = pdp.getCurrent(PDPChannel);
 		final double now = Timer.getFPGATimestamp();
+
+		SmartShuffleboard.put("Stalled motor", "current", pdp.getCurrent(PDPChannel));
 		
 		if (currentValue < currentThreshold)
 		{

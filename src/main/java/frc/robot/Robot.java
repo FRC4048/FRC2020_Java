@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
 import frc.robot.commands.*;
@@ -43,6 +44,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     diagnostics = new Diagnostics();
+    m_robotContainer.putCommandtoShuffleboard();
+   
   }
 
   /**
