@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import java.nio.file.Paths;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.diag.Diagnostics;
@@ -22,17 +25,16 @@ import frc.robot.commands.*;
  * project.
  */
 
-
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-
   private Diagnostics diagnostics;
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
@@ -48,6 +50,7 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
@@ -61,6 +64,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called once each time the robot enters Disabled mode.
    */
+
   @Override
   public void disabledInit() {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------DISABLED----------");
@@ -73,6 +77,7 @@ public class Robot extends TimedRobot {
   /**
    * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
    */
+
   @Override
   public void autonomousInit() {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -80,7 +85,7 @@ public class Robot extends TimedRobot {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------AUTO INIT----------");
     Logging.instance().writeAllTitles();
     // schedule the autonomous command (example)
-    StringBuilder gameInfo = new StringBuilder();
+    final StringBuilder gameInfo = new StringBuilder();
     gameInfo.append("Match Number=");
 		gameInfo.append(DriverStation.getInstance().getMatchNumber());
 		gameInfo.append(", Alliance Color=");
@@ -90,20 +95,17 @@ public class Robot extends TimedRobot {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                        m_robotContainer.autoChooser.getAction());
-    
-    //autoChooser.Print();
-   
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
-    // }
+    if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
+      m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
     }
+  }
 
   /**
    * This function is called periodically during autonomous.
    */
+
   @Override
   public void autonomousPeriodic() {
-
   }
 
   @Override
@@ -114,7 +116,6 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------TELEOP INIT----------");
     Logging.instance().writeAllTitles();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -124,6 +125,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during operator control.
    */
+
   @Override
   public void teleopPeriodic() {
   }
@@ -138,6 +140,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during test mode.
    */
+  
   @Override
   public void testPeriodic() {
     diagnostics.refresh();
