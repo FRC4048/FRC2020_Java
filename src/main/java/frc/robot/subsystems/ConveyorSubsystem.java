@@ -25,6 +25,14 @@ public class ConveyorSubsystem extends SubsystemBase {
   private DigitalInputGroup slot4;
   private DigitalInputGroup slot5;
 
+  /**
+   * https://docs.google.com/spreadsheets/d/1z1pBTtl-SJKcTKWXfU3sdGcWpE97y6huKPtR8nkVKk4/edit?usp=drivesdk
+   */
+  public enum State { 
+    S0,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16,S17,S18,S19,S20,S21,S22,S23,S24,S25,
+    S26,S27,S28,S29,S30,S31, S32
+  }
+
   public ConveyorSubsystem() {
     stageMotor = new WPI_TalonSRX(Constants.STAGE_MOTOR_ID);
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
@@ -72,5 +80,152 @@ public class ConveyorSubsystem extends SubsystemBase {
   
   public boolean getSlot5() {
     return slot5.get();
+  }
+
+  /**
+   * Gets the current state of the subsystem
+   * @return The state
+   */
+  public State getState() {
+    if(getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5()) {
+      return State.S1;
+    } else if(getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5() == false) {
+      return State.S2;
+    } else if(getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5()) {
+      return State.S3;
+    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5() == false) {
+      return State.S4;
+    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5()) {
+      return State.S5;
+    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() && getSlot5() == false) {
+      return State.S6;
+    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() && getSlot5()) {
+      return State.S7;
+    } else if(getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+      return State.S8;
+    } else if(getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5()) {
+      return State.S9;
+    } else if(getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() && getSlot5() == false) {
+      return State.S10;
+    } else if (getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() && getSlot5()) {
+      return State.S11;
+    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() == false && getSlot5() == false) {
+      return State.S12;
+    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() == false && getSlot5()) {
+      return State.S13;
+    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() && getSlot5() == false) {
+      return State.S14;
+    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
+      return State.S15;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+      return State.S16;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5()) {
+      return State.S17;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5() == false) {
+      return State.S18;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5()) {
+      return State.S19;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5() == false) {
+      return State.S20;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5()) {
+      return State.S21;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() && getSlot5() == false) {
+      return State.S22;
+    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() && getSlot5()) {
+      return State.S23;
+    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+      return State.S24;
+    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5()) {
+      return State.S25;
+    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() && getSlot5() == false) {
+      return State.S26;
+    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() && getSlot5()) {
+      return State.S27;
+    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() == false && getSlot5() == false) {
+      return State.S28;
+    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() == false && getSlot5()) {
+      return State.S29;
+    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() && getSlot5() == false) {
+      return State.S30;
+    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
+      return State.S31;
+    } else if (getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+      return State.S0;
+    } else {
+      return State.S32;
+    }
+  }
+
+  public State wantedState(State state) {
+    switch(state) {
+    case S0:
+      return State.S1;
+    case S1:
+      return State.S2;
+    case S2:
+      return State.S3;
+    case S3:
+      return State.S6;
+    case S4:
+      return State.S8;
+    case S5:
+      return State.S9;
+    case S6: 
+      return State.S7;
+    case S7: 
+      return State.S14;
+    case S8: 
+      return State.S16;
+    case S9:
+      return State.S18;
+    case S10:
+      return State.S11;
+    case S11:
+      return State.S22;
+    case S12:
+      return State.S13;
+    case S13: 
+      return State.S26;
+    case S14:
+      return State.S15;
+    case S15:
+      return State.S30;
+    case S16:
+      return State.S17;
+    case S17:
+      return State.S18;
+    case S18:
+      return State.S19;
+    case S19:
+      return State.S22;
+    case S20:
+      return State.S21;
+    case S21:
+      return State.S26;
+    case S22:
+      return State.S23;
+    case S23:
+      return State.S30;
+    case S24:
+      return State.S25;
+    case S25: 
+      return State.S32;
+    case S26:
+      return State.S27;
+    case S27:
+      return State.S32;
+    case S28:
+      return State.S29; 
+    case S29:
+      return State.S32;
+    case S30:
+      return State.S31;
+    case S31:               
+      return State.S32;
+    case S32:
+      return State.S32;
+    default:
+      return State.S32; //This is just saying we must shoot
+    }
   }
 }
