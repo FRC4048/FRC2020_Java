@@ -50,34 +50,68 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   }
 
+  /**
+   * Sets the stager (M3) to a set value
+   * 
+   * @param speed
+   */
   public void moveStager(double speed) {
     stageMotor.set(speed);
   } 
 
+  /**
+   * Sets the conveyor (M2) to a set value
+   * 
+   * @param speed
+   */
   public void moveConveyor(double speed) {
     conveyorMotor.set(speed);
   }
-
+/**
+ * Sets the shooter (M1) to a set value
+ * 
+ * @param speed
+ */
   public void moveShooter(double speed) {
     shooterMotor.set(speed);
   } 
-
+/**
+ * Returns state of Slot 1
+ * 
+ * @return boolean state of slot 1
+ */
   public boolean getSlot1() {
     return slot1.get();
   }
-  
+  /**
+   * Returns state of Slot 2
+   * 
+   * @return boolean state of slot 2
+   */
   public boolean getSlot2() {
     return slot2.get();
   }
-  
+  /**
+   * Returns state of Slot 3
+   * 
+   * @return boolean state of slot 3
+   */
   public boolean getSlot3() {
     return slot3.get();
   }
-  
+  /**
+   * Returns state of Slot 4
+   * 
+   * @return boolean state of slot 4
+   */
   public boolean getSlot4() {
     return slot4.get();
   }
-  
+  /**
+   * Returns state of Slot 5
+   * 
+   * @return boolean state of slot 5
+   */
   public boolean getSlot5() {
     return slot5.get();
   }
