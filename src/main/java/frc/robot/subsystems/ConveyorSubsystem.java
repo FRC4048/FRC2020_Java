@@ -121,75 +121,81 @@ public class ConveyorSubsystem extends SubsystemBase {
    * @return The state
    */
   public State getState() {
-    if(getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5()) {
+    if(!getSlot1() && !getSlot2() && !getSlot3() && !getSlot4() && getSlot5()) {
       return State.S1;
-    } else if(getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5() == false) {
+    } else if(!getSlot1() && !getSlot2() && !getSlot3() && getSlot4() && !getSlot5()) {
       return State.S2;
-    } else if(getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5()) {
+    } else if(!getSlot1() && !getSlot2() && !getSlot3() && getSlot4() && getSlot5()) {
       return State.S3;
-    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5() == false) {
+    } else if(!getSlot1() && !getSlot2() && getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S4;
-    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5()) {
+    } else if(!getSlot1() && !getSlot2() && getSlot3() && !getSlot4() && getSlot5()) {
       return State.S5;
-    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() && getSlot5() == false) {
+    } else if(!getSlot1() && !getSlot2() && getSlot3() && getSlot4() && !getSlot5()) {
       return State.S6;
-    } else if(getSlot1() == false && getSlot2() == false && getSlot3() && getSlot4() && getSlot5()) {
+    } else if(!getSlot1() && !getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
       return State.S7;
-    } else if(getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+    } else if(!getSlot1() && getSlot2() && !getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S8;
-    } else if(getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5()) {
+    } else if(!getSlot1() && getSlot2() && !getSlot3() && !getSlot4() && getSlot5()) {
       return State.S9;
-    } else if(getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() && getSlot5() == false) {
+    } else if(!getSlot1() && getSlot2() && !getSlot3() && getSlot4() && !getSlot5()) {
       return State.S10;
-    } else if (getSlot1() == false && getSlot2() && getSlot3() == false && getSlot4() && getSlot5()) {
+    } else if (!getSlot1() && getSlot2() && !getSlot3() && getSlot4() && getSlot5()) {
       return State.S11;
-    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() == false && getSlot5() == false) {
+    } else if (!getSlot1() && getSlot2() && getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S12;
-    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() == false && getSlot5()) {
+    } else if (!getSlot1() && getSlot2() && getSlot3() && !getSlot4() && getSlot5()) {
       return State.S13;
-    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() && getSlot5() == false) {
+    } else if (!getSlot1() && getSlot2() && getSlot3() && getSlot4() && !getSlot5()) {
       return State.S14;
-    } else if (getSlot1() == false && getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
+    } else if (!getSlot1() && getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
       return State.S15;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+    } else if (getSlot1() && !getSlot2() && !getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S16;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5()) {
+    } else if (getSlot1() && !getSlot2()&& !getSlot3() && !getSlot4() && getSlot5()) {
       return State.S17;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5() == false) {
+    } else if (getSlot1() && !getSlot2() && !getSlot3() && getSlot4() && !getSlot5()) {
       return State.S18;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() == false && getSlot4() && getSlot5()) {
+    } else if (getSlot1() && !getSlot2() && !getSlot3() && getSlot4() && getSlot5()) {
       return State.S19;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5() == false) {
+    } else if (getSlot1() && !getSlot2() && getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S20;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() == false && getSlot5()) {
+    } else if (getSlot1() && !getSlot2() && getSlot3() && !getSlot4() && getSlot5()) {
       return State.S21;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() && getSlot5() == false) {
+    } else if (getSlot1() && !getSlot2() && getSlot3() && getSlot4() && !getSlot5()) {
       return State.S22;
-    } else if (getSlot1() && getSlot2() == false && getSlot3() && getSlot4() && getSlot5()) {
+    } else if (getSlot1() && !getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
       return State.S23;
-    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+    } else if (getSlot1() && getSlot2() && !getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S24;
-    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() == false && getSlot5()) {
+    } else if (getSlot1() && getSlot2() && !getSlot3() && !getSlot4() && getSlot5()) {
       return State.S25;
-    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() && getSlot5() == false) {
+    } else if (getSlot1() && getSlot2() && !getSlot3() && getSlot4() && !getSlot5()) {
       return State.S26;
-    } else if (getSlot1() && getSlot2() && getSlot3() == false && getSlot4() && getSlot5()) {
+    } else if (getSlot1() && getSlot2() && !getSlot3() && getSlot4() && getSlot5()) {
       return State.S27;
-    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() == false && getSlot5() == false) {
+    } else if (getSlot1() && getSlot2() && getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S28;
-    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() == false && getSlot5()) {
+    } else if (getSlot1() && getSlot2() && getSlot3() && !getSlot4() && getSlot5()) {
       return State.S29;
-    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() && getSlot5() == false) {
+    } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() && !getSlot5()) {
       return State.S30;
     } else if (getSlot1() && getSlot2() && getSlot3() && getSlot4() && getSlot5()) {
       return State.S31;
-    } else if (getSlot1() == false && getSlot2() == false && getSlot3() == false && getSlot4() == false && getSlot5() == false) {
+    } else if (!getSlot1() && !getSlot2() && !getSlot3() && !getSlot4() && !getSlot5()) {
       return State.S0;
     } else {
       return State.S32;
     }
   }
 
+  /**
+   * Gets the state of the robot passed in and returns the wanted state that it can move to next.
+   * 
+   * @param state 
+   * @return the watned to move to state based on the state passed in
+   */
   public State wantedState(State state) {
     switch(state) {
     case S0:
