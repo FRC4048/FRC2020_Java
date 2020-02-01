@@ -34,6 +34,10 @@ public class StateDetector extends CommandBase {
   @Override
   public void execute() {
     State state = conveyorSubsystem.getState();
+
+    /* This logic is based off of this spreadsheet
+     * https://docs.google.com/spreadsheets/d/1z1pBTtl-SJKcTKWXfU3sdGcWpE97y6huKPtR8nkVKk4/edit?usp=drivesdk
+     */
     if (conveyorSubsystem.getSlot5()) {
       switch (state) {
       case S0:
