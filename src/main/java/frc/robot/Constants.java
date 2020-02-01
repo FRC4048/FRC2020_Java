@@ -23,12 +23,11 @@ public final class Constants {
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
+    public static final int WINCH_MOTOR_CAN = 11;
+    public static final int CLIMBER_MOTOR_CAN = 7;
 
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
-    
-    public static final int WINCH_MOTOR_PWM = 0;
-    public static final int LIFT_MOTOR_PWM = 1;
 
     public static final int CLIMBER_SOLENOID = 0;
 

@@ -26,9 +26,12 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.Climber.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
@@ -47,14 +50,12 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
-
+  private final ClimberSubsystem climber = new ClimberSubsystem();
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
-  
-
-  /**
+ /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
@@ -75,6 +76,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+    SmartShuffleboard.putCommand("climber", "toggle", new ToggleClimberPiston(climber));
   }
 
   /**
