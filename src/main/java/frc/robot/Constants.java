@@ -18,20 +18,20 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final int PCM_CAN_ID = 0;
+    public static final int PCM_CAN_ID = 10;
     public static final int MOTOR_LEFT1_ID = 1;
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
-    public static final int WINCH_MOTOR_CAN = 11;
-    public static final int CLIMBER_MOTOR_CAN = 7;
+    public static final int WINCH_MOTOR_CAN = 7;
+    public static final int CLIMBER_MOTOR_CAN = 11;
 
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
 
     public static final int CLIMBER_SOLENOID = 0;
 
-    public static final int CLIMBER_SWITCH_CHANNEL = 0;
+    public static final int CLIMBER_SWITCH_CHANNEL = 8;
 
     public static final double DRIVETRAIN_KS = 0.803;
     public static final double DRIVETRAIN_KV = 2.3;

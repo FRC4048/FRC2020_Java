@@ -10,10 +10,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.SmartShuffleboardTab;
 
 public class ClimberSubsystem extends SubsystemBase {
   private WPI_TalonSRX winchMotor; 
@@ -23,6 +26,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private boolean state = false;
 
   private final int TIMEOUT = 100;
+
+  private Compressor compressor; //TODO: Delete this when compressor subsystem is added.
 
   /**
    * Creates a new ClimberSubsystem.
@@ -44,6 +49,9 @@ public class ClimberSubsystem extends SubsystemBase {
     climberMotor.configPeakOutputForward(1, TIMEOUT);
     climberMotor.configPeakOutputReverse(-1, TIMEOUT);
     climberMotor.setNeutralMode(NeutralMode.Brake);
+
+    compressor = new Compressor(10); //TODO: Delete this when compressor subsystem is added.
+    compressor.setClosedLoopControl(true); //TODO: Delete this when compressor subsystem is added.
   }
 
   public void setWinch(double speed) {
@@ -84,5 +92,6 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartShuffleboard.put("climber", "Button State", isPressed());
   }
 }
