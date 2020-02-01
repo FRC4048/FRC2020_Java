@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -47,6 +48,7 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
