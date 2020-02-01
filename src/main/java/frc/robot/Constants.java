@@ -23,7 +23,10 @@ public final class Constants {
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
 
+    public static final int CONTROL_PANEL_MOTOR_CAN_ID = 11;
     public static final int PCM_CAN_ID = 10;
+
+    public static final int CONTROL_PANEL_ELEVATOR_ID = 0;
 
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};

@@ -22,14 +22,19 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.ControlPanel.ManualRotate;
+import frc.robot.commands.ControlPanel.ToggleElevator;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
@@ -49,12 +54,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
+  private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
-  
+  private XboxController logitechTest = new XboxController(0);
+  private JoystickButton buttonA = new JoystickButton(logitechTest, 1);
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,10 +70,16 @@ public class RobotContainer {
   public RobotContainer() {
 
     autoChooser.addOptions();
-    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
+    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
+
+    controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
+  }
+
+  private double getXBoxRightJoyX(){
+    return logitechTest.getX(GenericHID.Hand.kRight);
   }
 
   /**
@@ -77,7 +91,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+    SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleElevator(controlPanelSubsystem));
+    buttonA.whenPressed(new ToggleElevator(controlPanelSubsystem));
   }
+
 
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.
