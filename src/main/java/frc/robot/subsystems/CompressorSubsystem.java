@@ -15,7 +15,7 @@ public class CompressorSubsystem extends SubsystemBase {
 
     public CompressorSubsystem() {
         compressor = new Compressor(Constants.PCM_CAN_ID);
-        pressureSensor = new PressureSensor(new AnalogInput(Constants.PCM_CAN_ID));
+        pressureSensor = new PressureSensor(new AnalogInput(Constants.PRESSURE_SENSOR_ID));
         compressor.setClosedLoopControl(true);
     }
     @Override

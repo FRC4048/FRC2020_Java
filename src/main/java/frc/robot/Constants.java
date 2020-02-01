@@ -25,6 +25,8 @@ public final class Constants {
 
     public static final int PCM_CAN_ID = 10;
 
+    public static final int PRESSURE_SENSOR_ID = 0; //TODO: Change to what we use.
+
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
     
