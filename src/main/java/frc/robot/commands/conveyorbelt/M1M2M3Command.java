@@ -9,26 +9,29 @@ package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem.State;
+import frc.robot.subsystems.ConveyorStateMachine.State;
+import frc.robot.subsystems.ConveyorStateMachine;
 
 public class M1M2M3Command extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
   private final double STAGER_SPEED = 0.5;
   private final double CONVEYOR_SPEED = 0.5;
   private final double SHOOTER_SPEED = 0.5;
-  private State state;
+  private State initState;
   /**
    * Creates a new M1M2M3M4.
    */
-  public M1M2M3Command(ConveyorSubsystem conveyorSubsystem) {
+  public M1M2M3Command(ConveyorSubsystem conveyorSubsystem, State initState) {
     this.conveyorSubsystem = conveyorSubsystem;
+    this.initState = initState;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(conveyorSubsystem);  }
+    addRequirements(conveyorSubsystem); 
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = conveyorSubsystem.getState();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,6 +53,6 @@ public class M1M2M3Command extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return conveyorSubsystem.getState() == conveyorSubsystem.wantedState(state);
+    return conveyorSubsystem.getState() == ConveyorStateMachine.wantedState(initState);
   }
 }

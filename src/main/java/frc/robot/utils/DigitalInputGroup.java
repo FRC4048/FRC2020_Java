@@ -33,6 +33,6 @@ public class DigitalInputGroup {
      * @return the state
      */
     public boolean get() {
-        return sensor1.get() || sensor2.get();
+        return sensor1.get() || sensor2.get(); //TODO: need to figure out if this is true of false broken
     }
 }

@@ -9,8 +9,9 @@ package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem.State;
+import frc.robot.subsystems.ConveyorStateMachine.State;
 import frc.robot.utils.logging.LogCommandWrapper;
+import frc.robot.subsystems.ConveyorStateMachine;
 
 public class StateDetector extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
@@ -33,7 +34,8 @@ public class StateDetector extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    State state = conveyorSubsystem.getState();
+    State state = ConveyorStateMachine.getState(conveyorSubsystem.getSlot1(), conveyorSubsystem.getSlot2(),
+       conveyorSubsystem.getSlot3(), conveyorSubsystem.getSlot4(), conveyorSubsystem.getSlot5());
 
     /* This logic is based off of this spreadsheet
      * https://docs.google.com/spreadsheets/d/1z1pBTtl-SJKcTKWXfU3sdGcWpE97y6huKPtR8nkVKk4/edit?usp=drivesdk
@@ -41,100 +43,100 @@ public class StateDetector extends CommandBase {
     if (conveyorSubsystem.getSlot5()) {
       switch (state) {
       case S0:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S1:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S2:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S3:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S4:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S5:
-        new LogCommandWrapper(new M2Command(conveyorSubsystem), "M2Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2Command(conveyorSubsystem, state), "M2Command").withTimeout(TIMEOUT).schedule();
         break;
       case S6:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S7:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S8:
-        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, state), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S9:
-        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, state), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S10:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S11:
-        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, state), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S12:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S13:
-        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, state), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S14:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S15:
-        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, state), "M1M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S16:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S17:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S18:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S19:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S20:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S21:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S22:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S23:
-        new LogCommandWrapper(new M2M3Command(conveyorSubsystem), "M2M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M2M3Command(conveyorSubsystem, state), "M2M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S24:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S25:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S26:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S27:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S28:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S29:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S30:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S31:
-        new LogCommandWrapper(new M3Command(conveyorSubsystem), "M3Command").withTimeout(TIMEOUT).schedule();
+        new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command").withTimeout(TIMEOUT).schedule();
         break;
       case S32:
         break;
@@ -142,6 +144,7 @@ public class StateDetector extends CommandBase {
         break;
       }
     }
+
   }
 
   // Called once the command ends or is interrupted.
