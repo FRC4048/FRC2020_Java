@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.nio.file.Paths;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -23,8 +24,8 @@ import frc.robot.Constants;
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
   private WPI_TalonSRX right1;
-  private WPI_TalonSRX left2;
-  private WPI_TalonSRX right2;
+  private VictorSPX left2;
+  private VictorSPX right2;
   private DifferentialDrive driveTrain;
   private Encoder leftEncoder;
   private Encoder rightEncoder;
@@ -37,9 +38,9 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    */
   public SixWheelDriveTrainSubsystem() {
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
-    left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
+    left2 = new VictorSPX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
-    right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
+    right2 = new VictorSPX(Constants.MOTOR_RIGHT2_ID);
     leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
     rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], true);
     navX = new AHRS(SPI.Port.kMXP);
