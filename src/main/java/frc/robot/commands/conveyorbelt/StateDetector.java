@@ -35,9 +35,7 @@ public class StateDetector extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    State state = ConveyorStateMachine.getState(conveyorSubsystem.getSlot1(), conveyorSubsystem.getSlot2(),
-        conveyorSubsystem.getSlot3(), conveyorSubsystem.getSlot4(), conveyorSubsystem.getSlot5());
-
+    State state = conveyorSubsystem.getState();
     /*
      * This logic is based off of this spreadsheet
      * https://docs.google.com/spreadsheets/d/1z1pBTtl-

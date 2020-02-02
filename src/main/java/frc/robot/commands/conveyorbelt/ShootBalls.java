@@ -25,7 +25,6 @@ public class ShootBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //TODO set a timeout when doing this command
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,6 +46,6 @@ public class ShootBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //TODO make this end a timeout.
+    return false; //TODO make this end when the operator let goes of the shoot button.
   }
 }
