@@ -17,11 +17,8 @@ public class ToggleElevator extends CommandBase {
 
     @Override
     public void execute() {
-        if (controlPanelSubsystem.getPistonState()){
-            controlPanelSubsystem.retract();
-        }else{
-            controlPanelSubsystem.extend();
-        }
+        //This moves the piston to the opposite of its current state
+        controlPanelSubsystem.movePiston(!controlPanelSubsystem.getPistonState());
     }
 
     @Override

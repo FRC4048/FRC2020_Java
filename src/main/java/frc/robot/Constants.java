@@ -27,6 +27,7 @@ public final class Constants {
     public static final int PCM_CAN_ID = 10;
 
     public static final int CONTROL_PANEL_ELEVATOR_ID = 0;
+    public static final int CONTROL_PANEL_SENSOR_ID = 5;
 
     public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
