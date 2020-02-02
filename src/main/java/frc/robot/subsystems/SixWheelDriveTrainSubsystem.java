@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -28,6 +29,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private Encoder leftEncoder;
   private Encoder rightEncoder;
   private AHRS navX;
+  private Solenoid gearSolenoid;
   private final DifferentialDriveOdometry driveOdometry;
 
   /**
@@ -41,6 +43,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
     rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], true);
     navX = new AHRS(SPI.Port.kMXP);
+
+    gearSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.DRIVETRAIN_GEARSWITCH_ID);
 
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
@@ -138,6 +142,13 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     left1.setVoltage(leftVolts);
     right1.setVoltage(rightVolts);
+  }
+
+  /**
+   * @param state true is low speed false is high speed
+   */
+  public void switchGear(boolean state) {
+    gearSolenoid.set(state);
   }
 }
 
