@@ -9,6 +9,7 @@ public class ManualRotate extends CommandBase {
     private ControlPanelSubsystem controlPanelSubsystem;
     private DoubleSupplier speed;
 
+    //This is the default command for the Control Panel Subsystem.
     public ManualRotate(ControlPanelSubsystem controlPanelSubsystem, DoubleSupplier speed){
         addRequirements(controlPanelSubsystem);
         this.controlPanelSubsystem = controlPanelSubsystem;
@@ -22,7 +23,7 @@ public class ManualRotate extends CommandBase {
 
     @Override
     public void execute() {
-        controlPanelSubsystem.manualRotate(speed.getAsDouble());
+        controlPanelSubsystem.rotateWithSpeed(speed.getAsDouble());
     }
 
     @Override

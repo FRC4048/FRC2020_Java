@@ -15,13 +15,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
     private Solenoid elevatorSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CONTROL_PANEL_ELEVATOR_ID);
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
 
-    private HashMap<ColorValue, Integer> colorValues = new HashMap<ColorValue, Integer>(){{
-        put(ColorValue.RED, 1);
-        put(ColorValue.YELLOW, 2);
-        put(ColorValue.BLUE, 3);
-        put(ColorValue.GREEN, 4);
-        }};
-
     private boolean state = false; //false = elevator down, true = elevator up
 
     public ControlPanelSubsystem() {
@@ -41,13 +34,22 @@ public class ControlPanelSubsystem extends SubsystemBase {
         state = false;
     }
 
-    public void manualRotate(double speed) {
+    public void rotateWithSpeed(double speed) {
         controlPanelMotor.set(speed);
     }
 
-    public void colorRotate(ColorValue colorTarget) {
+    public int getDirectionsToTarget(ColorValue colorTarget) { //TODO: Figure out the directionality of the motor rotation.
         ColorValue currentColor = colorSensor.getColor();
+        int directions = currentColor.getPos() - colorTarget.getPos();
+        if(Math.abs(directions) > 2){
+            directions = -(directions%2);
+        }
+        return directions;
+        //This is the number of spaces we need to move, with negative = left and positive = right.
+    }
 
+    public ColorValue getCurrentColor(){
+        return colorSensor.getColor();
     }
 
     public void stopRotation() {

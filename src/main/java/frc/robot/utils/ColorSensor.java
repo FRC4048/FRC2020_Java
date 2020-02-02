@@ -14,11 +14,32 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
+import java.util.HashMap;
+
 /**
  * Add your docs here.
  */
 public class ColorSensor {
-    public enum ColorValue {RED, YELLOW, GREEN, BLUE, UNKNOWN};
+    public enum ColorValue {
+        YELLOW (0),
+        RED (1),
+        GREEN (2),
+        BLUE (3),
+        UNKNOWN (null);
+
+        public int wheelPosition;
+        ColorValue(Integer wheelPosition){
+            this.wheelPosition = wheelPosition;
+        }
+        public int getPos(){return wheelPosition;}
+    }
+
+    public HashMap colorValues = new HashMap<Character, ColorValue>(){{
+        put('R', ColorValue.RED);
+        put('Y', ColorValue.YELLOW);
+        put('B', ColorValue.BLUE);
+        put('G', ColorValue.GREEN);
+    }};
 
     //Accurate measurments for up to 2.5 inches
     private static final Color BLUE_TARGET = ColorMatch.makeColor(0.135, 0.461, 0.404);
