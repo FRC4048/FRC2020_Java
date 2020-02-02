@@ -30,6 +30,7 @@ import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -49,7 +50,9 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+  private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
