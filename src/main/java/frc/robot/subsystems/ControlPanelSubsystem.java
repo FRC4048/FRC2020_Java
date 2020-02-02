@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -17,8 +19,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     private Solenoid elevatorSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CONTROL_PANEL_ELEVATOR_ID);
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
+    private final int TIMEOUT = 100;
 
     public ControlPanelSubsystem() {
+        controlPanelMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
+        controlPanelMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public boolean getPistonState() {
