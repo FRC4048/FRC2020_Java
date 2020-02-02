@@ -71,8 +71,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
     // driveTrain.tankDrive(speedLeft, speedRight);
     //The joysticks are inverted so inverting this makes it drive correctly.
-    left1.set(-speedLeft);
-    right1.set(-speedRight);
+    left1.set(speedLeft);
+    right1.set(speedRight);
   }
 
   /**
