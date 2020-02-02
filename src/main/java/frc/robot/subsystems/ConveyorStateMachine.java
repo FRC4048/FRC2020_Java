@@ -107,67 +107,67 @@ public class ConveyorStateMachine {
     public static State getState(boolean slot1, boolean slot2, boolean slot3, boolean slot4, boolean slot5) {
         if (!slot1 && !slot2 && !slot3 && !slot4 && slot5) {
             return State.S1;
-        } else if (!slot1 && !slot2 && !slot3 && slot4 && slot5) {
+        } else if (!slot1 && !slot2 && !slot3 && slot4 && !slot5) {
             return State.S2;
         } else if (!slot1 && !slot2 && !slot3 && slot4 && slot5) {
             return State.S3;
-        } else if (!slot1 && !slot2 && slot3 && !slot4 && slot5) {
+        } else if (!slot1 && !slot2 && slot3 && !slot4 && !slot5) {
             return State.S4;
         } else if (!slot1 && !slot2 && slot3 && !slot4 && slot5) {
             return State.S5;
-        } else if (!slot1 && !slot2 && slot3 && slot4 && slot5) {
+        } else if (!slot1 && !slot2 && slot3 && slot4 && !slot5) {
             return State.S6;
         } else if (!slot1 && !slot2 && slot3 && slot4 && slot5) {
             return State.S7;
-        } else if (!slot1 && slot2 && !slot3 && !slot4 && slot5) {
+        } else if (!slot1 && slot2 && !slot3 && !slot4 && !slot5) {
             return State.S8;
         } else if (!slot1 && slot2 && !slot3 && !slot4 && slot5) {
             return State.S9;
-        } else if (!slot1 && slot2 && !slot3 && slot4 && slot5) {
+        } else if (!slot1 && slot2 && !slot3 && slot4 && !slot5) {
             return State.S10;
         } else if (!slot1 && slot2 && !slot3 && slot4 && slot5) {
             return State.S11;
-        } else if (!slot1 && slot2 && slot3 && !slot4 && slot5) {
+        } else if (!slot1 && slot2 && slot3 && !slot4 && !slot5) {
             return State.S12;
         } else if (!slot1 && slot2 && slot3 && !slot4 && slot5) {
             return State.S13;
-        } else if (!slot1 && slot2 && slot3 && slot4 && slot5) {
+        } else if (!slot1 && slot2 && slot3 && slot4 && !slot5) {
             return State.S14;
         } else if (!slot1 && slot2 && slot3 && slot4 && slot5) {
             return State.S15;
-        } else if (slot1 && !slot2 && !slot3 && !slot4 && slot5) {
+        } else if (slot1 && !slot2 && !slot3 && !slot4 && !slot5) {
             return State.S16;
-        } else if (slot1 && !slot2 && slot3 && slot4) {
+        } else if (slot1 && !slot2 && !slot3 && !slot4 && slot5) {
             return State.S17;
-        } else if (slot1 && !slot2 && !slot3 && slot4 && slot5) {
+        } else if (slot1 && !slot2 && !slot3 && slot4 && !slot5) {
             return State.S18;
         } else if (slot1 && !slot2 && !slot3 && slot4 && slot5) {
             return State.S19;
-        } else if (slot1 && !slot2 && slot3 && !slot4 && slot5) {
+        } else if (slot1 && !slot2 && slot3 && !slot4 && !slot5) {
             return State.S20;
         } else if (slot1 && !slot2 && slot3 && !slot4 && slot5) {
             return State.S21;
-        } else if (slot1 && !slot2 && slot3 && slot4 && slot5) {
+        } else if (slot1 && !slot2 && slot3 && slot4 && !slot5) {
             return State.S22;
         } else if (slot1 && !slot2 && slot3 && slot4 && slot5) {
             return State.S23;
-        } else if (slot1 && slot2 && !slot3 && !slot4 && slot5) {
+        } else if (slot1 && slot2 && !slot3 && !slot4 && !slot5) {
             return State.S24;
         } else if (slot1 && slot2 && !slot3 && !slot4 && slot5) {
             return State.S25;
-        } else if (slot1 && slot2 && !slot3 && slot4 && slot5) {
+        } else if (slot1 && slot2 && !slot3 && slot4 && !slot5) {
             return State.S26;
         } else if (slot1 && slot2 && !slot3 && slot4 && slot5) {
             return State.S27;
-        } else if (slot1 && slot2 && slot3 && !slot4 && slot5) {
+        } else if (slot1 && slot2 && slot3 && !slot4 && !slot5) {
             return State.S28;
         } else if (slot1 && slot2 && slot3 && !slot4 && slot5) {
             return State.S29;
-        } else if (slot1 && slot2 && slot3 && slot4 && slot5) {
+        } else if (slot1 && slot2 && slot3 && slot4 && !slot5) {
             return State.S30;
         } else if (slot1 && slot2 && slot3 && slot4 && slot5) {
             return State.S31;
-        } else if (!slot1 && !slot2 && !slot3 && !slot4 && slot5) {
+        } else if (!slot1 && !slot2 && !slot3 && !slot4 && !slot5) {
             return State.S0;
         } else {
             return State.S32;

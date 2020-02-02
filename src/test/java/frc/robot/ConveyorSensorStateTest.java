@@ -10,6 +10,7 @@ package frc.robot;
 import java.text.MessageFormat;
 import java.util.HashMap;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import frc.robot.subsystems.ConveyorStateMachine;
@@ -59,19 +60,22 @@ public class ConveyorSensorStateTest {
 
     @Test
     public void testSensorState() {
-        for(State s : State.values()) {
-            State expected = stateMap.get(s);
-            MessageFormat.format("", arguments)
-            State actual = ConveyorStateMachine.getState(, slot2, slot3, slot4, slot5);
-            Assert
+        for(String str : stateMap.keySet()) {
+            State expected = stateMap.get(str);
 
+            boolean sensor1 = convertStringToBool(str, 0);
+            boolean sensor2 = convertStringToBool(str, 1);
+            boolean sensor3 = convertStringToBool(str, 2);
+            boolean sensor4 = convertStringToBool(str, 3);
+            boolean sensor5 = convertStringToBool(str, 4);
+
+            State actual = ConveyorStateMachine.getState(sensor1, sensor2, sensor3, sensor4, sensor5);
+            Assert.assertEquals(expected, actual);
+            
         }
     }
 
-    private int convertBoolean(boolean bool) {
-        return bool ? 1:0;
-    }
-    private String getSensorString(boolean s1, boolean s2, boolean s3, boolean s4, boolean s5) {
-        return "" + convertBoolean(s1) + convertBoolean(s2) + convertBoolean(s3) + convertBoolean(s4) + convertBoolean(s5);
+    private boolean convertStringToBool(String str, int location) {
+        return str.charAt(location) == '1';
     }
 }
