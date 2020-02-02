@@ -64,5 +64,9 @@ public class LogCommandWrapper extends CommandBase {
 		sb.append(ident);
 		// TODO: Cache the string value for requirements to save on creation every time the log message is called
 		Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, sb.toString(), requirements.toString(), text);
-	}
+  }
+  
+  public Command getWrappedCommand() {
+    return command;
+  }
 }
