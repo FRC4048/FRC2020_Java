@@ -49,7 +49,9 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
-
+    // left1.setSafetyEnabled(false);
+    // right1.setSafetyEnabled(false);
+    
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
     right1.setInverted(true);
     right2.setInverted(true);

@@ -68,6 +68,8 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
     // Configure the button bindings
     configureButtonBindings();
+    SmartDashboard.putData("Low speed", new GearSwitch(driveTrain, true));
+    SmartDashboard.putData("High speed", new GearSwitch(driveTrain, false));
     autoChooser.initialize();
   }
 
