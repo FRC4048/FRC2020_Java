@@ -14,6 +14,7 @@ import frc.robot.utils.ColorSensor.ColorValue;
 
 import java.util.HashMap;
 
+//Y = Toggle Piston X = Rotation B = Position
 public class ControlPanelSubsystem extends SubsystemBase {
     private WPI_TalonSRX controlPanelMotor = new WPI_TalonSRX(Constants.CONTROL_PANEL_MOTOR_CAN_ID);
     private Solenoid elevatorSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CONTROL_PANEL_ELEVATOR_ID);
@@ -36,6 +37,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
     public void rotateWithSpeed(double speed) {
         controlPanelMotor.set(speed);
+    }
+
+    public int getEncoder() {
+        return controlPanelMotor.getSelectedSensorPosition();
+    }
+
+    public void resetEncoder() {
+        controlPanelMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
     }
 
     //true = not making contact with control panel, false = making contact with control panel

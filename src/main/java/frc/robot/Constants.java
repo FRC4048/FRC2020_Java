@@ -47,6 +47,8 @@ public final class Constants {
 
     public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
 
+    public static final int CONTROL_PANEL_DEGREES_TO_TICKS = 100;
+
     public static final int XBOX_A_BUTTON = 1;
     public static final int XBOX_B_BUTTON = 2;
     public static final int XBOX_X_BUTTON = 3;
