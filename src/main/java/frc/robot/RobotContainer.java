@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ControlPanel.ManualRotate;
+import frc.robot.commands.ControlPanel.RotateDegrees;
 import frc.robot.commands.ControlPanel.ToggleElevator;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
@@ -60,8 +61,9 @@ public class RobotContainer {
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
-  private XboxController logitechTest = new XboxController(0);
-  private JoystickButton buttonA = new JoystickButton(logitechTest, 1);
+  private XboxController controller = new XboxController(2);
+  private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); //Button X is the control panel rotate to position 
+  private JoystickButton buttonA = new JoystickButton(controller, 1);
 
 
   /**
@@ -79,7 +81,7 @@ public class RobotContainer {
   }
 
   private double getXBoxRightJoyX(){
-    return logitechTest.getX(GenericHID.Hand.kRight);
+    return controller.getX(GenericHID.Hand.kRight);
   }
 
   /**
@@ -93,6 +95,8 @@ public class RobotContainer {
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
     SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleElevator(controlPanelSubsystem));
     buttonA.whenPressed(new ToggleElevator(controlPanelSubsystem));
+    SmartShuffleboard.putCommand("Control Panel", "RotateDegrees", new RotateDegrees(controlPanelSubsystem, 100));
+    buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360));
   }
 
 
