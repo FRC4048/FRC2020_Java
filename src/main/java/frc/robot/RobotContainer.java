@@ -89,7 +89,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
-    xBoxLeftStick.whenPressed(new ToggleClimberPiston(elevatorSubsystem, xBoxRightStick.get())); //This detects if both joysticks are pressed.
+    xBoxLeftStick.whenPressed(new LogCommandWrapper(new ToggleClimberPiston(elevatorSubsystem, xBoxRightStick.get()), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
   }
 
   /**
