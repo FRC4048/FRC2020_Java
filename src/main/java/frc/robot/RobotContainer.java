@@ -55,7 +55,7 @@ public class RobotContainer {
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
-  private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 8);
+  private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
   private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
   public AutoChooser autoChooser = new AutoChooser();
   
@@ -68,8 +68,6 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
     // Configure the button bindings
     configureButtonBindings();
-    SmartDashboard.putData("Low speed", new GearSwitch(driveTrain, true));
-    SmartDashboard.putData("High speed", new GearSwitch(driveTrain, false));
     autoChooser.initialize();
   }
 

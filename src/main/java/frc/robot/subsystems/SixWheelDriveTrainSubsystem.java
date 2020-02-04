@@ -1,15 +1,12 @@
 package frc.robot.subsystems;
 
-import java.nio.file.Paths;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -24,39 +21,38 @@ import frc.robot.Constants;
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
   private WPI_TalonSRX right1;
-  private VictorSPX left2;
-  private VictorSPX right2;
+  private WPI_TalonSRX left2;
+  private WPI_TalonSRX right2;
   private DifferentialDrive driveTrain;
   private Encoder leftEncoder;
   private Encoder rightEncoder;
   private AHRS navX;
   private Solenoid gearSolenoid;
   private final DifferentialDriveOdometry driveOdometry;
+  private SpeedControllerGroup leftGroup;
+  private SpeedControllerGroup rightGroup;
 
   /**
    * Creates a new DriveTrain.
    */
   public SixWheelDriveTrainSubsystem() {
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
-    left2 = new VictorSPX(Constants.MOTOR_LEFT2_ID);
+    left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
-    right2 = new VictorSPX(Constants.MOTOR_RIGHT2_ID);
+    right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
+
     leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
     rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], true);
     navX = new AHRS(SPI.Port.kMXP);
-
     gearSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.DRIVETRAIN_GEARSWITCH_ID);
-
+    
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
-    // left1.setSafetyEnabled(false);
-    // right1.setSafetyEnabled(false);
     
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
+    
     right1.setInverted(true);
     right2.setInverted(true);
-
-    driveTrain = new DifferentialDrive(left1, right1);
 
     leftEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
@@ -73,8 +69,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
     // driveTrain.tankDrive(speedLeft, speedRight);
     //The joysticks are inverted so inverting this makes it drive correctly.
-    left1.set(speedLeft);
-    right1.set(speedRight);
+    left1.set(ControlMode.PercentOutput, speedLeft);
+    right1.set(ControlMode.PercentOutput, speedRight);
   }
 
   /**
