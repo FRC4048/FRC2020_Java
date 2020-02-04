@@ -95,9 +95,9 @@ public class Robot extends TimedRobot {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                        m_robotContainer.autoChooser.getAction());
-    if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
-      m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
-    }
+    // if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
+    //   m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
+    // }
   }
 
   /**
@@ -119,7 +119,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    System.out.println(m_robotContainer.m_PowerDistPanel.getPDP());
   }
 
   /**

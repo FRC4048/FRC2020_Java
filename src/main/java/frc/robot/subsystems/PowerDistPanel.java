@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Add your docs here.
  */
 public class PowerDistPanel extends SubsystemBase{
-    public static PowerDistributionPanel pdp;
+    private PowerDistributionPanel pdp;
 
     public PowerDistPanel() {
         pdp = new PowerDistributionPanel(Constants.PDP_CAN_ID);

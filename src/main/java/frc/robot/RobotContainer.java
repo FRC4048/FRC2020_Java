@@ -63,7 +63,6 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
     // Configure the button bindings
     configureButtonBindings();
-    m_PowerDistPanel.getPDP();
     autoChooser.initialize();
   }
 
