@@ -14,49 +14,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * constants.  This class should not be used for any other purpose.  All constants should be
  * declared globally (i.e. public static).  Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * Change the interface definition as needed to use one of the specific hardware
+ * maps.
  */
-public final class Constants {
-    public static final int PDP_CAN_ID = 0;
-    public static final int MOTOR_LEFT1_ID = 1;
-    public static final int MOTOR_LEFT2_ID = 2;
-    public static final int MOTOR_RIGHT1_ID = 3;
-    public static final int MOTOR_RIGHT2_ID = 4;
+public interface Constants extends Constants2020Robot {
 
-    //PDP Ports
-    
-    public static final int PDP_DRIVE_R1 = 0;
-    public static final int PDP_DRIVE_R2 = 1;
-    public static final int PDP_DRIVE_L1 = 13;
-    public static final int PDP_DRIVE_L2 = 15;
-
-    public static final int[] DRIVE_ENCODER_LEFT_ID = {2,3};
-    public static final int[] DRIVE_ENCODER_RIGHT_ID = {0,1};
-    
-    public static final double DRIVETRAIN_KS = 0.803;
-    public static final double DRIVETRAIN_KV = 2.3;
-    public static final double DRIVETRAIN_KA = 0.584;
-
-    public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = 0.00303832381;
-
-    public static final double DRIVETRAIN_P = 7;
-    public static final double DRIVETRAIN_I = 0;
-    public static final double DRIVETRAIN_D = 0;
-
-    public static final double DRIVEAUTO_MAX_VELOCITY = 1;
-    public static final double DRIVEAUTO_MAX_ACCEL = 0.6;
-
-    public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
-
-    public static final int XBOX_A_BUTTON = 1;
-    public static final int XBOX_B_BUTTON = 2;
-    public static final int XBOX_X_BUTTON = 3;
-    public static final int XBOX_Y_BUTTON = 4;
-    public static final int XBOX_LEFT_BUMPER = 5;
-    public static final int XBOX_RIGHT_BUMPER = 6;
-    public static final int XBOX_BACK_BUTTON = 7;
-    public static final int XBOX_START_BUTTON = 8;
-    public static final int XBOX_LEFT_STICK_PRESS = 9;
-    public static final int XBOX_RIGHT_STICK_PRESS = 10;
 }

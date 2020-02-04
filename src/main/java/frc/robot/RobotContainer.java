@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.drivetrain.Drive;
 import frc.robot.subsystems.PowerDistPanel;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -27,7 +26,9 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -47,10 +48,12 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
-  private final Joystick joyLeft = new Joystick(0);
-  private final Joystick joyRight = new Joystick(1);
-  private final JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+
+  private Joystick joyLeft = new Joystick(0);
+  private Joystick joyRight = new Joystick(1);
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
   
 
@@ -72,9 +75,8 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-
   private void configureButtonBindings() {
-    final Command markPlaceCommand = new MarkPlaceCommand();
+    Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
   }
 
@@ -84,8 +86,8 @@ public class RobotContainer {
    * @param autoOption the enum of the auto running
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(final AutoChooser.AutoCommand autoOption) {
-    final Trajectory[] trajectory = new Trajectory[10]; //Arbitrary number to allow as many as we want can add more if needed
+  public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption) {
+    Trajectory[] trajectory = new Trajectory[10]; //Arbitrary number to allow as many as we want can add more if needed
     Command autoCommand; //Command that will actuall be returned in this method
     //Set up trajectories
     switch(autoOption) {
@@ -103,7 +105,7 @@ public class RobotContainer {
     }
     
     //This assigns all of your trajectories to ramsete commands
-    final List<Command> trajectoryCommands = Arrays.stream(trajectory)
+    List<Command> trajectoryCommands = Arrays.stream(trajectory)
         .filter(tr -> tr != null)
         .map(tr -> new TrajectoryFollower(tr, driveTrain))
         .collect(Collectors.toList());
