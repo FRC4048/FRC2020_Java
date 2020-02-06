@@ -7,14 +7,18 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import frc.robot.subsystems.PowerDistPanel;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.MotorUtils; 
+import frc.robot.Constants;
 
 public class StalledMotor extends CommandBase {
   private final SixWheelDriveTrainSubsystem driveTrain;
-  private final MotorUtils driveStall = new MotorUtils(1, 5.0, 2.0);
+  private final PowerDistPanel pdp = new PowerDistPanel();
+  private final MotorUtils driveStall = new MotorUtils(pdp.getPDP(), Constants.PDP_DRIVE_R2 , 5.0, 2.0);
   private Timer time = new Timer();
   /**
    * Creates a new StalledMotor.

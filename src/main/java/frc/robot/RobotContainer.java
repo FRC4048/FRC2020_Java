@@ -51,7 +51,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
-  public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
