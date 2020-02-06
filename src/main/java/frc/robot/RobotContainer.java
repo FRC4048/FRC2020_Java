@@ -64,6 +64,7 @@ public class RobotContainer {
   private XboxController controller = new XboxController(2);
   private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); //Button X is the control panel rotate to position 
   private JoystickButton buttonA = new JoystickButton(controller, 1);
+  private JoystickButton buttonY = new JoystickButton(controller, Constants.XBOX_Y_BUTTON);
 
 
   /**
@@ -94,11 +95,11 @@ public class RobotContainer {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
     SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleElevator(controlPanelSubsystem));
+    SmartShuffleboard.putCommand("Control Panel", "RotateClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "RotateCountrerClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, -Constants.CONTROL_PANEL_SPEED));
     buttonA.whenPressed(new ToggleElevator(controlPanelSubsystem));
-    SmartShuffleboard.putCommand("Control Panel", "RotateDegrees", new RotateDegrees(controlPanelSubsystem, 100));
-    buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360));
+    buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
   }
-
 
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.

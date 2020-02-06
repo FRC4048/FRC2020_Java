@@ -16,7 +16,7 @@ import frc.robot.utils.ColorSensor.ColorValue;
 import java.util.HashMap;
 
 //Y = Toggle Piston X = Rotation B = Position
-public class ControlPanelSubsystem extends SubsystemBase {
+public class ControlPanelSubsystem extends SubsystemBase {  
     private WPI_TalonSRX controlPanelMotor = new WPI_TalonSRX(Constants.CONTROL_PANEL_CAN_ID);
     private Solenoid controlPanelSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CONTROLPANEL_PISTON_ID);
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);

@@ -7,6 +7,8 @@
 
 package frc.robot.commands.ControlPanel;
 
+import java.nio.DoubleBuffer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
@@ -15,15 +17,16 @@ public class RotateDegrees extends CommandBase {
   /**
    * Creates a new RotateDegrees.
    */
-  private int degreesTurn;
+  private double degreesTurn;
   private ControlPanelSubsystem controlPanelSubsystem;
-  private final double CONTROL_PANEL_SPEED = 0.5;
   //private final double TARGET_ENCODER_VALUE = 100;
-  private int ticksToTurn;
-  public RotateDegrees(ControlPanelSubsystem controlPanelSubsystem, int degreesTurn) {
+  private double ticksToTurn;
+  private double speed;
+  public RotateDegrees(ControlPanelSubsystem controlPanelSubsystem, double degreesTurn, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.degreesTurn = degreesTurn;
+    this.speed = speed;
     addRequirements(controlPanelSubsystem);
   }
 
@@ -37,7 +40,7 @@ public class RotateDegrees extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanelSubsystem.rotateWithSpeed(CONTROL_PANEL_SPEED);  
+    controlPanelSubsystem.rotateWithSpeed(speed);  
 
   }
 
@@ -50,6 +53,6 @@ public class RotateDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (controlPanelSubsystem.getEncoder() > ticksToTurn);
+    return (Math.abs(controlPanelSubsystem.getEncoder()) > Math.abs(ticksToTurn));
     }
   }

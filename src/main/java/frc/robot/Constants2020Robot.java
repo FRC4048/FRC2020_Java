@@ -61,7 +61,9 @@ interface Constants2020Robot {
     public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
 
     //CONTROL PANEL CONTANTS
-    public static final int CONTROL_PANEL_DEGREES_TO_TICKS = 100;
+    public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
+    public static final double CONTROL_PANEL_SPEED = 0.5;
+    public static final double CONTROL_PANEL_COLOR_SPEED = 0.25;
 
     //OI
     public static final int XBOX_A_BUTTON = 1;
