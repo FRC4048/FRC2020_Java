@@ -11,10 +11,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.PowerDistPanel;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import frc.robot.commands.StalledMotor;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
@@ -49,6 +50,8 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
+  public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -88,7 +91,6 @@ public class RobotContainer {
   public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption) {
     Trajectory[] trajectory = new Trajectory[10]; //Arbitrary number to allow as many as we want can add more if needed
     Command autoCommand; //Command that will actuall be returned in this method
-
     //Set up trajectories
     switch(autoOption) {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
@@ -120,7 +122,6 @@ public class RobotContainer {
       autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
       break;
     }
-    
     return autoCommand;
   }
 
