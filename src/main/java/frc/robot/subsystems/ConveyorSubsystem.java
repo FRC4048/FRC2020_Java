@@ -29,7 +29,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   
 
   public ConveyorSubsystem() {
-    stageMotor = new WPI_TalonSRX(Constants.STAGE_MOTOR_ID);
+    stageMotor = new WPI_TalonSRX(Constants.STAGER_MOTOR_ID);
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
     shooterMotor = new WPI_TalonSRX(Constants.SHOOTER_MOTOR_ID);
 
