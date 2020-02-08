@@ -64,8 +64,9 @@ public class RobotContainer {
   public AutoChooser autoChooser = new AutoChooser();
   private XboxController controller = new XboxController(2);
   private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); //Button X is the control panel rotate to position 
-  private JoystickButton buttonA = new JoystickButton(controller, 1);
+  private JoystickButton buttonA = new JoystickButton(controller, Constants.XBOX_A_BUTTON);
   private JoystickButton buttonY = new JoystickButton(controller, Constants.XBOX_Y_BUTTON);
+  private JoystickButton buttonB = new JoystickButton(controller, Constants.XBOX_B_BUTTON);
 
 
   /**
@@ -100,7 +101,10 @@ public class RobotContainer {
     SmartShuffleboard.putCommand("Control Panel", "RotateCountrerClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, -Constants.CONTROL_PANEL_SPEED));
     SmartShuffleboard.putCommand("Control Panel", "Color Rotate", new RotateToColor(controlPanelSubsystem));
     buttonA.whenPressed(new ToggleElevator(controlPanelSubsystem));
-    buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
+    //buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
+    //buttonB.whenPressed(new RotateToColor(controlPanelSubsystem));
+    buttonX.whenPressed(new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED), "RotateDegrees"));
+    buttonB.whenPressed(new LogCommandWrapper(new RotateToColor(controlPanelSubsystem),"RotatetoColor"));
   }
 
   /**

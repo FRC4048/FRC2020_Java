@@ -13,6 +13,7 @@ import frc.robot.Constants;
 import frc.robot.utils.ColorSensor;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.ColorSensor.ColorValue;
+import frc.robot.utils.logging.Logging;
 
 import java.util.HashMap;
 
@@ -79,9 +80,18 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
+        
         SmartShuffleboard.put("Control Panel", "Encoder Value", getEncoder());
         SmartShuffleboard.put("Control Panel", "Color Sensor Value", getCurrentColor().name());
         SmartShuffleboard.put("Control Panel", "Game Data", fmsColor());
 
     }
+    
+    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
+        protected void addAll() {
+            add("Encoder Value", getEncoder());
+            add("Color Sensor Value", getCurrentColor().name());
+            add("Game Data", fmsColor());
+        }
+    };
 }
