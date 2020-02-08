@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.Delay;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
@@ -99,6 +100,12 @@ public class RobotContainer {
       trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build(); 
       //Theoretically more trajectory objects could be added
       break;
+    case LEFT_DEPOSIT:
+      //delay
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(0, 1).withWaypoint(1, 1).withEndPoint(1, 2, 0).build();
+      //shoot
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, -3, 0).build();
+      break;
     default:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
       break;
@@ -115,6 +122,40 @@ public class RobotContainer {
     case CROSS_LINE:
       //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
       autoCommand = trajectoryCommands.get(0).andThen(trajectoryCommands.get(1).andThen(() -> driveTrain.tankDriveVolts(0, 0)));
+      break;
+      case LEFT_DEPOSIT:
+
+      
+      case RIGHT_DEPOSIT:
+      //delay
+      //arc left
+      //shoot
+      //arc back
+      break;
+    case MIDDLE_DEPOSIT:
+      //delay
+      //drive straight
+      //shoot
+      //drive back
+      break;
+    case RIGHT_PICKUP:
+      //move back with intake on
+      //move forward
+      //arc left
+      //shoot
+      //move back
+      break;
+    case DO_NOTHING:
+      break;
+    case FEED_LEFT:
+      //delay
+      //reverse intake
+      //curve back right
+      break;
+    case FEED_RIGHT:
+      //delay
+      //reverse intake
+      //curve back left
       break;
     default:
       autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
