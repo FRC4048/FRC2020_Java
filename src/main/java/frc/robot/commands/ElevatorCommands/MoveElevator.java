@@ -24,8 +24,7 @@ public class MoveElevator extends CommandBase {
 
     @Override
     public void execute() {
-        climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * MAX_SPEED);
-        SmartShuffleboard.put("Climber", "Joystick Y", xboxController.getY(GenericHID.Hand.kLeft) * Constants.CLIMBER_ELEVATOR_ID);
+        climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * Constants.ELEVATOR_SPEED);
     }
 
     @Override
