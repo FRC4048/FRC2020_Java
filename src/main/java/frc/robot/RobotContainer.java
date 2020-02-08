@@ -8,40 +8,27 @@
 package frc.robot;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.PowerDistPanel;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ClimberCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Robot;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -55,8 +42,8 @@ public class RobotContainer {
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
 
-  private ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
-  private ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
+  private WinchSubsystem winchSubsystem = new WinchSubsystem();
 
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
 
@@ -65,6 +52,7 @@ public class RobotContainer {
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
+
   private XboxController xboxController = new XboxController(2);
   private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
   private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
@@ -80,8 +68,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
-    elevatorSubsystem.setDefaultCommand(new MoveElevator(elevatorSubsystem, getRightJoystickY()));
-    climberSubsystem.setDefaultCommand(new MoveWinch(climberSubsystem, getLeftJoystickY()));
+    climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
+    winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
   }
 
   /**
@@ -93,7 +81,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
-    xBoxLeftStick.whenPressed(new LogCommandWrapper(new ToggleClimberPiston(elevatorSubsystem, xBoxRightStick.get()), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
+    xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
   }
 
   /**
@@ -138,13 +126,4 @@ public class RobotContainer {
     }
     return autoCommand;
   }
-
-  private double getRightJoystickY(){
-    return xboxController.getY(GenericHID.Hand.kRight);
-  }
-
-  private double getLeftJoystickY(){
-    return xboxController.getY(GenericHID.Hand.kLeft);
-  }
-
 }

@@ -5,9 +5,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ClimberSubsystem extends SubsystemBase {
+public class WinchSubsystem extends SubsystemBase {
     private WPI_TalonSRX winchMotor;
-    public ClimberSubsystem(){
+    public WinchSubsystem(){
         winchMotor = new WPI_TalonSRX(Constants.CLIMBER_WINCH_ID);
 
         int TIMEOUT = 100;

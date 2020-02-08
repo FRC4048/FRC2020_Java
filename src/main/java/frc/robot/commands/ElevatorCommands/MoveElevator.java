@@ -1,36 +1,35 @@
 package frc.robot.commands.ElevatorCommands;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ClimberElevatorSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 
 public class MoveElevator extends CommandBase {
-    private ElevatorSubsystem elevatorSubsystem;
-    private double speed;
+    private ClimberElevatorSubsystem climberElevatorSubsystem;
+    private XboxController xboxController;
+    private final double MAX_SPEED = 0.5;
 
-    /**
-     * Takes a direction and sets the motor to a constant speed.
-     *
-     * @param elevatorSubsystem
-     * @param speed sets the speed for the elevator motor.
-     */
-    public MoveElevator(ElevatorSubsystem elevatorSubsystem, double speed) { //TODO: set a limit to the speed of the elevator motor.
-        this.elevatorSubsystem = elevatorSubsystem;
-        this.speed = speed;
+    public MoveElevator(ClimberElevatorSubsystem climberElevatorSubsystem, XboxController xboxController) {
+        addRequirements(climberElevatorSubsystem);
+        this.climberElevatorSubsystem = climberElevatorSubsystem;
+        this.xboxController = xboxController;
     }
     @Override
     public void initialize() {
-        addRequirements(elevatorSubsystem);
     }
 
     @Override
     public void execute() {
-        elevatorSubsystem.setClimber(speed);
+        climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * MAX_SPEED);
+        SmartShuffleboard.put("Climber", "Joystick Y", xboxController.getY(GenericHID.Hand.kLeft) * MAX_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
-        elevatorSubsystem.stopClimber();
+        climberElevatorSubsystem.stopClimber();
     }
 
     @Override

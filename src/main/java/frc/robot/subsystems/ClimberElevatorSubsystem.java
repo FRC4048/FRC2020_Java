@@ -18,14 +18,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.SmartShuffleboard;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class ClimberElevatorSubsystem extends SubsystemBase {
   private WPI_TalonSRX climberMotor;
   private Solenoid climberSolenoid;
 
   /**
    * Creates a new ClimberSubsystem.
    */
-  public ElevatorSubsystem() {
+  public ClimberElevatorSubsystem() {
     climberMotor = new WPI_TalonSRX(Constants.CLIMBER_ELEVATOR_ID);
     climberSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CLIMBER_PISTON_ID);
 
@@ -73,5 +73,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartShuffleboard.put("Climber", "Top Switch", getTopSwitch());
+    SmartShuffleboard.put("Climber", "Bottom Switch", getBottomSwitch());
+
   }
 }
