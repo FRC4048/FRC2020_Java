@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ControlPanel.ManualRotate;
 import frc.robot.commands.ControlPanel.RotateDegrees;
+import frc.robot.commands.ControlPanel.RotateToColor;
 import frc.robot.commands.ControlPanel.ToggleElevator;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
@@ -97,6 +98,7 @@ public class RobotContainer {
     SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleElevator(controlPanelSubsystem));
     SmartShuffleboard.putCommand("Control Panel", "RotateClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
     SmartShuffleboard.putCommand("Control Panel", "RotateCountrerClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, -Constants.CONTROL_PANEL_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "Color Rotate", new RotateToColor(controlPanelSubsystem));
     buttonA.whenPressed(new ToggleElevator(controlPanelSubsystem));
     buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
   }

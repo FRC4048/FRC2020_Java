@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,6 +23,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
     private final int TIMEOUT = 100;
+    private String gameDataColor;
 
     public ControlPanelSubsystem() {
         controlPanelMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
@@ -71,7 +73,15 @@ public class ControlPanelSubsystem extends SubsystemBase {
         controlPanelMotor.set(0);
     }
 
+    public String fmsColor() {
+        gameDataColor = DriverStation.getInstance().getGameSpecificMessage();
+        return gameDataColor;
+    }
+
     public void periodic() {
         SmartShuffleboard.put("Control Panel", "Encoder Value", getEncoder());
+        SmartShuffleboard.put("Control Panel", "Color Sensor Value", getCurrentColor().name());
+        SmartShuffleboard.put("Control Panel", "Game Data", fmsColor());
+
     }
 }

@@ -30,7 +30,6 @@ import frc.robot.commands.*;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  private String gameDataColor;
   private Diagnostics diagnostics;
 
   /**
@@ -59,7 +58,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    gameDataColor = DriverStation.getInstance().getGameSpecificMessage();
   }
 
   /**
