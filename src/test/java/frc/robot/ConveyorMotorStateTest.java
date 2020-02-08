@@ -14,51 +14,51 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import frc.robot.commands.conveyorbelt.StateDetector;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.ConveyorStateMachine.State;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.utils.logging.LogCommandWrapper;
 
 /**
  * Add your docs here.
  */
 public class ConveyorMotorStateTest {
-    Map<State, String> stateMap = new HashMap<State, String>();
+    Map<BallTransferState, String> stateMap = new HashMap<BallTransferState, String>();
     ConveyorSubsystem subsystem;
 
     public ConveyorMotorStateTest() {
-        stateMap.put(State.S0, "M3Command");
-        stateMap.put(State.S1, "M2M3Command");
-        stateMap.put(State.S2, "M3Command");
-        stateMap.put(State.S3, "M2M3Command");
-        stateMap.put(State.S4, "M2M3Command");
-        stateMap.put(State.S5, "M2Command");
-        stateMap.put(State.S6, "M3Command");
-        stateMap.put(State.S7, "M2M3Command");
-        stateMap.put(State.S8, "M1M2M3Command");
-        stateMap.put(State.S9, "M1M2M3Command");
-        stateMap.put(State.S10, "M3Command");
-        stateMap.put(State.S11, "M1M2M3Command");
-        stateMap.put(State.S12, "M3Command");
-        stateMap.put(State.S13, "M1M2M3Command");
-        stateMap.put(State.S14, "M3Command");
-        stateMap.put(State.S15, "M1M2M3Command");
-        stateMap.put(State.S16, "M3Command");
-        stateMap.put(State.S17, "M2M3Command");
-        stateMap.put(State.S18, "M3Command");
-        stateMap.put(State.S19, "M2M3Command");
-        stateMap.put(State.S20, "M3Command");
-        stateMap.put(State.S21, "M2M3Command");
-        stateMap.put(State.S22, "M3Command");
-        stateMap.put(State.S23, "M2M3Command");
-        stateMap.put(State.S24, "M3Command");
-        stateMap.put(State.S25, "M3Command");
-        stateMap.put(State.S26, "M3Command");
-        stateMap.put(State.S27, "StopMotors");
-        stateMap.put(State.S28, "M3Command");
-        stateMap.put(State.S29, "M3Command");
-        stateMap.put(State.S30, "M3Command");
-        stateMap.put(State.S31, "StopMotors");
-        stateMap.put(State.S32, "StopMotors");
+        stateMap.put(BallTransferState.S0, "M3Command");
+        stateMap.put(BallTransferState.S1, "M2M3Command");
+        stateMap.put(BallTransferState.S2, "M3Command");
+        stateMap.put(BallTransferState.S3, "M2M3Command");
+        stateMap.put(BallTransferState.S4, "M2M3Command");
+        stateMap.put(BallTransferState.S5, "M2Command");
+        stateMap.put(BallTransferState.S6, "M3Command");
+        stateMap.put(BallTransferState.S7, "M2M3Command");
+        stateMap.put(BallTransferState.S8, "M1M2M3Command");
+        stateMap.put(BallTransferState.S9, "M1M2M3Command");
+        stateMap.put(BallTransferState.S10, "M3Command");
+        stateMap.put(BallTransferState.S11, "M1M2M3Command");
+        stateMap.put(BallTransferState.S12, "M3Command");
+        stateMap.put(BallTransferState.S13, "M1M2M3Command");
+        stateMap.put(BallTransferState.S14, "M3Command");
+        stateMap.put(BallTransferState.S15, "M1M2M3Command");
+        stateMap.put(BallTransferState.S16, "M3Command");
+        stateMap.put(BallTransferState.S17, "M2M3Command");
+        stateMap.put(BallTransferState.S18, "M3Command");
+        stateMap.put(BallTransferState.S19, "M2M3Command");
+        stateMap.put(BallTransferState.S20, "M3Command");
+        stateMap.put(BallTransferState.S21, "M2M3Command");
+        stateMap.put(BallTransferState.S22, "M3Command");
+        stateMap.put(BallTransferState.S23, "M2M3Command");
+        stateMap.put(BallTransferState.S24, "M3Command");
+        stateMap.put(BallTransferState.S25, "M3Command");
+        stateMap.put(BallTransferState.S26, "M3Command");
+        stateMap.put(BallTransferState.S27, "StopMotors");
+        stateMap.put(BallTransferState.S28, "M3Command");
+        stateMap.put(BallTransferState.S29, "M3Command");
+        stateMap.put(BallTransferState.S30, "M3Command");
+        stateMap.put(BallTransferState.S31, "StopMotors");
+        stateMap.put(BallTransferState.S32, "StopMotors");
 
         subsystem = new ConveyorSubsystem();
     }
@@ -66,7 +66,7 @@ public class ConveyorMotorStateTest {
     @Test
     public void testMotors() {
 
-        for (State s : State.values()) {
+        for (BallTransferState s : BallTransferState.values()) {
             String expected = stateMap.get(s);
             LogCommandWrapper wrapper = (LogCommandWrapper) StateDetector.createCommand(subsystem, s);
             String actual = wrapper.getWrappedCommand().getClass().getSimpleName();

@@ -8,21 +8,21 @@
 package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.ConveyorStateMachine.State;
-import frc.robot.subsystems.ConveyorStateMachine;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.BallTransferState;
+import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class M3Command extends CommandBase {
   private final double STAGER_SPEED = 0.5;
   private ConveyorSubsystem conveyorSubsystem;
-  private State initState;
+  private BallTransferState wantedState;
   /**
    * Creates a new M3Command.
    */
-  public M3Command(ConveyorSubsystem conveyorSubsystem, State initState) {
+  public M3Command(ConveyorSubsystem conveyorSubsystem, BallTransferState initState) {
     this.conveyorSubsystem = conveyorSubsystem;
     addRequirements(conveyorSubsystem);
-    this.initState = initState;
+    wantedState = ConveyorStateMachine.wantedState(initState);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -46,6 +46,6 @@ public class M3Command extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return conveyorSubsystem.getState() == ConveyorStateMachine.wantedState(initState);
+    return conveyorSubsystem.getState().getS5() == wantedState.getS5();
   }
 }

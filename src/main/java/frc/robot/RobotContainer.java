@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;

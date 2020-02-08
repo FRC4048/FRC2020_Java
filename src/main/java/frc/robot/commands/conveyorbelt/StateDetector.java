@@ -9,10 +9,10 @@ package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.ConveyorStateMachine.State;
 import frc.robot.utils.logging.LogCommandWrapper;
-import frc.robot.subsystems.ConveyorStateMachine;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.BallTransferState;
+import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class StateDetector extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
@@ -35,7 +35,7 @@ public class StateDetector extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    State state = conveyorSubsystem.getState();
+    BallTransferState state = conveyorSubsystem.getState();
     /*
      * This logic is based off of this spreadsheet
      * https://docs.google.com/spreadsheets/d/1z1pBTtl-
@@ -46,7 +46,7 @@ public class StateDetector extends CommandBase {
     }
   }
 
-  public static Command createCommand(ConveyorSubsystem conveyorSubsystem, State state) {
+  public static Command createCommand(ConveyorSubsystem conveyorSubsystem, BallTransferState state) {
     switch (state) {
     case S0:
       return new LogCommandWrapper(new M3Command(conveyorSubsystem, state), "M3Command");

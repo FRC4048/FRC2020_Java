@@ -5,14 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.balltransfer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ConveyorStateMachine.State;
 import frc.robot.utils.DigitalInputGroup;
 
 public class ConveyorSubsystem extends SubsystemBase {
@@ -111,7 +110,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     return slot5.get();
   }
 
-  public State getState() {
+  public BallTransferState getState() {
     return ConveyorStateMachine.getState(getSlot1(), getSlot2(), getSlot3(), getSlot4(), getSlot5());
   }
 

@@ -8,7 +8,8 @@
 package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class ShootBalls extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
