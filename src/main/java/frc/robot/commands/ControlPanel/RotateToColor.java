@@ -20,6 +20,7 @@ public class RotateToColor extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
   private String fmsColor;
   private ColorValue sensorValue;
+  private int unknownCounter;
 
   public RotateToColor(ControlPanelSubsystem controlPanelSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -57,6 +58,12 @@ public class RotateToColor extends CommandBase {
     if (fmsColor.length() > 0) {
       //controlPanelSubsystem.rotateWithSpeed(Constants.CONTROL_PANEL_COLOR_SPEED);
       SmartShuffleboard.put("Control Panel", "Action", "Spinning");
+      if (controlPanelSubsystem.getCurrentColor() == ColorValue.UNKNOWN) {
+        unknownCounter++;
+        SmartShuffleboard.put("Control Panel", "Unknown Counter", unknownCounter);
+      } else {
+        unknownCounter = 0;
+      }
     }
   }
 
@@ -71,6 +78,8 @@ public class RotateToColor extends CommandBase {
   @Override
   public boolean isFinished() {
     if ((fmsColor.length() == 0) || (controlPanelSubsystem.getCurrentColor() == sensorValue)) {
+      return true;
+    } else if (unknownCounter > Constants.CONTROL_PANEL_UNKNOWN_LIMIT){
       return true;
     } else {
       return false;
