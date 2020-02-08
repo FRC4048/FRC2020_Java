@@ -86,7 +86,7 @@ public class RobotContainer {
    * @param autoOption the enum of the auto running
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption) {
+  public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption, int autoDelay) {
     Trajectory[] trajectory = new Trajectory[10]; //Arbitrary number to allow as many as we want can add more if needed
     Command autoCommand; //Command that will actuall be returned in this method
     //Set up trajectories
