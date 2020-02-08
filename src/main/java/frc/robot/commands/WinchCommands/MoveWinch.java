@@ -1,16 +1,14 @@
-package frc.robot.commands.ClimberCommands;
+package frc.robot.commands.WinchCommands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.WinchSubsystem;
-
-import javax.sql.XAConnectionBuilder;
 
 public class MoveWinch extends CommandBase {
     private WinchSubsystem winchSubsystem;
     private XboxController xboxController;
-    private final double MAX_SPEED = 0.25;
     public MoveWinch(WinchSubsystem winchSubsystem, XboxController xboxController){
         addRequirements(winchSubsystem);
         this.winchSubsystem = winchSubsystem;
@@ -24,7 +22,7 @@ public class MoveWinch extends CommandBase {
 
     @Override
     public void execute() {
-        winchSubsystem.moveWinch(xboxController.getY(GenericHID.Hand.kRight)*MAX_SPEED);
+        winchSubsystem.moveWinch(xboxController.getY(GenericHID.Hand.kRight)* Constants.CLIMBER_WINCH_SPEED);
     }
 
     @Override

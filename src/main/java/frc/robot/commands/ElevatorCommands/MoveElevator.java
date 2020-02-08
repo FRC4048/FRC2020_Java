@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.utils.SmartShuffleboard;
 
@@ -24,7 +25,7 @@ public class MoveElevator extends CommandBase {
     @Override
     public void execute() {
         climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * MAX_SPEED);
-        SmartShuffleboard.put("Climber", "Joystick Y", xboxController.getY(GenericHID.Hand.kLeft) * MAX_SPEED);
+        SmartShuffleboard.put("Climber", "Joystick Y", xboxController.getY(GenericHID.Hand.kLeft) * Constants.CLIMBER_ELEVATOR_ID);
     }
 
     @Override
