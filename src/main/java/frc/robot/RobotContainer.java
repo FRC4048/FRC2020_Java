@@ -50,7 +50,7 @@ public class RobotContainer {
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
-  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft, 1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
 
   private XboxController xboxController = new XboxController(2);
@@ -64,7 +64,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     autoChooser.addOptions();
-    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
+    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
@@ -86,7 +86,7 @@ public class RobotContainer {
 
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.
-   * 
+   *
    * @param autoOption the enum of the auto running
    * @return the command to run in autonomous
    */
@@ -98,16 +98,16 @@ public class RobotContainer {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();   
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();
       //Start where the last one ended and drive end up in the same place we started
-      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build(); 
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
       //Theoretically more trajectory objects could be added
       break;
     default:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
       break;
     }
-    
+
     //This assigns all of your trajectories to ramsete commands
     List<Command> trajectoryCommands = Arrays.stream(trajectory)
         .filter(tr -> tr != null)

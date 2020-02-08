@@ -11,7 +11,7 @@ import frc.robot.utils.SmartShuffleboard;
 public class MoveElevator extends CommandBase {
     private ClimberElevatorSubsystem climberElevatorSubsystem;
     private XboxController xboxController;
-    private final double MAX_SPEED = 0.5;
+
 
     public MoveElevator(ClimberElevatorSubsystem climberElevatorSubsystem, XboxController xboxController) {
         addRequirements(climberElevatorSubsystem);
@@ -24,7 +24,9 @@ public class MoveElevator extends CommandBase {
 
     @Override
     public void execute() {
-        climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * Constants.ELEVATOR_SPEED);
+        if (climberElevatorSubsystem.getPistonState()) {
+            climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * Constants.ELEVATOR_SPEED);
+        }
     }
 
     @Override

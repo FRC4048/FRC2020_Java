@@ -51,7 +51,7 @@ interface ConstantsTestbed {
 
     //PCM
     public static final int[] INTAKE_PISTON_ID = {0,1};
-    public static final int CLIMBER_PISTON_ID = 2;
+    public static final int CLIMBER_PISTON_ID = 7;
     public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
     public static final int CONTROLPANEL_PISTON_ID = 4;
 
@@ -79,4 +79,8 @@ interface ConstantsTestbed {
     public static final int XBOX_START_BUTTON = 8;
     public static final int XBOX_LEFT_STICK_PRESS = 9;
     public static final int XBOX_RIGHT_STICK_PRESS = 10;
+
+    //ROBOT MOVEMENTS
+    public static final double ELEVATOR_SPEED = 0.5;
+    double CLIMBER_WINCH_SPEED = 0.5;
 }
