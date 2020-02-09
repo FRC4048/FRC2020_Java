@@ -9,17 +9,25 @@ package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ShooterSubsystem;
+import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class ShootBalls extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
+  private TransferConveyorSubsystem transferConveyorSubsystem;
+  private ShooterSubsystem shooterSubsystem;
   /**
    * Creates a new ShootBalls.
    */
-  public ShootBalls(ConveyorSubsystem conveyorSubsystem) {
+  public ShootBalls(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem) {
     this.conveyorSubsystem = conveyorSubsystem;
+    this.transferConveyorSubsystem = transferConveyorSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
 
     addRequirements(conveyorSubsystem);
+    addRequirements(transferConveyorSubsystem);
+    addRequirements(shooterSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,16 +40,16 @@ public class ShootBalls extends CommandBase {
   @Override
   public void execute() {
     conveyorSubsystem.moveConveyor(1);
-    conveyorSubsystem.moveShooter(1);
-    conveyorSubsystem.moveStager(1); 
+    shooterSubsystem.moveShooter(1);
+    transferConveyorSubsystem.moveTransfer(1); 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     conveyorSubsystem.moveConveyor(0);
-    conveyorSubsystem.moveShooter(0);
-    conveyorSubsystem.moveStager(0); 
+    shooterSubsystem.moveShooter(0);
+    transferConveyorSubsystem.moveTransfer(0); 
   }
 
   // Returns true when the command should end.

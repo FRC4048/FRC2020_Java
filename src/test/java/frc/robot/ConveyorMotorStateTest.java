@@ -15,6 +15,8 @@ import org.junit.Test;
 
 import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ShooterSubsystem;
+import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.utils.logging.LogCommandWrapper;
 
@@ -23,7 +25,9 @@ import frc.robot.utils.logging.LogCommandWrapper;
  */
 public class ConveyorMotorStateTest {
     Map<BallTransferState, String> stateMap = new HashMap<BallTransferState, String>();
-    ConveyorSubsystem subsystem;
+    ConveyorSubsystem conveyorSubsystem;
+    TransferConveyorSubsystem transferConveyorSubsystem;
+    ShooterSubsystem shooterSubsystem;
 
     public ConveyorMotorStateTest() {
         stateMap.put(BallTransferState.S0, "M3Command");
@@ -60,7 +64,9 @@ public class ConveyorMotorStateTest {
         stateMap.put(BallTransferState.S31, "StopMotors");
         stateMap.put(BallTransferState.S32, "StopMotors");
 
-        subsystem = new ConveyorSubsystem();
+        conveyorSubsystem = new ConveyorSubsystem();
+        transferConveyorSubsystem = new TransferConveyorSubsystem();
+        shooterSubsystem = new ShooterSubsystem();
     }
 
     @Test
@@ -68,7 +74,7 @@ public class ConveyorMotorStateTest {
 
         for (BallTransferState s : BallTransferState.values()) {
             String expected = stateMap.get(s);
-            LogCommandWrapper wrapper = (LogCommandWrapper) StateDetector.createCommand(subsystem, s);
+            LogCommandWrapper wrapper = (LogCommandWrapper) StateDetector.createCommand(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, s);
             String actual = wrapper.getWrappedCommand().getClass().getSimpleName();
 
             Assert.assertEquals(expected, actual);

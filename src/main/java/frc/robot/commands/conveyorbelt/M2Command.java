@@ -49,8 +49,8 @@ public class M2Command extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return conveyorSubsystem.getState().getS2() == wantedState.getS2() && 
-        conveyorSubsystem.getState().getS3() == wantedState.getS3() &&
-        conveyorSubsystem.getState().getS4() == wantedState.getS4();
+    return ConveyorStateMachine.getState().getS2() == wantedState.getS2() && 
+        ConveyorStateMachine.getState().getS3() == wantedState.getS3() &&
+        ConveyorStateMachine.getState().getS4() == wantedState.getS4();
   }
 }

@@ -12,8 +12,6 @@ package frc.robot.subsystems.balltransfer;
  */
 public class ConveyorStateMachine {
 
-
-
     /**
      * Gets the state of the robot passed in and returns the wanted state that it
      * can move to next.
@@ -167,5 +165,10 @@ public class ConveyorStateMachine {
         } else {
             return BallTransferState.S32;
         }
+
+    }
+
+    public static BallTransferState getState() {
+        return getState(ShooterSubsystem.getSlot1(), ConveyorSubsystem.getSlot2(), ConveyorSubsystem.getSlot3(), ConveyorSubsystem.getSlot4(), TransferConveyorSubsystem.getSlot5());
     }
 }

@@ -30,6 +30,8 @@ import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ShooterSubsystem;
+import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
@@ -50,9 +52,11 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
-
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
+  private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
+  private final ShooterSubsystem shooterSubsystem =  new ShooterSubsystem();
+
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -67,7 +71,7 @@ public class RobotContainer {
 
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
-    conveyorSubsystem.setDefaultCommand(new StateDetector(conveyorSubsystem));
+    conveyorSubsystem.setDefaultCommand(new StateDetector(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
