@@ -3,7 +3,10 @@ package frc.robot.commands.drivetrain;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 
 public class Drive extends CommandBase {
   private final SixWheelDriveTrainSubsystem driveTrain;
@@ -28,7 +31,11 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive(leftSpeed.getAsDouble(), rightSpeed.getAsDouble());
+    if (RobotContainer.getDrivingEnabled()) {
+      driveTrain.drive(leftSpeed.getAsDouble(), rightSpeed.getAsDouble());
+    } else {
+      driveTrain.drive(0,0);
+    }
   }
 
   // Called once the command ends or is interrupted.

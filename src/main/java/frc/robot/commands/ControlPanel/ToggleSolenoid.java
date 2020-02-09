@@ -3,10 +3,10 @@ package frc.robot.commands.ControlPanel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
-public class ToggleElevator extends CommandBase {
+public class ToggleSolenoid extends CommandBase {
     private ControlPanelSubsystem controlPanelSubsystem;
 
-    public ToggleElevator(ControlPanelSubsystem controlPanelSubsystem){
+    public ToggleSolenoid(ControlPanelSubsystem controlPanelSubsystem){
         this.controlPanelSubsystem = controlPanelSubsystem;
     }
 

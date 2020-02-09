@@ -56,7 +56,7 @@ public class RotateToColor extends CommandBase {
   @Override
   public void execute() {
     if (fmsColor.length() > 0) {
-      //controlPanelSubsystem.rotateWithSpeed(Constants.CONTROL_PANEL_COLOR_SPEED);
+      controlPanelSubsystem.rotateWithSpeed(Constants.CONTROL_PANEL_COLOR_SPEED);
       SmartShuffleboard.put("Control Panel", "Action", "Spinning");
       if (controlPanelSubsystem.getCurrentColor() == ColorValue.UNKNOWN) {
         unknownCounter++;
@@ -70,7 +70,7 @@ public class RotateToColor extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //controlPanelSubsystem.stopRotation();
+    controlPanelSubsystem.stopRotation();
     SmartShuffleboard.put("Control Panel", "Action", "Stopping");
   }
 

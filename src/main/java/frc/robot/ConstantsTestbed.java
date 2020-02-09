@@ -31,7 +31,7 @@ interface ConstantsTestbed {
     //DIO
     public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
-    public static final int CONTROL_PANEL_SENSOR_ID = 10;
+    public static final int CONTROL_PANEL_SENSOR_ID = 7;
     public static final int SLOT1_B_ID = 11;
     public static final int SLOT2_A_ID = 12;
     public static final int SLOT2_B_ID = 13;
@@ -46,7 +46,7 @@ interface ConstantsTestbed {
     public static final int[] INTAKE_PISTON_ID = {0,1};
     public static final int CLIBMER_PISTON_ID = 2;
     public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
-    public static final int CONTROLPANEL_PISTON_ID = 4;
+    public static final int CONTROLPANEL_PISTON_ID = 7;
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;
@@ -63,7 +63,7 @@ interface ConstantsTestbed {
     //CONTROL PANEL CONTANTS
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
-    public static final double CONTROL_PANEL_COLOR_SPEED = 0.25;
+    public static final double CONTROL_PANEL_COLOR_SPEED = 0.5;
     public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
 
     //OI

@@ -8,29 +8,20 @@
 package frc.robot;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.ControlPanel.ManualOverride;
 import frc.robot.commands.ControlPanel.ManualRotate;
 import frc.robot.commands.ControlPanel.RotateDegrees;
+import frc.robot.commands.ControlPanel.RotateDegreesScheduler;
 import frc.robot.commands.ControlPanel.RotateToColor;
-import frc.robot.commands.ControlPanel.ToggleElevator;
+import frc.robot.commands.ControlPanel.RotateToColorScheduler;
+import frc.robot.commands.ControlPanel.ToggleSolenoid;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
@@ -41,9 +32,7 @@ import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Robot;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -57,6 +46,8 @@ public class RobotContainer {
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
+  private static boolean drivingEnabled = true;
+  private static boolean manualOverride = false;
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -77,7 +68,7 @@ public class RobotContainer {
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
 
-    controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
+    //controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
@@ -85,6 +76,22 @@ public class RobotContainer {
 
   private double getXBoxRightJoyX(){
     return controller.getX(GenericHID.Hand.kRight);
+  }
+
+  public static void setDrivingEnabled(boolean mode) {
+    drivingEnabled = mode;
+  }
+
+  public static boolean getDrivingEnabled() {
+    return drivingEnabled;
+  }
+
+  public static void setManualOverride(boolean mode) {
+    manualOverride = mode;
+  }
+
+  public static boolean getManualOverride() {
+    return manualOverride;
   }
 
   /**
@@ -96,15 +103,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
-    SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleElevator(controlPanelSubsystem));
+    SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleSolenoid(controlPanelSubsystem));
     SmartShuffleboard.putCommand("Control Panel", "RotateClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
     SmartShuffleboard.putCommand("Control Panel", "RotateCountrerClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, -Constants.CONTROL_PANEL_SPEED));
     SmartShuffleboard.putCommand("Control Panel", "Color Rotate", new RotateToColor(controlPanelSubsystem));
-    buttonA.whenPressed(new ToggleElevator(controlPanelSubsystem));
-    //buttonX.whenPressed(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
-    //buttonB.whenPressed(new RotateToColor(controlPanelSubsystem));
-    buttonX.whenPressed(new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED), "RotateDegrees"));
-    buttonB.whenPressed(new LogCommandWrapper(new RotateToColor(controlPanelSubsystem),"RotatetoColor"));
+    SmartShuffleboard.putCommand("Driver", "MANUAL OVERRIDE", new LogCommandWrapper(new ManualOverride(), "ManualOverride"));
+    buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
+    buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
+    buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem));
+    SmartShuffleboard.putCommand("Control Panel", "Sequence Rotate", new RotateDegreesScheduler(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
   }
 
   /**

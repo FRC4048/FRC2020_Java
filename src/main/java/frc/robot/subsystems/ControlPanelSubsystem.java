@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.ColorSensor;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.ColorSensor.ColorValue;
@@ -17,7 +18,7 @@ import frc.robot.utils.logging.Logging;
 
 import java.util.HashMap;
 
-//Y = Toggle Piston X = Rotation B = Position
+//Y = Toggle Piston X = Rotation B = Color
 public class ControlPanelSubsystem extends SubsystemBase {  
     private WPI_TalonSRX controlPanelMotor = new WPI_TalonSRX(Constants.CONTROL_PANEL_CAN_ID);
     private Solenoid controlPanelSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CONTROLPANEL_PISTON_ID);
@@ -80,6 +81,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
+        if (controlPanelSensor() && getPistonState() && !RobotContainer.getManualOverride()) {
+            RobotContainer.setDrivingEnabled(false);
+        } else {
+            RobotContainer.setDrivingEnabled(true);
+        }
         
         SmartShuffleboard.put("Control Panel", "Encoder Value", getEncoder());
         SmartShuffleboard.put("Control Panel", "Color Sensor Value", getCurrentColor().name());
