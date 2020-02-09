@@ -48,7 +48,7 @@ import frc.robot.Robot;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  public final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
 
@@ -93,6 +93,37 @@ public class RobotContainer {
     //Set up trajectories
     switch(autoOption) {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
+    case LEFT_DEPOSIT:
+      //delay
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 1, 0).build();
+      //shoot
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 1, 0).withEndPoint(-1, 1, 0).build();
+      break;
+    case RIGHT_DEPOSIT:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(0, 1).withWaypoint(-1, 1).withEndPoint(-1, 2, 0).build();
+      //shoot
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, -3, 0).build();
+      break;
+    case MIDDLE_DEPOSIT:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 2, 0).build();
+      //shoot
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, -3, 0).build();
+      break;
+    case RIGHT_PICKUP:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, -2, 0).build();
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(0, 1).withWaypoint(-1, 1).withEndPoint(-1, 2, 0).build();
+      //shoot
+      trajectory[2] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, -3, 0).build();
+      break;
+    case DO_NOTHING:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
+      break;
+    case FEED_LEFT:
+      //feed
+      break;
+    case FEED_RIGHT:
+      //feed
+      break;
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();   
@@ -100,14 +131,12 @@ public class RobotContainer {
       trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build(); 
       //Theoretically more trajectory objects could be added
       break;
-    case LEFT_DEPOSIT:
-      //delay
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(0, 1).withWaypoint(1, 1).withEndPoint(1, 2, 0).build();
-      //shoot
-      trajectory[1] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, -3, 0).build();
-      break;
     default:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
+      //Start at 0, 0 facing to 0, drive 2 meters forward
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();   
+      //Start where the last one ended and drive end up in the same place we started
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build(); 
+      //Theoretically more trajectory objects could be added
       break;
     }
     
@@ -119,46 +148,57 @@ public class RobotContainer {
 
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
+    case LEFT_DEPOSIT:
+      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0));
+      //delay(2) to be replaced with shoot
+      break;
+
+    case RIGHT_DEPOSIT:
+      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0));
+      //delay(2) to be replaced with shoot
+      break;
+
+    case MIDDLE_DEPOSIT:
+      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0));
+      //delay(2) to be replaced with shoot
+      break;
+
+    case RIGHT_PICKUP:
+      autoCommand = new Delay(1).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(1)).andThen(trajectoryCommands.get(1)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(trajectoryCommands.get(2)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0));
+      //delay(2) to be replaced with shoot
+      break;
+
+    case DO_NOTHING:
+      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+      break;
+
+    //case FEED_LEFT:
+      //delay
+      //reverse intake
+      //curve back right
+      //break;
+
+    //case FEED_RIGHT:
+      //delay
+      //reverse intake
+      //curve back left
+      //break;
+
     case CROSS_LINE:
       //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
       autoCommand = trajectoryCommands.get(0).andThen(trajectoryCommands.get(1).andThen(() -> driveTrain.tankDriveVolts(0, 0)));
       break;
-      case LEFT_DEPOSIT:
 
-      
-      case RIGHT_DEPOSIT:
-      //delay
-      //arc left
-      //shoot
-      //arc back
-      break;
-    case MIDDLE_DEPOSIT:
-      //delay
-      //drive straight
-      //shoot
-      //drive back
-      break;
-    case RIGHT_PICKUP:
-      //move back with intake on
-      //move forward
-      //arc left
-      //shoot
-      //move back
-      break;
-    case DO_NOTHING:
-      break;
-    case FEED_LEFT:
-      //delay
-      //reverse intake
-      //curve back right
-      break;
-    case FEED_RIGHT:
-      //delay
-      //reverse intake
-      //curve back left
-      break;
     default:
-      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+      autoCommand = trajectoryCommands.get(0).andThen(trajectoryCommands.get(1).andThen(() -> driveTrain.tankDriveVolts(0, 0)));
       break;
     }
     return autoCommand;

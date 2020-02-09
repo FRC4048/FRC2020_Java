@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.SmartShuffleboard;
 
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
@@ -38,16 +39,16 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
-    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
-    rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], true);
+    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1], true);
+    rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1]);
     navX = new AHRS(SPI.Port.kMXP);
 
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
-    right1.setInverted(true);
-    right2.setInverted(true);
+    left1.setInverted(true);
+    left2.setInverted(true);
 
     driveTrain = new DifferentialDrive(left1, right1);
 
@@ -110,6 +111,10 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     rightEncoder.reset();
   }
 
+  public void encoderTest(){
+    SmartShuffleboard.put("Test", "EncoderLeft", leftEncoder.get());
+    SmartShuffleboard.put("Test", "EncoderRight", rightEncoder.get());
+  }
   /**
    * Resets the Ododemtry to a specified pose
    * 
