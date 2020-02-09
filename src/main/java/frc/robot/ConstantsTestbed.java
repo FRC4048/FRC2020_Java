@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 interface ConstantsTestbed {
     
     //CAN ID
+    public static final int PDP_CAN_ID = 0;
     public static final int MOTOR_LEFT1_ID = 1;
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
@@ -29,8 +30,8 @@ interface ConstantsTestbed {
     public static final int PCM_CAN_ID = 10;
 
     //DIO
-    public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};
-    public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
+    public static final int[] DRIVE_ENCODER_LEFT_ID = {6,7};
+    public static final int[] DRIVE_ENCODER_RIGHT_ID = {8,9};
     public static final int SLOT1_A_ID = 10;
     public static final int SLOT1_B_ID = 11;
     public static final int SLOT2_A_ID = 12;
@@ -72,4 +73,13 @@ interface ConstantsTestbed {
     public static final int XBOX_START_BUTTON = 8;
     public static final int XBOX_LEFT_STICK_PRESS = 9;
     public static final int XBOX_RIGHT_STICK_PRESS = 10;
+
+
+    //PDP
+    public static final int PDP_DRIVE_L1 = 13;
+    public static final int PDP_DRIVE_L2 = 15;
+    public static final int PDP_DRIVE_R1 = 0;
+    public static final int PDP_DRIVE_R2 = 1;
+
+
 }
