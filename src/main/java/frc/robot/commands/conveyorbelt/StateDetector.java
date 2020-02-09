@@ -90,7 +90,7 @@ public class StateDetector extends CommandBase {
     case S14:
       return new LogCommandWrapper(new M3Command(transferSubsystem, state), "M3Command");
     case S15:
-      return new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, transferSubsystem, shooterSubsystem, state), "M1M2M3Command");
+      return new LogCommandWrapper(new M1M2M3Command(conveyorSubsystem, transferSubsystem, shooterSubsystem, state, true), "M1M2M3Command");
     case S16:
       return new LogCommandWrapper(new M3Command(transferSubsystem, state), "M3Command");
     case S17:

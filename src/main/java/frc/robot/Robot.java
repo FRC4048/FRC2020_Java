@@ -8,8 +8,11 @@
 package frc.robot;
 
 import java.nio.file.Paths;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +33,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Diagnostics diagnostics;
 
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -39,6 +43,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
     m_robotContainer = new RobotContainer();
     diagnostics = new Diagnostics();
   }

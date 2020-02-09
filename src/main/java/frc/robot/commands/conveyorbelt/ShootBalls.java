@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
-import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class ShootBalls extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;

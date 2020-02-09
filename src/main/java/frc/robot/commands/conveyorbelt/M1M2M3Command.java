@@ -15,18 +15,21 @@ import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.BallTransferState;
-import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class M1M2M3Command extends ParallelCommandGroup {
   private final double DELAY = 0.5; 
 
   public M1M2M3Command(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, BallTransferState initState) {
+    this(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, initState, false);
+  }
+
+  public M1M2M3Command(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, BallTransferState initState, boolean force) {
     addCommands(
       new M3Command(transferConveyorSubsystem, initState),
       new SequentialCommandGroup(
         new WaitCommand(DELAY),
         new ParallelCommandGroup(
-          new M2Command(conveyorSubsystem, initState),
+          new M2Command(conveyorSubsystem, initState, force),
           new M1Command(shooterSubsystem, initState)
         )
       )
