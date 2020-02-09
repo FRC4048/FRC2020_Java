@@ -10,24 +10,28 @@ package frc.robot.subsystems.balltransfer;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.DigitalInputGroup;
 
 public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonSRX shooterMotor;
-  private static DigitalInputGroup slot1;
+  // private static DigitalInputGroup slot1;
+  private static DigitalInput slot1;
 
   /**
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
     shooterMotor = new WPI_TalonSRX(Constants.SHOOTER_MOTOR_ID);
-    slot1 = new DigitalInputGroup(new DigitalInput(Constants.SLOT1_A_ID), new DigitalInput(Constants.SLOT1_B_ID));
+    // slot1 = new DigitalInputGroup(new DigitalInput(Constants.SLOT1_A_ID), new DigitalInput(Constants.SLOT1_B_ID));
+    slot1 = new DigitalInput(1);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("slot1", getSlot1());
     // This method will be called once per scheduler run
   }
 
@@ -46,7 +50,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return boolean state of slot 1
    */
   public static boolean getSlot1() {
-    return slot1.get();
+    return !slot1.get();
   }
 
 }

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.conveyorbelt;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -56,6 +57,7 @@ public class StateDetector extends CommandBase {
   }
 
   public static Command createCommand(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferSubsystem, ShooterSubsystem shooterSubsystem, BallTransferState state) {
+    SmartDashboard.putString("State", state.toString());
     switch (state) {
     case S0:
       return new LogCommandWrapper(new M3Command(transferSubsystem, state), "M3Command");
