@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
+import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.subsystems.balltransfer.BallTransferState;
 
 public class M1M2M3Command extends ParallelCommandGroup {
@@ -25,12 +26,12 @@ public class M1M2M3Command extends ParallelCommandGroup {
 
   public M1M2M3Command(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, BallTransferState initState, boolean force) {
     addCommands(
-      new M3Command(transferConveyorSubsystem, initState),
+      new LogCommandWrapper(new M3Command(transferConveyorSubsystem, initState, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded)),
       new SequentialCommandGroup(
         new WaitCommand(DELAY),
         new ParallelCommandGroup(
-          new M2Command(conveyorSubsystem, initState, force),
-          new M1Command(shooterSubsystem, initState)
+          new LogCommandWrapper(new M2Command(conveyorSubsystem, initState, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded, force)),
+          new LogCommandWrapper(new M1Command(shooterSubsystem, initState, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded))
         )
       )
     );

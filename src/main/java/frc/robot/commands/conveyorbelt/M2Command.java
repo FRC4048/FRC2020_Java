@@ -7,6 +7,8 @@
 
 package frc.robot.commands.conveyorbelt;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,10 +22,12 @@ public class M2Command extends CommandBase {
   private BallTransferState wantedState;
   private boolean force;
   private Timer timer;
-  private final double DELAY = 1;
+  private final double DELAY = 1; 
+  private Supplier<Integer> startCB;
+  private Supplier<Integer> endCB;
 
-  public M2Command(ConveyorSubsystem conveyorSubsystem, BallTransferState initState) {
-    this(conveyorSubsystem, initState, false);
+  public M2Command(ConveyorSubsystem conveyorSubsystem, BallTransferState initState, Supplier<Integer> startCB, Supplier<Integer> endCB) {
+    this(conveyorSubsystem, initState, startCB, endCB, false);
   }
 
   /**
@@ -32,10 +36,12 @@ public class M2Command extends CommandBase {
    * @param initState
    * @param force <-- forces the motor run for a given time, rather than based of state
    */
-  public M2Command(ConveyorSubsystem conveyorSubsystem, BallTransferState initState, boolean force) {
+  public M2Command(ConveyorSubsystem conveyorSubsystem, BallTransferState initState, Supplier<Integer> startCB, Supplier<Integer> endCB, boolean force) {
     this.conveyorSubsystem = conveyorSubsystem;
     wantedState = ConveyorStateMachine.wantedState(initState);
     this.force = force;
+    this.startCB = startCB;
+    this.endCB = endCB;
     addRequirements(conveyorSubsystem);
     timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,6 +51,7 @@ public class M2Command extends CommandBase {
   @Override
   public void initialize() {
     timer.start();
+    startCB.get(); //We add one to the command counter to signify that a command is currently scheudled
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,12 +63,14 @@ public class M2Command extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    endCB.get(); //We subtract one from the counter to signify that the command has been completed
     conveyorSubsystem.moveConveyor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //This is here simply for case 15 where with just checking the state it thinks its immediatly done
     if(!force) {
       return ConveyorStateMachine.getState().getS2() == wantedState.getS2() && 
           ConveyorStateMachine.getState().getS3() == wantedState.getS3() &&

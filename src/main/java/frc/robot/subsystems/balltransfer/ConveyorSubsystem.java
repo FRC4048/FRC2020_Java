@@ -19,23 +19,23 @@ import frc.robot.utils.SmartShuffleboard;
 public class ConveyorSubsystem extends SubsystemBase {
 
   private WPI_TalonSRX conveyorMotor;
-  private static DigitalInputGroup slot2;
-  private static DigitalInputGroup slot3;
-  private static DigitalInputGroup slot4;
-  // private static DigitalInput slot2;
-  // private static DigitalInput slot3;
-  // private static DigitalInput slot4;
-  
+  // private static DigitalInputGroup slot2;
+  // private static DigitalInputGroup slot3;
+  // private static DigitalInputGroup slot4;
+  private static DigitalInput slot2;
+  private static DigitalInput slot3;
+  private static DigitalInput slot4;
+  private int commandCounter;
 
   public ConveyorSubsystem() {
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
 
-    // slot2 = new DigitalInput(2);
-    // slot3 = new DigitalInput(3);
-    // slot4 = new DigitalInput(4);
-    slot2 = new DigitalInputGroup(new DigitalInput(Constants.SLOT2_A_ID), new DigitalInput(Constants.SLOT2_B_ID));
-    slot3 = new DigitalInputGroup(new DigitalInput(Constants.SLOT3_A_ID), new DigitalInput(Constants.SLOT3_B_ID));
-    slot4 = new DigitalInputGroup(new DigitalInput(Constants.SLOT4_A_ID), new DigitalInput(Constants.SLOT4_B_ID));
+    slot2 = new DigitalInput(2);
+    slot3 = new DigitalInput(3);
+    slot4 = new DigitalInput(4);
+    // slot2 = new DigitalInputGroup(new DigitalInput(Constants.SLOT2_A_ID), new DigitalInput(Constants.SLOT2_B_ID));
+    // slot3 = new DigitalInputGroup(new DigitalInput(Constants.SLOT3_A_ID), new DigitalInput(Constants.SLOT3_B_ID));
+    // slot4 = new DigitalInputGroup(new DigitalInput(Constants.SLOT4_A_ID), new DigitalInput(Constants.SLOT4_B_ID));
   }
 
   @Override
@@ -79,6 +79,31 @@ public class ConveyorSubsystem extends SubsystemBase {
     return !slot4.get();
   }
 
+  /**
+   * Checks if any commands are currently scheduled.
+   * 
+   * @return if the counter == 0
+   */
+  public boolean isCommandAvalible() {
+    return commandCounter == 0;
+  }
 
+  /**
+   * Adds one to the counter returns the counter
+   * 
+   * @return commandCounter
+   */
+  public int commandStarted() {
+    return ++commandCounter;
+  }
+
+  /**
+   * Subtracts one from the counter then returns the counter
+   * 
+   * @return commandCounter
+   */
+  public int commandEnded(){
+    return --commandCounter;
+  }
 
 }

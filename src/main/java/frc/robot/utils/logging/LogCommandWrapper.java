@@ -18,6 +18,11 @@ public class LogCommandWrapper extends CommandBase {
   private String ident;
   private final Set<String> requirements = new TreeSet<String>();
 
+  
+  public LogCommandWrapper(Command command) {
+    this(command, command.getName());
+  }
+  
   /**
    * Creates a new LogCommandWrapper.
    */

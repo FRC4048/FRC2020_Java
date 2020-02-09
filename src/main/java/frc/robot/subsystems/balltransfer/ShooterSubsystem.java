@@ -18,16 +18,16 @@ import frc.robot.utils.SmartShuffleboard;
 
 public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonSRX shooterMotor;
-  private static DigitalInputGroup slot1;
-  // private static DigitalInput slot1;
+  // private static DigitalInputGroup slot1;
+  private static DigitalInput slot1;
 
   /**
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
     shooterMotor = new WPI_TalonSRX(Constants.SHOOTER_MOTOR_ID);
-    slot1 = new DigitalInputGroup(new DigitalInput(Constants.SLOT1_A_ID), new DigitalInput(Constants.SLOT1_B_ID));
-    // slot1 = new DigitalInput(1);
+    // slot1 = new DigitalInputGroup(new DigitalInput(Constants.SLOT1_A_ID), new DigitalInput(Constants.SLOT1_B_ID));
+    slot1 = new DigitalInput(1);
   }
 
   @Override

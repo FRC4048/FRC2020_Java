@@ -21,13 +21,13 @@ import frc.robot.utils.SmartShuffleboard;
  */
 public class TransferConveyorSubsystem extends SubsystemBase {
     private WPI_TalonSRX transferMotor;
-    private static DigitalInputGroup slot5;
-    // private static DigitalInput slot5;
+    // private static DigitalInputGroup slot5;
+    private static DigitalInput slot5;
 
     public TransferConveyorSubsystem() {
         transferMotor = new WPI_TalonSRX(Constants.TRANSFER_MOTOR_ID);
-        slot5 = new DigitalInputGroup(new DigitalInput(Constants.SLOT5_A_ID), new DigitalInput(Constants.SLOT5_B_ID));
-        // slot5 = new DigitalInput(5);
+        // slot5 = new DigitalInputGroup(new DigitalInput(Constants.SLOT5_A_ID), new DigitalInput(Constants.SLOT5_B_ID));
+        slot5 = new DigitalInput(5);
     }
 
     public void periodic() {
