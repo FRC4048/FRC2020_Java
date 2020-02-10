@@ -22,11 +22,13 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.drivetrain.Drive;
+import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
@@ -54,6 +56,8 @@ public class RobotContainer {
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
+  private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
   public AutoChooser autoChooser = new AutoChooser();
   
 
@@ -61,7 +65,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
     // Configure the button bindings
@@ -78,6 +81,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+
+    Command gearSwitchLow = new GearSwitch(driveTrain, true);
+    gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(gearSwitchLow, "GearSwitch Speed Low"));
+
+    Command gearSwitchHigh = new GearSwitch(driveTrain, false);
+    gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
   }
 
   /**
