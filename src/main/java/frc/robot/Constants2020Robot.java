@@ -20,6 +20,7 @@ interface Constants2020Robot {
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
+
     public static final int CONTROL_PANEL_CAN_ID = 5;
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;

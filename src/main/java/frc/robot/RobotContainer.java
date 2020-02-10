@@ -14,11 +14,22 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.PowerDistPanel;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
+import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
@@ -50,7 +61,11 @@ public class RobotContainer {
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
-  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft, 1); //TODO: change this based on what we use
+
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
+  private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
+
   public AutoChooser autoChooser = new AutoChooser();
 
   private XboxController xboxController = new XboxController(2);
@@ -62,7 +77,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
     // Configure the button bindings
@@ -81,7 +95,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
+
+    Command gearSwitchLow = new GearSwitch(driveTrain, true);
+    gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(gearSwitchLow, "GearSwitch Speed Low"));
+
+    Command gearSwitchHigh = new GearSwitch(driveTrain, false);
+    gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
   }
 
   /**
