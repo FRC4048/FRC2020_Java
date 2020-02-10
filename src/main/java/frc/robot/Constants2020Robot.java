@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 interface Constants2020Robot {
     
     //CAN ID
-    public static final int MOTOR_LEFT1_ID = 3;
-    public static final int MOTOR_LEFT2_ID = 4;
-    public static final int MOTOR_RIGHT1_ID = 1;
-    public static final int MOTOR_RIGHT2_ID = 2;
+    public static final int PDP_CAN_ID = 0;
+    public static final int MOTOR_LEFT1_ID = 1;
+    public static final int MOTOR_LEFT2_ID = 2;
+    public static final int MOTOR_RIGHT1_ID = 3;
+    public static final int MOTOR_RIGHT2_ID = 4;
+
     public static final int CONTROL_PANEL_CAN_ID = 5;
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;
@@ -27,6 +29,13 @@ interface Constants2020Robot {
     public static final int CLIMBER_ELEVATOR_ID = 11;
     public static final int CLIMBER_WINCH_ID = 12;
     public static final int PCM_CAN_ID = 10;
+
+    //PDP
+    public static final int PDP_DRIVE_L1 = 13;
+    public static final int PDP_DRIVE_L2 = 15;
+    public static final int PDP_DRIVE_R1 = 0;
+    public static final int PDP_DRIVE_R2 = 1;
+
 
     //DIO
     public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};

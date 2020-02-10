@@ -19,5 +19,5 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 
 public interface Constants extends Constants2020Robot {
-    
+
 }
