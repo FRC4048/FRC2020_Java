@@ -29,6 +29,12 @@ interface ConstantsTestbed {
     public static final int CLIMBER_WINCH_ID = 12;
     public static final int PCM_CAN_ID = 10;
 
+    //PDP
+    public static final int PDP_DRIVE_L1 = 13;
+    public static final int PDP_DRIVE_L2 = 15;
+    public static final int PDP_DRIVE_R1 = 0;
+    public static final int PDP_DRIVE_R2 = 1;
+
     //DIO
     public static final int[] DRIVE_ENCODER_LEFT_ID = {6,7};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {8,9};
@@ -45,7 +51,7 @@ interface ConstantsTestbed {
 
     //PCM
     public static final int[] INTAKE_PISTON_ID = {0,1};
-    public static final int CLIBMER_PISTON_ID = 2;
+    public static final int CLIMBER_PISTON_ID = 7;
     public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
     public static final int CONTROLPANEL_PISTON_ID = 4;
 
@@ -74,12 +80,14 @@ interface ConstantsTestbed {
     public static final int XBOX_LEFT_STICK_PRESS = 9;
     public static final int XBOX_RIGHT_STICK_PRESS = 10;
 
+    //ROBOT MOVEMENTS
+    public static final double ELEVATOR_SPEED = 0.5;
+    double CLIMBER_WINCH_SPEED = 0.5;
 
     //PDP
     public static final int PDP_DRIVE_L1 = 13;
     public static final int PDP_DRIVE_L2 = 15;
     public static final int PDP_DRIVE_R1 = 0;
     public static final int PDP_DRIVE_R2 = 1;
-
 
 }
