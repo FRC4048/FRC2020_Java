@@ -68,7 +68,7 @@ public class RobotContainer {
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
 
-    //controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
+    controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();

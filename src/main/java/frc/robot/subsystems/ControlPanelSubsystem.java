@@ -87,9 +87,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
             RobotContainer.setDrivingEnabled(true);
         }
         
-        SmartShuffleboard.put("Control Panel", "Encoder Value", getEncoder());
-        SmartShuffleboard.put("Control Panel", "Color Sensor Value", getCurrentColor().name());
-        SmartShuffleboard.put("Control Panel", "Game Data", fmsColor());
+        SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());
+        SmartShuffleboard.put("Control Panel", "Data", "Color Sensor Value", getCurrentColor().name());
+        SmartShuffleboard.put("Control Panel", "Data", "Game Data", fmsColor());
 
     }
     

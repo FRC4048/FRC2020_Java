@@ -32,7 +32,7 @@ public class RotateToColorScheduler extends CommandBase {
   @Override
   public void execute() {
     if (RobotContainer.getManualOverride()) {
-      new LogCommandWrapper(new RotateToColor(controlPanelSubsystem), "RotateToColor").schedule();;
+      new LogCommandWrapper(new RotateToColor(controlPanelSubsystem), "RotateToColor").schedule();
     } else {
       new LogCommandWrapper(new RotateToColorSequence(controlPanelSubsystem), "RotateToColorSequence").schedule();
     }

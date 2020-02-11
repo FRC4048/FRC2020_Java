@@ -21,6 +21,7 @@ public class MoveSolenoid extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.move = move;
+    addRequirements(controlPanelSubsystem);
   }
 
   // Called when the command is initially scheduled.

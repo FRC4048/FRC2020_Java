@@ -26,7 +26,6 @@ public class RotateDegreesScheduler extends CommandBase {
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.degreesTurn = degreesTurn;
     this.speed = speed;
-    //addRequirements(controlPanelSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -38,7 +37,7 @@ public class RotateDegreesScheduler extends CommandBase {
   @Override
   public void execute() {
     if (RobotContainer.getManualOverride()) {
-      new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed), "RotateDegrees").schedule();;
+      new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed), "RotateDegrees").schedule();
     } else {
       new LogCommandWrapper(new RotateDegreesSequence(controlPanelSubsystem, degreesTurn, speed), "RotateDegreesSequence").schedule();
     }
@@ -47,6 +46,7 @@ public class RotateDegreesScheduler extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.

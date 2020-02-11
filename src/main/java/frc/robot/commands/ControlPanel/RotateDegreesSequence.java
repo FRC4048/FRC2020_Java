@@ -20,6 +20,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
   public RotateDegreesSequence(ControlPanelSubsystem controlPanelSubsystem, double degreesTurn, double speed) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
+
     addCommands (
       new MoveSolenoid(controlPanelSubsystem, true),
       new WaitForSensor(controlPanelSubsystem),
