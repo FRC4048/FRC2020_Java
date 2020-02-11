@@ -38,7 +38,7 @@ interface ConstantsTestbed {
     //DIO
     public static final int[] DRIVE_ENCODER_LEFT_ID = {6,7};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {8,9};
-    public static final int CONTROL_PANEL_SENSOR_ID = 7;
+    public static final int CONTROL_PANEL_SENSOR_ID = 5;
     public static final int SLOT1_A_ID = 10;
     public static final int SLOT1_B_ID = 11;
     public static final int SLOT2_A_ID = 12;
@@ -53,8 +53,8 @@ interface ConstantsTestbed {
     //PCM
     public static final int[] INTAKE_PISTON_ID = {0,1};
     public static final int CLIMBER_PISTON_ID = 7;
-    public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
-    public static final int CONTROLPANEL_PISTON_ID = 7;
+    public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
+    public static final int CONTROL_PANEL_PISTON_ID = 4;
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;

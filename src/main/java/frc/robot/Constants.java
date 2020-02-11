@@ -16,7 +16,7 @@ package frc.robot;
  * maps.
  */
 
-public interface Constants extends Constants2020Robot {
+public interface Constants extends ConstantsTestbed {
 
 
 
