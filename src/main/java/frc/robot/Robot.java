@@ -8,7 +8,6 @@
 package frc.robot;
 
 import java.nio.file.Paths;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -27,7 +26,6 @@ import frc.robot.commands.*;
  * project.
  */
 
-
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
@@ -37,6 +35,7 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
@@ -52,6 +51,7 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
@@ -60,11 +60,13 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     SmartShuffleboard.put("Driver", "MANUAL OVERRIDE STATUS", RobotContainer.getManualOverride());  
+    Logging.instance().writeAllData();
   }
 
   /**
    * This function is called once each time the robot enters Disabled mode.
    */
+
   @Override
   public void disabledInit() {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------DISABLED----------");
@@ -77,10 +79,13 @@ public class Robot extends TimedRobot {
   /**
    * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
    */
+
   @Override
   public void autonomousInit() {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------AUTO INIT----------");
+    Logging.instance().writeAllTitles();
     // schedule the autonomous command (example)
     final StringBuilder gameInfo = new StringBuilder();
     gameInfo.append("Match Number=");
@@ -91,22 +96,16 @@ public class Robot extends TimedRobot {
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
-                                                      m_robotContainer.autoChooser.getAction());
-
-
-
-    
-    //autoChooser.Print();
-   
-    
-    if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
-      m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
-    }
+                                                       m_robotContainer.autoChooser.getAction());
+     if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
+       m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
+     }
   }
 
   /**
    * This function is called periodically during autonomous.
    */
+
   @Override
   public void autonomousPeriodic() {
   }
@@ -118,7 +117,7 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------TELEOP INIT----------");
-
+    Logging.instance().writeAllTitles();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -127,6 +126,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during operator control.
    */
+
   @Override
   public void teleopPeriodic() {
   }
@@ -141,6 +141,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during test mode.
    */
+  
   @Override
   public void testPeriodic() {
     diagnostics.refresh();
