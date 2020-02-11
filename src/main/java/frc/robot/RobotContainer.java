@@ -26,9 +26,11 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -50,13 +52,17 @@ public class RobotContainer {
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
+  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   public AutoChooser autoChooser = new AutoChooser();
+  private XboxController xboxController = new XboxController(2);
+  private JoystickButton leftBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_LEFT_BUMPER);
+  private JoystickButton rightBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_RIGHT_BUMPER); 
   
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -78,6 +84,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+    leftBumper.whileHeld(intakeCommand);
   }
 
   /**
