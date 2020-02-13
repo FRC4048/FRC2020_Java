@@ -113,9 +113,9 @@ public class RobotContainer {
 
     Command gearSwitchHigh = new GearSwitch(driveTrain, false);
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
-
-    shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem)));
-    shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors"));
+    
+    shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem))); //This will start the motors at full speed when pressed down
+    shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors")); //This will stop the motors once the button is released
 
   }
 
