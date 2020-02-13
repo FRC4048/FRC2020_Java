@@ -48,7 +48,7 @@ import frc.robot.Robot;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
 
@@ -95,7 +95,7 @@ public class RobotContainer {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case LEFT_DEPOSIT:
       //delay
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 1, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withWaypoint(1, 1).withEndPoint(2, 1, 0).build();
       //shoot
       trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 1, 0).withEndPoint(-1, 1, 0).build();
       break;
@@ -149,8 +149,9 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
     case LEFT_DEPOSIT:
-      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
-                              -> driveTrain.tankDriveVolts(0, 0));
+      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2));
       //delay(2) to be replaced with shoot
       break;
 
