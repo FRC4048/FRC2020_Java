@@ -45,6 +45,7 @@ import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.conveyorbelt.ShootBalls;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -67,6 +68,7 @@ public class RobotContainer {
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
+  private Joystick controller = new Joystick(2);
 
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
@@ -78,6 +80,7 @@ public class RobotContainer {
   private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
   private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
 
+  private JoystickButton shootBall = new JoystickButton(controller, Constants.XBOX_RIGHT_BUMPER);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -110,6 +113,10 @@ public class RobotContainer {
 
     Command gearSwitchHigh = new GearSwitch(driveTrain, false);
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
+
+    shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem)));
+    shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors"));
+
   }
 
   /**

@@ -46,14 +46,12 @@ public class ShootBalls extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    conveyorSubsystem.moveConveyor(0);
-    shooterSubsystem.moveShooter(0);
-    transferConveyorSubsystem.moveTransfer(0); 
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //TODO make this end when the operator let goes of the shoot button.
+    return false;
   }
 }

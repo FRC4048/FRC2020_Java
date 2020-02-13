@@ -76,7 +76,9 @@ public class M2Command extends CommandBase {
           ConveyorStateMachine.getState().getS3() == wantedState.getS3() &&
           ConveyorStateMachine.getState().getS4() == wantedState.getS4();
     } else {
-      return timer.get() > DELAY;
+      return (timer.get() > DELAY) && ConveyorStateMachine.getState().getS2() == wantedState.getS2() &&
+              ConveyorStateMachine.getState().getS3() == wantedState.getS3() &&
+              ConveyorStateMachine.getState().getS4() == wantedState.getS4();
     }
   }
 }
