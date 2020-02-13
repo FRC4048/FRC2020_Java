@@ -12,22 +12,23 @@ import frc.robot.subsystems.PowerDistPanel;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.subsystems.StallMotorTest;
 import frc.robot.utils.MotorUtils; 
 import frc.robot.Constants;
 
 public class StalledMotor extends CommandBase {
-  private final SixWheelDriveTrainSubsystem driveTrain;
+  private final StallMotorTest stallMotor;
   private final PowerDistPanel pdp = new PowerDistPanel();
-  private final MotorUtils driveStall = new MotorUtils(pdp.getPDP(), Constants.PDP_DRIVE_R2 , 5.0, 2.0);
+  private final MotorUtils driveStall = new MotorUtils(pdp.getPDP(), 0, 5.0, 2.0);
   private Timer time = new Timer();
   /**
    * Creates a new StalledMotor.
    */
 
-  public StalledMotor(SixWheelDriveTrainSubsystem driveTrain) {
+  public StalledMotor(StallMotorTest stallMotor) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
-    this.driveTrain = driveTrain;
+    addRequirements(stallMotor);
+    this.stallMotor = stallMotor;
 
   }
 
@@ -42,14 +43,14 @@ public class StalledMotor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive(0.3, 0.0);
+    stallMotor.drive(0.3);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-    driveTrain.drive(0.0, 0.0);
+    stallMotor.drive(0.0);
   }
 
   // Returns true when the command should end.

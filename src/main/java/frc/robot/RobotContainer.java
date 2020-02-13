@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.PowerDistPanel;
+import frc.robot.subsystems.StallMotorTest;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -50,6 +51,7 @@ import frc.robot.Robot;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  private final StallMotorTest stallMotor = new StallMotorTest();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
 
   private Joystick joyLeft = new Joystick(0);
@@ -125,7 +127,7 @@ public class RobotContainer {
   }
 
   public void putCommandtoShuffleboard(){
-    SmartShuffleboard.putCommand("Stalled motor", "stalled motor", new StalledMotor(driveTrain));
+    SmartShuffleboard.putCommand("Stalled motor", "stalled motor", new StalledMotor(stallMotor));
   }
 
 
