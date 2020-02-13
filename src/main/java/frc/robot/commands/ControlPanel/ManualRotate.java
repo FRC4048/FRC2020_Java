@@ -1,6 +1,7 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -23,7 +24,7 @@ public class ManualRotate extends CommandBase {
 
     @Override
     public void execute() {
-        controlPanelSubsystem.rotateWithSpeed(speed.getAsDouble());
+        controlPanelSubsystem.rotateWithSpeed(speed.getAsDouble() * Constants.CONTROL_PANEL_SPEED);
     }
 
     @Override

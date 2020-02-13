@@ -17,6 +17,7 @@ public class RotateDegreesScheduler extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
   private double degreesTurn;
   private double speed;
+  private RobotContainer m_robotContainer = RobotContainer.instance();
 
   /**
    * Creates a new RotateDegreesScheduler.
@@ -36,7 +37,7 @@ public class RotateDegreesScheduler extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.getManualOverride()) {
+    if (m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed), "RotateDegrees").schedule();
     } else {
       new LogCommandWrapper(new RotateDegreesSequence(controlPanelSubsystem, degreesTurn, speed), "RotateDegreesSequence").schedule();

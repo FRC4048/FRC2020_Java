@@ -14,6 +14,7 @@ public class ManualOverride extends CommandBase {
   /**
    * Creates a new ManualOverride.
    */
+  RobotContainer m_robotContainer = RobotContainer.instance();
   public ManualOverride() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,7 +27,7 @@ public class ManualOverride extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.setManualOverride(!RobotContainer.getManualOverride());
+    m_robotContainer.setManualOverride(!m_robotContainer.getManualOverride());
   }
 
   // Called once the command ends or is interrupted.

@@ -26,6 +26,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
     private final int TIMEOUT = 100;
     private String gameDataColor;
+    private RobotContainer m_robotContainer = RobotContainer.instance();
 
     public ControlPanelSubsystem() {
         controlPanelMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
@@ -81,10 +82,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        if (controlPanelSensor() && getPistonState() && !RobotContainer.getManualOverride()) {
-            RobotContainer.setDrivingEnabled(false);
+        if (!controlPanelSensor() && getPistonState() && !m_robotContainer.getManualOverride()) {
+            m_robotContainer.setDrivingEnabled(false);
         } else {
-            RobotContainer.setDrivingEnabled(true);
+            m_robotContainer.setDrivingEnabled(true);
         }
         
         SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());

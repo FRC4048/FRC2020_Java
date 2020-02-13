@@ -8,13 +8,14 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.utils.logging.LogCommandWrapper;
 
 public class RotateToColorScheduler extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
-
+  private RobotContainer m_robotContainer = RobotContainer.instance();
   /**
    * Creates a new RotateToColorScheduler.
    */
@@ -31,7 +32,7 @@ public class RotateToColorScheduler extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.getManualOverride()) {
+    if (m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateToColor(controlPanelSubsystem), "RotateToColor").schedule();
     } else {
       new LogCommandWrapper(new RotateToColorSequence(controlPanelSubsystem), "RotateToColorSequence").schedule();

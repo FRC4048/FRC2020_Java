@@ -5,6 +5,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ControlPanel.ManualOverride;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.SmartShuffleboard;
 
@@ -12,6 +14,7 @@ public class Drive extends CommandBase {
   private final SixWheelDriveTrainSubsystem driveTrain;
   private final DoubleSupplier leftSpeed;
   private final DoubleSupplier rightSpeed;
+  private RobotContainer m_robotContainer = RobotContainer.instance();
   /**
    * Creates a new Drive.
    */
@@ -31,7 +34,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.getDrivingEnabled()) {
+    if (m_robotContainer.getDrivingEnabled() || m_robotContainer.getManualOverride()) {
       driveTrain.drive(leftSpeed.getAsDouble(), rightSpeed.getAsDouble());
     } else {
       driveTrain.drive(0,0);

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.commands.ControlPanel.ManualOverride;
 import frc.robot.commands.ControlPanel.ManualRotate;
@@ -49,12 +50,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private static RobotContainer instance;
+
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
-  private static boolean drivingEnabled = true;
-  private static boolean manualOverride = false;
+  private boolean drivingEnabled = true;
+  private boolean manualOverride = false;
 
   private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
   private WinchSubsystem winchSubsystem = new WinchSubsystem();
@@ -62,16 +65,17 @@ public class RobotContainer {
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
 
 
-  private Joystick joyLeft = new Joystick(0);
-  private Joystick joyRight = new Joystick(1);
+  private static Joystick joyLeft = new Joystick(0);
+  private static Joystick joyRight = new Joystick(1);
 
-  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft, 1); // TODO: change this based on what we use
   private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
   private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
 
   public AutoChooser autoChooser = new AutoChooser();
   private Joystick controller = new Joystick(2);
-  private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); //Button X is the control panel rotate to position 
+  private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); // Button X is the control
+                                                                                            // panel rotate to position
   private JoystickButton buttonA = new JoystickButton(controller, Constants.XBOX_A_BUTTON);
   private JoystickButton buttonY = new JoystickButton(controller, Constants.XBOX_Y_BUTTON);
   private JoystickButton buttonB = new JoystickButton(controller, Constants.XBOX_B_BUTTON);
@@ -80,11 +84,17 @@ public class RobotContainer {
   private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
   private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
 
+  public static synchronized RobotContainer instance() {
+    if (instance == null) {
+      instance = new RobotContainer();
+    } 
+    return instance;
+  }
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  private RobotContainer() {
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
 
@@ -96,23 +106,33 @@ public class RobotContainer {
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
   }
 
-  private double getXBoxRightJoyX(){
+  private double getXBoxRightJoyX() {
     return controller.getX(GenericHID.Hand.kRight);
   }
 
-  public static void setDrivingEnabled(boolean mode) {
+  public void setDrivingEnabled(boolean mode) {
     drivingEnabled = mode;
   }
 
-  public static boolean getDrivingEnabled() {
+  public boolean getDrivingEnabled() {
     return drivingEnabled;
   }
 
-  public static void setManualOverride(boolean mode) {
+  public static void doRumble() {
+    joyLeft.setRumble(RumbleType.kLeftRumble, 1);
+		joyRight.setRumble(RumbleType.kRightRumble, 1);
+  }
+
+  public void stopRumble() {
+    joyLeft.setRumble(RumbleType.kLeftRumble, 0);
+    joyRight.setRumble(RumbleType.kRightRumble, 0);
+  }
+
+  public void setManualOverride(boolean mode) {
     manualOverride = mode;
   }
 
-  public static boolean getManualOverride() {
+  public boolean getManualOverride() {
     return manualOverride;
   }
 

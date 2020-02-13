@@ -19,7 +19,7 @@ public class RotateToColor extends CommandBase {
    */
   private ControlPanelSubsystem controlPanelSubsystem;
   private String fmsColor;
-  private ColorValue sensorValue;
+  private ColorValue desiredSensorColor;
   private int unknownCounter;
 
   public RotateToColor(ControlPanelSubsystem controlPanelSubsystem) {
@@ -35,16 +35,16 @@ public class RotateToColor extends CommandBase {
     if (fmsColor.length() > 0) {
       switch (fmsColor.charAt(0)) {
       case 'R':
-        sensorValue = ColorValue.BLUE;
+        desiredSensorColor = ColorValue.BLUE;
         break;
       case 'B':
-        sensorValue = ColorValue.RED;
+        desiredSensorColor = ColorValue.RED;
         break;
       case 'Y':
-        sensorValue = ColorValue.GREEN;
+        desiredSensorColor = ColorValue.GREEN;
         break;
       case 'G':
-        sensorValue = ColorValue.YELLOW;
+        desiredSensorColor = ColorValue.YELLOW;
         break;
       default:
         break;
@@ -55,7 +55,7 @@ public class RotateToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (fmsColor.length() > 0) {
+    if (desiredSensorColor != null) {
       controlPanelSubsystem.rotateWithSpeed(Constants.CONTROL_PANEL_COLOR_SPEED);
       SmartShuffleboard.put("Control Panel", "Action", "Spinning");
       if (controlPanelSubsystem.getCurrentColor() == ColorValue.UNKNOWN) {
@@ -77,7 +77,7 @@ public class RotateToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((fmsColor.length() == 0) || (controlPanelSubsystem.getCurrentColor() == sensorValue)) {
+    if ((desiredSensorColor != null) || (controlPanelSubsystem.getCurrentColor() == desiredSensorColor  )) {
       return true;
     } else if (unknownCounter > Constants.CONTROL_PANEL_UNKNOWN_LIMIT){
       return true;
