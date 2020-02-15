@@ -66,9 +66,11 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * @param speedLeft
    * @param speedRight
    */
-  public void drive(double speedLeft, double speedRight){
-    speedLeft = Math.signum(speedLeft) * Math.pow(speedLeft, 2);
-    speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
+  public void drive(double speedLeft, double speedRight, boolean isSquared){
+    if(isSquared) {
+      speedLeft = Math.signum(speedLeft) * Math.pow(speedLeft, 2);
+      speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
+    }
     // driveTrain.tankDrive(speedLeft, speedRight);
     //The joysticks are inverted so inverting this makes it drive correctly.
     left1.set(ControlMode.PercentOutput, speedLeft);
@@ -150,6 +152,14 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    */
   public void switchGear(boolean state) {
     gearSolenoid.set(state);
+  }
+
+  public double getLeftEncoder() {
+    return leftEncoder.getDistance();
+  }
+
+  public double getRightEncoder() {
+    return rightEncoder.getDistance();
   }
 }
 

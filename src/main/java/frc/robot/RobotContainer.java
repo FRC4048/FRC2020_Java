@@ -37,6 +37,7 @@ import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
+import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.balltransfer.BallTransferState;
@@ -104,6 +105,8 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
+
+    SmartDashboard.putData(new DriveStraight(1, 0.3, driveTrain));
   }
 
   /**
