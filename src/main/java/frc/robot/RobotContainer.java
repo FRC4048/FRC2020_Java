@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.conveyorbelt.M2M3Command;
 import frc.robot.commands.conveyorbelt.StateDetector;
+import frc.robot.commands.conveyorbelt.StopMotors;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;

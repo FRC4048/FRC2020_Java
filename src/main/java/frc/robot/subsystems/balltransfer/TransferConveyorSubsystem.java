@@ -22,7 +22,7 @@ import frc.robot.utils.SmartShuffleboard;
 public class TransferConveyorSubsystem extends SubsystemBase {
     private WPI_TalonSRX transferMotor;
     private static DigitalInputGroup slot5;
-    private static DigitalInput slot5;
+    // private static DigitalInput slot5;
 
     public TransferConveyorSubsystem() {
         transferMotor = new WPI_TalonSRX(Constants.TRANSFER_MOTOR_ID);

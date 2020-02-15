@@ -7,13 +7,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
 
@@ -29,6 +32,10 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Diagnostics diagnostics;
+
+  private DigitalInput i1 = new DigitalInput(10);
+  private DigitalInput i2 = new DigitalInput(11);
+  private Encoder e = new Encoder(i1, i2);
 
 
   /**
@@ -61,6 +68,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Logging.instance().writeAllData();
+
+    SmartShuffleboard.put("Test", "Encoder", e.getRaw());
   }
 
   /**
