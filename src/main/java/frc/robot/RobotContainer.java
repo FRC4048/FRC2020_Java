@@ -52,7 +52,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private static RobotContainer instance;
 
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
@@ -86,17 +85,11 @@ public class RobotContainer {
   private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
   private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
 
-  public static synchronized RobotContainer instance() {
-    if (instance == null) {
-      instance = new RobotContainer();
-    } 
-    return instance;
-  }
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  private RobotContainer() {
+  public RobotContainer() {
     autoChooser.addOptions();
     driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
 

@@ -9,6 +9,7 @@ package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
@@ -20,7 +21,7 @@ public class RotateDegreesScheduler extends CommandBase {
   private double degreesTurn;
   private double speed;
   private double driveBackSpeed;
-  private RobotContainer m_robotContainer = RobotContainer.instance();
+  private RobotContainer m_robotContainer = Robot.m_robotContainer;
 
   /**
    * Creates a new RotateDegreesScheduler.

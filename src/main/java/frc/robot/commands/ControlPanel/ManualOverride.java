@@ -8,13 +8,14 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class ManualOverride extends CommandBase {
   /**
    * Creates a new ManualOverride.
    */
-  RobotContainer m_robotContainer = RobotContainer.instance();
+  RobotContainer m_robotContainer = Robot.m_robotContainer;
   public ManualOverride() {
     // Use addRequirements() here to declare subsystem dependencies.
   }

@@ -34,15 +34,13 @@ public class MoveBackwards extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanelSubsystem.rotateWithSpeed(-driveBackSpeed);
-    //driveTrain.drive(-driveBackSpeed, -driveBackSpeed);    
+    driveTrain.drive(-driveBackSpeed, -driveBackSpeed);    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   // driveTrain.drive(0,0);
-   controlPanelSubsystem.stopRotation();
+   driveTrain.drive(0,0);
   }
 
   // Returns true when the command should end.
