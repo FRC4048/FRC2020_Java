@@ -105,8 +105,6 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
-
-    SmartDashboard.putData(new DriveStraight(1, 0.3, driveTrain));
   }
 
   /**

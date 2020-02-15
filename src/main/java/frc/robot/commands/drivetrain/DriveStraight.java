@@ -53,7 +53,7 @@ public class DriveStraight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return currDistance >= distance;
+    return Math.abs(currDistance) >= Math.abs(distance);
   }
 
   public double PIDCalc(double speed) {
