@@ -24,7 +24,7 @@ interface Constants2020Robot {
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;
     public static final int STAGER_MOTOR_ID = 8;
-    public static final int INTAKE_MOTOR_ID = 0; //TODO: Change This to what we use.
+    public static final int INTAKE_MOTOR_ID = 11;
     public static final int CLIMBER_ELEVATOR_ID = 11;
     public static final int CLIMBER_WINCH_ID = 12;
     public static final int PCM_CAN_ID = 10;
@@ -51,10 +51,10 @@ interface Constants2020Robot {
     public static final int SLOT5_B_ID = 19;
 
     //PCM
+    public static final int[] INTAKE_PISTON_ID = {0,1};
     public static final int CLIBMER_PISTON_ID = 2;
     public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
     public static final int CONTROLPANEL_PISTON_ID = 4;
-    public static final int INTAKE_PISTON_ID = 0; //TODO: Change this to what we use.
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;

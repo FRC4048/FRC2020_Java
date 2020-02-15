@@ -26,7 +26,9 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.MotorSpinIntake;
+import frc.robot.commands.StartIntakeCommand;
+import frc.robot.commands.StopIntakeCommand;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
@@ -53,7 +55,6 @@ public class RobotContainer {
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
   private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -84,7 +85,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
-    leftBumper.whileHeld(intakeCommand);
+    leftBumper.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
+    leftBumper.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
+    leftBumper.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
   }
 
   /**

@@ -10,7 +10,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.logging.Logging;
@@ -23,9 +25,9 @@ public class IntakeSubsystem extends SubsystemBase {
    * Creates a new IntakeSubsystem.
    */
   public IntakeSubsystem() {
-    intakeMotor = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
-    piston = new Solenoid(Constants.INTAKE_PISTON_ID);
-  
+    intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_ID);
+    piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID[0]);
+
     int TIMEOUT = 100;
 
     intakeMotor.configNominalOutputForward(0, TIMEOUT);
@@ -49,17 +51,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void deployPiston() {
-    System.out.println("deploy");
     piston.set(true);
   }
 
   public void retractPiston() {
-    System.out.println("retract");
     piston.set(false);
   }
 
   public void spinMotor(double speed){
-    System.out.println("spin");
     intakeMotor.set(speed);
   }
 }

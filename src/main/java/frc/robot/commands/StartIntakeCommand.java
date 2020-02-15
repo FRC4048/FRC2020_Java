@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeCommand extends CommandBase {
+public class StartIntakeCommand extends CommandBase {
   private IntakeSubsystem intakeSubsystem;
 
   /**
    * Creates a new IntakeCommand.
    */
-  public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+  public StartIntakeCommand(IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem);
@@ -33,14 +33,11 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinMotor(0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.spinMotor(0);
-    intakeSubsystem.retractPiston();
   }
 
   // Returns true when the command should end.
