@@ -8,13 +8,13 @@
 package frc.robot;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.PowerDistPanel;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -29,18 +31,22 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import frc.robot.commands.MotorSpinIntake;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StopIntakeCommand;
+import frc.robot.commands.WinchCommands.MoveWinch;
+import frc.robot.commands.ElevatorCommands.MoveElevator;
+import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
+import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Robot;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,27 +59,42 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
+
+  private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
+  private WinchSubsystem winchSubsystem = new WinchSubsystem();
+
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
   private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
+
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
+
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
+  private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
+
   public AutoChooser autoChooser = new AutoChooser();
-  private XboxController xboxController = new XboxController(2);
   private JoystickButton leftBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_LEFT_BUMPER);
   private JoystickButton rightBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_RIGHT_BUMPER); 
   
+
+  private XboxController xboxController = new XboxController(2);
+  private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
+  private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
+
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
     autoChooser.addOptions();
-    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
+    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
+    climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
+    winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
   }
 
   /**
@@ -88,11 +109,20 @@ public class RobotContainer {
     leftBumper.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
     leftBumper.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
     leftBumper.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
+
+
+    xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
+
+    Command gearSwitchLow = new GearSwitch(driveTrain, true);
+    gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(gearSwitchLow, "GearSwitch Speed Low"));
+
+    Command gearSwitchHigh = new GearSwitch(driveTrain, false);
+    gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
   }
 
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.
-   * 
+   *
    * @param autoOption the enum of the auto running
    * @return the command to run in autonomous
    */
@@ -104,16 +134,16 @@ public class RobotContainer {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();   
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();
       //Start where the last one ended and drive end up in the same place we started
-      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build(); 
+      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
       //Theoretically more trajectory objects could be added
       break;
     default:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
       break;
     }
-    
+
     //This assigns all of your trajectories to ramsete commands
     List<Command> trajectoryCommands = Arrays.stream(trajectory)
         .filter(tr -> tr != null)

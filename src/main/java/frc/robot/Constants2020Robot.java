@@ -20,6 +20,7 @@ interface Constants2020Robot {
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
+
     public static final int CONTROL_PANEL_CAN_ID = 5;
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;
@@ -50,11 +51,12 @@ interface Constants2020Robot {
     public static final int SLOT5_A_ID = 18;
     public static final int SLOT5_B_ID = 19;
 
+
     //PCM
     public static final int[] INTAKE_PISTON_ID = {0,1};
-    public static final int CLIBMER_PISTON_ID = 2;
-    public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
-    public static final int CONTROLPANEL_PISTON_ID = 4;
+    public static final int CLIMBER_PISTON_ID = 2;
+    public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
+    public static final int CONTROL_PANEL_PISTON_ID = 4;
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;
@@ -80,4 +82,8 @@ interface Constants2020Robot {
     public static final int XBOX_START_BUTTON = 8;
     public static final int XBOX_LEFT_STICK_PRESS = 9;
     public static final int XBOX_RIGHT_STICK_PRESS = 10;
+
+    //ROBOT MOVEMENTS
+    public static final double ELEVATOR_SPEED = 0.5;
+    double CLIMBER_WINCH_SPEED = 0.5;
 }
