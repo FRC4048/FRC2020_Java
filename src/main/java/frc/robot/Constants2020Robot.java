@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * Add your docs here.
  */
 interface Constants2020Robot {
-    
+    //Global Constant
+    public static final boolean ENABLE_DEBUG = false;
+
     //CAN ID
     public static final int PDP_CAN_ID = 0;
     public static final int MOTOR_LEFT1_ID = 1;

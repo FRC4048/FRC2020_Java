@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * Add your docs here.
  */
 interface ConstantsTestbed {
-    
+    //Global Constant
+    public static final boolean ENABLE_DEBUG = true;
+
     //CAN ID
     public static final int PDP_CAN_ID = 0;
     public static final int MOTOR_LEFT1_ID = 1;
@@ -51,8 +53,8 @@ interface ConstantsTestbed {
 
     //PCM
     public static final int[] INTAKE_PISTON_ID = {4,5};
-    public static final int CLIBMER_PISTON_ID = 2;
-    public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
+    public static final int CLIMBER_PISTON_ID = 2;
+    public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
     public static final int CONTROLPANEL_PISTON_ID = 4;
 
     //DRIVETRAIN CONSTANTS
