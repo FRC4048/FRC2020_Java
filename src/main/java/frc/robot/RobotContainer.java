@@ -23,7 +23,9 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.commands.conveyorbelt.M2M3Command;
+import frc.robot.commands.conveyorbelt.StateDetector;
+import frc.robot.commands.conveyorbelt.StopMotors;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -37,6 +39,10 @@ import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.subsystems.balltransfer.BallTransferState;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ShooterSubsystem;
+import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -47,6 +53,7 @@ import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.conveyorbelt.ShootBalls;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -58,17 +65,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
-  private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
-
+  private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+  private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
+  private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
+  private final ShooterSubsystem shooterSubsystem =  new ShooterSubsystem();
   private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
   private WinchSubsystem winchSubsystem = new WinchSubsystem();
 
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
   private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
+  private Joystick controller = new Joystick(2);
 
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
@@ -83,13 +92,15 @@ public class RobotContainer {
   private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
   private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
 
+  private JoystickButton shootBall = new JoystickButton(controller, Constants.XBOX_RIGHT_BUMPER);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     autoChooser.addOptions();
-    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
+    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
+    conveyorSubsystem.setDefaultCommand(new StateDetector(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem));
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
@@ -118,6 +129,10 @@ public class RobotContainer {
 
     Command gearSwitchHigh = new GearSwitch(driveTrain, false);
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
+    
+    shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem))); //This will start the motors at full speed when pressed down
+    shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors")); //This will stop the motors once the button is released
+
   }
 
   /**

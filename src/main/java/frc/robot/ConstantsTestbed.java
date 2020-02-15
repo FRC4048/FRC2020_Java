@@ -23,17 +23,11 @@ interface ConstantsTestbed {
     public static final int CONTROL_PANEL_CAN_ID = 5;
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;
-    public static final int STAGER_MOTOR_ID = 8;
-    public static final int INTAKE_MOTOR_ID = 11;
+    public static final int TRANSFER_MOTOR_ID = 8;
+    public static final int INTAKE_MOTOR_ID = 9;
     public static final int CLIMBER_ELEVATOR_ID = 11;
     public static final int CLIMBER_WINCH_ID = 12;
     public static final int PCM_CAN_ID = 10;
-    
-    //PDP
-    public static final int PDP_DRIVE_L1 = 13;
-    public static final int PDP_DRIVE_L2 = 15;
-    public static final int PDP_DRIVE_R1 = 0;
-    public static final int PDP_DRIVE_R2 = 1;
 
     //PDP
     public static final int PDP_DRIVE_L1 = 13;
