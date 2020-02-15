@@ -127,7 +127,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * 
    * @param pose
    */
-  public void resetOdodemtry(Pose2d pose) {
+  public void resetOdometry(Pose2d pose) {
     resetEncoders();
     driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getAngle()));
   }

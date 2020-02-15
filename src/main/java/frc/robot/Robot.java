@@ -12,6 +12,8 @@ import java.nio.file.Paths;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
@@ -123,6 +125,8 @@ public class Robot extends TimedRobot {
     if (m_robotContainer.getAutonomousCommand(getAutoCommand,m_robotContainer.autoChooser.getDelay()) != null) {
       m_robotContainer.getAutonomousCommand(getAutoCommand, m_robotContainer.autoChooser.getDelay()).schedule();
     }
+    m_robotContainer.driveTrainGetter().resetGyro();
+    m_robotContainer.driveTrainGetter().resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
   }
 
   /**
@@ -130,9 +134,7 @@ public class Robot extends TimedRobot {
    */
 
   @Override
-  public void autonomousPeriodic() {
-    
-    
+  public void autonomousPeriodic() { 
   }
 
   @Override

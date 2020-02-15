@@ -82,6 +82,9 @@ public class RobotContainer {
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
   }
 
+  public SixWheelDriveTrainSubsystem driveTrainGetter(){
+    return driveTrain;
+  }
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.
    * 
@@ -96,9 +99,8 @@ public class RobotContainer {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case LEFT_DEPOSIT:
       //delay
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withWaypoint(1, 1).withEndPoint(2, 1, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 1, 0).build();
       //shoot
-      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 1, 0).withEndPoint(-1, 1, 0).build();
       break;
     case RIGHT_DEPOSIT:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(0, 1).withWaypoint(-1, 1).withEndPoint(-1, 2, 0).build();
@@ -151,7 +153,6 @@ public class RobotContainer {
     switch(autoOption){
     case LEFT_DEPOSIT:
       autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
-                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
                               -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2));
       //delay(2) to be replaced with shoot
       break;
