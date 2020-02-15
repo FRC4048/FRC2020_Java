@@ -20,7 +20,7 @@ import frc.robot.utils.logging.Logging;
 public class IntakeSubsystem extends SubsystemBase {
   private WPI_TalonSRX intakeMotor;
   private Solenoid piston;
-
+  private static boolean isRunning;
   /**
    * Creates a new IntakeSubsystem.
    */
@@ -35,6 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.configPeakOutputForward(1, TIMEOUT);
     intakeMotor.configPeakOutputReverse(-1, TIMEOUT);
     intakeMotor.setNeutralMode(NeutralMode.Brake);
+    isRunning = false;
   }
 
   public Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
@@ -60,5 +61,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void spinMotor(double speed){
     intakeMotor.set(speed);
+  }
+
+  public void setIsRunning(boolean isRunning) {
+    this.isRunning = isRunning;
+  }
+
+  public static boolean getIsRunning() {
+    return isRunning;
   }
 }

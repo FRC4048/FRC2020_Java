@@ -14,6 +14,7 @@ import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
@@ -22,6 +23,7 @@ public class StateDetector extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private TransferConveyorSubsystem transferSubsystem;
   private final double TIMEOUT = 5; // seconds
+  private final double TRANSFER_LOW_SPEED = 0.4;
 
   /**
    * Creates a new StateDetector.
@@ -58,6 +60,8 @@ public class StateDetector extends CommandBase {
      */
     if (TransferConveyorSubsystem.getSlot5() && conveyorSubsystem.isCommandAvalible()) { //We will only move motors if there is a ball in the stager
       createCommand(conveyorSubsystem, transferSubsystem, shooterSubsystem, state).withTimeout(TIMEOUT).schedule();
+    } else if (IntakeSubsystem.getIsRunning()) { //This is static so we don't have to take an instance of the intake subsystem in this default command
+      transferSubsystem.moveTransfer(TRANSFER_LOW_SPEED);
     }
   }
 

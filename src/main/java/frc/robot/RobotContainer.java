@@ -78,19 +78,17 @@ public class RobotContainer {
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
   private Joystick controller = new Joystick(2);
+  private XboxController xboxController = new XboxController(2);
 
   private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
   private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
   private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
 
   public AutoChooser autoChooser = new AutoChooser();
-  private JoystickButton leftBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_LEFT_BUMPER);
-  private JoystickButton rightBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_RIGHT_BUMPER); 
+  private JoystickButton intakeBalls = new JoystickButton(controller, Constants.XBOX_LEFT_BUMPER);
   
-
-  private XboxController xboxController = new XboxController(2);
-  private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
-  private JoystickButton xBoxRightStick = new JoystickButton(xboxController, Constants.XBOX_RIGHT_STICK_PRESS);
+  private JoystickButton xBoxLeftStick = new JoystickButton(controller, Constants.XBOX_LEFT_STICK_PRESS);
+  private JoystickButton xBoxRightStick = new JoystickButton(controller, Constants.XBOX_RIGHT_STICK_PRESS);
 
   private JoystickButton shootBall = new JoystickButton(controller, Constants.XBOX_RIGHT_BUMPER);
 
@@ -117,9 +115,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
-    leftBumper.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
-    leftBumper.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
-    leftBumper.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
+    intakeBalls.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
+    intakeBalls.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
+    intakeBalls.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
 
 
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
