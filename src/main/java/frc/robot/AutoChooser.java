@@ -46,7 +46,7 @@ public class AutoChooser {
 
     }
     public void initialize() {
-        ShuffleboardTab tab = Shuffleboard.getTab("Driver");
+        ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
         tab.add("Autonomous Position", positionChooser);
         tab.add("Autonomous Action", actionChooser);
     }
