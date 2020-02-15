@@ -33,11 +33,6 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Diagnostics diagnostics;
 
-  private DigitalInput i1 = new DigitalInput(10);
-  private DigitalInput i2 = new DigitalInput(11);
-  private Encoder e = new Encoder(i1, i2);
-
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -68,8 +63,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Logging.instance().writeAllData();
-
-    SmartShuffleboard.put("Test", "Encoder", e.getRaw());
   }
 
   /**
