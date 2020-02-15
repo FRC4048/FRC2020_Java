@@ -73,8 +73,11 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartShuffleboard.put("Climber", "Top Switch", getTopSwitch());
-    SmartShuffleboard.put("Climber", "Bottom Switch", getBottomSwitch());
+    if (Constants.ENABLE_DEBUG == true){
+      SmartShuffleboard.put("Climber", "Top Switch", getTopSwitch());
+      SmartShuffleboard.put("Climber", "Bottom Switch", getBottomSwitch());
+    }
+   
 
   }
 }

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * maps.
  */
 
-public interface Constants extends ConstantsTestbed {
+public interface Constants extends Constants2020Robot {
 
 
 
