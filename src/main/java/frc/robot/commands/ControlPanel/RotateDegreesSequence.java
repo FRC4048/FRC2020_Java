@@ -8,6 +8,7 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 
