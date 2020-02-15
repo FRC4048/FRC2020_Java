@@ -84,10 +84,4 @@ interface ConstantsTestbed {
     public static final double ELEVATOR_SPEED = 0.5;
     double CLIMBER_WINCH_SPEED = 0.5;
 
-    //PDP
-    public static final int PDP_DRIVE_L1 = 13;
-    public static final int PDP_DRIVE_L2 = 15;
-    public static final int PDP_DRIVE_R1 = 0;
-    public static final int PDP_DRIVE_R2 = 1;
-
 }
