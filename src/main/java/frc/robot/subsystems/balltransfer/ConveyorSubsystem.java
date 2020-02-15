@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.DigitalInputGroup;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.logging.Logging;
 
 public class ConveyorSubsystem extends SubsystemBase {
 
@@ -44,7 +45,15 @@ public class ConveyorSubsystem extends SubsystemBase {
     SmartShuffleboard.put("Driver", "Slot3", getSlot3());
     SmartShuffleboard.put("Driver", "Slot4", getSlot4());
   }
-
+  
+  public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
+    protected void addAll() {
+      add("slot2", getSlot2());
+      add("slot3", getSlot3());
+      add("slot4", getSlot4());
+      add("Conveyor Motor Running?", conveyorMotor.get() != 0 ? true : false);
+    }
+  };
   /**
    * Sets the conveyor (M2) to a set value
    * 

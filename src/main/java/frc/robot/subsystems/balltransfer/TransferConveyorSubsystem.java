@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.DigitalInputGroup;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.logging.Logging;
 
 /**
  * Add your docs here.
@@ -33,6 +34,14 @@ public class TransferConveyorSubsystem extends SubsystemBase {
     public void periodic() {
         SmartShuffleboard.put("Driver", "Slot5", getSlot5());
     }
+
+    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
+        protected void addAll() {
+          add("slot5", getSlot5());
+          add("Shooter Motor Running?", transferMotor.get() != 0 ? true : false);
+        }
+    };
+
     /**
      * Sets the stager (M3) to a set value
      * 

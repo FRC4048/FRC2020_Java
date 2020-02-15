@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.DigitalInputGroup;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.logging.Logging;
 
 public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonSRX shooterMotor;
@@ -35,6 +36,13 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartShuffleboard.put("Driver", "Slot1", getSlot1());
   }
+
+  public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
+    protected void addAll() {
+      add("slot1", getSlot1());
+      add("Shooter Motor Running?", shooterMotor.get() != 0 ? true : false);
+    }
+  };
 
   /**
    * Sets the shooter (M1) to a set value
