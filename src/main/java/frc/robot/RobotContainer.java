@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ControlPanel.ManualRotate;
+import frc.robot.commands.ControlPanel.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -69,7 +69,6 @@ public class RobotContainer {
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
   private final ShooterSubsystem shooterSubsystem =  new ShooterSubsystem();
-  private CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
   private boolean drivingEnabled = true;
   private boolean manualOverride = false;
@@ -90,7 +89,6 @@ public class RobotContainer {
   private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
 
   public AutoChooser autoChooser = new AutoChooser();
-  private Joystick controller = new Joystick(2);
   private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); // Button X is the control
                                                                                             // panel rotate to position
   private JoystickButton buttonA = new JoystickButton(controller, Constants.XBOX_A_BUTTON);
@@ -133,13 +131,13 @@ public class RobotContainer {
   }
 
   public static void doRumble() {
-    joyLeft.setRumble(RumbleType.kLeftRumble, 1);
-		joyRight.setRumble(RumbleType.kRightRumble, 1);
+    joyLeft.setRumble(GenericHID.RumbleType.kLeftRumble, 1);
+		joyRight.setRumble(GenericHID.RumbleType.kRightRumble, 1);
   }
 
   public void stopRumble() {
-    joyLeft.setRumble(RumbleType.kLeftRumble, 0);
-    joyRight.setRumble(RumbleType.kRightRumble, 0);
+    joyLeft.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+    joyRight.setRumble(GenericHID.RumbleType.kRightRumble, 0);
   }
 
   public void setManualOverride(boolean mode) {
