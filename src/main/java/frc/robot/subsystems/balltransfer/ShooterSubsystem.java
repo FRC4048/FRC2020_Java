@@ -40,7 +40,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
     protected void addAll() {
       add("slot1", getSlot1());
-      add("Shooter Motor Running?", shooterMotor.get() != 0 ? true : false);
+      add("Shooter Motor Running?", shooterMotor.get() != 0);
     }
   };
 

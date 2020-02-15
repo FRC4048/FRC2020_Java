@@ -38,7 +38,7 @@ public class TransferConveyorSubsystem extends SubsystemBase {
     public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
         protected void addAll() {
           add("slot5", getSlot5());
-          add("Shooter Motor Running?", transferMotor.get() != 0 ? true : false);
+          add("Shooter Motor Running?", transferMotor.get() != 0);
         }
     };
 

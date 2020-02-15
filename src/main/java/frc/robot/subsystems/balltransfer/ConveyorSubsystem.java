@@ -51,7 +51,7 @@ public class ConveyorSubsystem extends SubsystemBase {
       add("slot2", getSlot2());
       add("slot3", getSlot3());
       add("slot4", getSlot4());
-      add("Conveyor Motor Running?", conveyorMotor.get() != 0 ? true : false);
+      add("Conveyor Motor Running?", conveyorMotor.get() != 0);
     }
   };
   /**
