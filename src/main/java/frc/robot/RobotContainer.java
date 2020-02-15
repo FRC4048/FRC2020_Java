@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.commands.ControlPanel.ManualOverride;
 import frc.robot.commands.ControlPanel.ManualRotate;
+import frc.robot.commands.ControlPanel.MoveBackwards;
 import frc.robot.commands.ControlPanel.RotateDegrees;
 import frc.robot.commands.ControlPanel.RotateDegreesScheduler;
 import frc.robot.commands.ControlPanel.RotateToColor;
@@ -151,10 +152,10 @@ public class RobotContainer {
     SmartShuffleboard.putCommand("Control Panel", "Color Rotate", new RotateToColor(controlPanelSubsystem));
     SmartShuffleboard.putCommand("Driver", "MANUAL OVERRIDE", new LogCommandWrapper(new ManualOverride(), "ManualOverride"));
     buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
-    buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
-    buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem));
-    SmartShuffleboard.putCommand("Control Panel", "Sequence Rotate", new RotateDegreesScheduler(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
-
+    buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "Sequence Rotate", new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "Go Backwards", new MoveBackwards(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED).withTimeout(2));
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
 
     Command gearSwitchLow = new GearSwitch(driveTrain, true);

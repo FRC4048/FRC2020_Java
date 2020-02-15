@@ -9,6 +9,7 @@ package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,7 +18,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
   /**
    * Creates a new RotateDegreesSequence.
    */
-  public RotateDegreesSequence(ControlPanelSubsystem controlPanelSubsystem, double degreesTurn, double speed) {
+  public RotateDegreesSequence(ControlPanelSubsystem controlPanelSubsystem, SixWheelDriveTrainSubsystem driveTrain, double degreesTurn, double driveBackSpeed, double speed) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
 
@@ -25,6 +26,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
       new MoveSolenoid(controlPanelSubsystem, true),
       new WaitForSensor(controlPanelSubsystem),
       new RotateDegrees(controlPanelSubsystem, degreesTurn, speed),
+      new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(2),
       new MoveSolenoid(controlPanelSubsystem, false)
       );
   }

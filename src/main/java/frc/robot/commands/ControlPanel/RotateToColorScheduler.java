@@ -11,17 +11,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.logging.LogCommandWrapper;
 
 public class RotateToColorScheduler extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
+  private SixWheelDriveTrainSubsystem driveTrain;
   private RobotContainer m_robotContainer = RobotContainer.instance();
+  private double driveBackSpeed;
   /**
    * Creates a new RotateToColorScheduler.
    */
-  public RotateToColorScheduler(ControlPanelSubsystem controlPanelSubsystem) {
+  public RotateToColorScheduler(ControlPanelSubsystem controlPanelSubsystem, SixWheelDriveTrainSubsystem driveTrain, double driveBackSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.controlPanelSubsystem = controlPanelSubsystem;
+    this.driveBackSpeed = driveBackSpeed;
+    this.driveTrain = driveTrain;
   }
 
   // Called when the command is initially scheduled.
@@ -35,7 +40,7 @@ public class RotateToColorScheduler extends CommandBase {
     if (m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateToColor(controlPanelSubsystem), "RotateToColor").schedule();
     } else {
-      new LogCommandWrapper(new RotateToColorSequence(controlPanelSubsystem), "RotateToColorSequence").schedule();
+      new LogCommandWrapper(new RotateToColorSequence(controlPanelSubsystem, driveTrain, driveBackSpeed), "RotateToColorSequence").schedule();
     }
   }
 

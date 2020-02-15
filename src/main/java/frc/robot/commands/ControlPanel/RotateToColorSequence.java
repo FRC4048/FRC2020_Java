@@ -9,6 +9,7 @@ package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,13 +18,14 @@ public class RotateToColorSequence extends SequentialCommandGroup {
   /**
    * Creates a new RotateToColorSequence.
    */
-  public RotateToColorSequence(ControlPanelSubsystem controlPanelSubsystem) {
+  public RotateToColorSequence(ControlPanelSubsystem controlPanelSubsystem, SixWheelDriveTrainSubsystem driveTrain, double driveBackSpeed) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(
       new MoveSolenoid(controlPanelSubsystem, true),
       new WaitForSensor(controlPanelSubsystem),
       new RotateToColor(controlPanelSubsystem),
+      new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(2),
       new MoveSolenoid(controlPanelSubsystem, false)
       );
   }

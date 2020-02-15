@@ -36,8 +36,8 @@ interface ConstantsTestbed {
     public static final int PDP_DRIVE_R2 = 1;
 
     //DIO
-    public static final int[] DRIVE_ENCODER_LEFT_ID = {6,7};
-    public static final int[] DRIVE_ENCODER_RIGHT_ID = {8,9};
+    public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};
+    public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
     public static final int CONTROL_PANEL_SENSOR_ID = 5;
     public static final int SLOT1_A_ID = 10;
     public static final int SLOT1_B_ID = 11;
@@ -72,6 +72,7 @@ interface ConstantsTestbed {
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
     public static final double CONTROL_PANEL_COLOR_SPEED = 0.5;
+    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.2;
     public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
 
     //OI
