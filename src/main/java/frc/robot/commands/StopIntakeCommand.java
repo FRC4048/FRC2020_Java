@@ -12,7 +12,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class StopIntakeCommand extends CommandBase {
   private IntakeSubsystem intakeSubsystem;
-  private boolean end;
 
   /**
    * Creates a new StopIntakeCommand.
@@ -27,7 +26,6 @@ public class StopIntakeCommand extends CommandBase {
   @Override
   public void initialize() {
     intakeSubsystem.retractPiston();
-    end = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +43,6 @@ public class StopIntakeCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return end;
+    return true;
   }
 }
