@@ -27,6 +27,12 @@ import frc.robot.commands.conveyorbelt.M2M3Command;
 import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.commands.conveyorbelt.StopMotors;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.MotorSpinIntake;
+import frc.robot.commands.StartIntakeCommand;
+import frc.robot.commands.StopIntakeCommand;
 import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
@@ -39,6 +45,7 @@ import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.TrajectoryBuilder;
@@ -66,6 +73,7 @@ public class RobotContainer {
   private WinchSubsystem winchSubsystem = new WinchSubsystem();
 
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
+  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   private Joystick joyLeft = new Joystick(0);
   private Joystick joyRight = new Joystick(1);
@@ -76,6 +84,9 @@ public class RobotContainer {
   private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
 
   public AutoChooser autoChooser = new AutoChooser();
+  private JoystickButton leftBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_LEFT_BUMPER);
+  private JoystickButton rightBumper = new JoystickButton(xboxController, Constants2020Robot.XBOX_RIGHT_BUMPER); 
+  
 
   private XboxController xboxController = new XboxController(2);
   private JoystickButton xBoxLeftStick = new JoystickButton(xboxController, Constants.XBOX_LEFT_STICK_PRESS);
@@ -106,6 +117,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+    leftBumper.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
+    leftBumper.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
+    leftBumper.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
+
 
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
 

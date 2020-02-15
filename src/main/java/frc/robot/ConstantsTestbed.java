@@ -50,8 +50,8 @@ interface ConstantsTestbed {
     public static final int SLOT5_B_ID = 19;
 
     //PCM
-    public static final int[] INTAKE_PISTON_ID = {0,1};
-    public static final int CLIMBER_PISTON_ID = 7;
+    public static final int[] INTAKE_PISTON_ID = {4,5};
+    public static final int CLIBMER_PISTON_ID = 2;
     public static final int DRIVETRAIN_GEARSWITCH_ID = 3;
     public static final int CONTROLPANEL_PISTON_ID = 4;
 
