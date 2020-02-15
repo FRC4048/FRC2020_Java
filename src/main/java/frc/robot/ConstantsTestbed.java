@@ -25,7 +25,7 @@ interface ConstantsTestbed {
     public static final int CONTROL_PANEL_CAN_ID = 5;
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;
-    public static final int STAGER_MOTOR_ID = 8;
+    public static final int TRANSFER_MOTOR_ID = 8;
     public static final int INTAKE_MOTOR_ID = 9;
     public static final int CLIMBER_ELEVATOR_ID = 11;
     public static final int CLIMBER_WINCH_ID = 12;
@@ -52,8 +52,8 @@ interface ConstantsTestbed {
     public static final int SLOT5_B_ID = 19;
 
     //PCM
-    public static final int[] INTAKE_PISTON_ID = {0,1};
-    public static final int CLIMBER_PISTON_ID = 7;
+    public static final int[] INTAKE_PISTON_ID = {4,5};
+    public static final int CLIMBER_PISTON_ID = 2;
     public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
     public static final int CONTROLPANEL_PISTON_ID = 4;
 
