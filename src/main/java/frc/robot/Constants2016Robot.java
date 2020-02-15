@@ -73,4 +73,8 @@ interface Constants2016Robot {
     public static final int XBOX_START_BUTTON = 8;
     public static final int XBOX_LEFT_STICK_PRESS = 9;
     public static final int XBOX_RIGHT_STICK_PRESS = 10;
+
+    //Inversion
+    public static final boolean DRIVE_RIGHT_INVERSION = false;
+    public static final boolean DRIVE_LEFT_INVERSION = true;
 }

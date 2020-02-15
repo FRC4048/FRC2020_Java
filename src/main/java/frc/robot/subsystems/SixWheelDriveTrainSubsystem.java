@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -41,14 +42,17 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
     leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1], true);
     rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1]);
-    navX = new AHRS(SPI.Port.kMXP);
+    navX = new AHRS(I2C.Port.kMXP);
 
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
-    left1.setInverted(true);
-    left2.setInverted(true);
+    left1.setInverted(Constants.DRIVE_LEFT_INVERSION);
+    left2.setInverted(Constants.DRIVE_LEFT_INVERSION);
+    right1.setInverted(Constants.DRIVE_RIGHT_INVERSION);
+    right2.setInverted(Constants.DRIVE_RIGHT_INVERSION);
+
 
     driveTrain = new DifferentialDrive(left1, right1);
 
@@ -67,8 +71,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
     // driveTrain.tankDrive(speedLeft, speedRight);
     //The joysticks are inverted so inverting this makes it drive correctly.
-    left1.set(-speedLeft);
-    right1.set(-speedRight);
+    left1.set(speedLeft);
+    right1.set(speedRight);
   }
 
   /**
@@ -84,7 +88,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * @return angle of robot between -180-180
    */
   public double getAngle() {
-    return Math.IEEEremainder(navX.getAngle(), 360) * -1;
+    return Math.IEEEremainder(navX.getAngle(), 360);
   }
 
   @Override
@@ -93,6 +97,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     //Updating the odemetry on regular basis
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
     SmartShuffleboard.put("Test", "Gyro", getAngle());
+    SmartShuffleboard.put("Test", "EncoderRight", rightEncoder.getDistance());
+    SmartShuffleboard.put("Test", "EncoderLeft", leftEncoder.getDistance());
   }
 
   /**

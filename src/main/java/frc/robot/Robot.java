@@ -8,6 +8,8 @@
 package frc.robot;
 
 import java.nio.file.Paths;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +33,12 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Diagnostics diagnostics;
+  private DigitalInput sensor1;
+  private DigitalInput sensor2;
+  private DigitalInput sensor3;
+  private DigitalInput sensor4;
+  private DigitalInput sensor5;
+  private DigitalInput sensor6;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -43,6 +51,12 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     diagnostics = new Diagnostics();
+    sensor1 = new DigitalInput(10);
+    sensor2 = new DigitalInput(11);
+    sensor3 = new DigitalInput(12);
+    sensor4 = new DigitalInput(13);
+    sensor5 = new DigitalInput(16);
+    sensor6 = new DigitalInput(15);
   }
 
   /**
@@ -61,6 +75,12 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Logging.instance().writeAllData();
+    SmartShuffleboard.put("SensorTest", "Sensor1", sensor1.get());
+    SmartShuffleboard.put("SensorTest", "Sensor2", sensor2.get());
+    SmartShuffleboard.put("SensorTest", "Sensor3", sensor3.get());
+    SmartShuffleboard.put("SensorTest", "Sensor4", sensor4.get());
+    SmartShuffleboard.put("SensorTest", "Sensor5", sensor5.get());
+    SmartShuffleboard.put("SensorTest", "Sensor6", sensor6.get());
   }
 
   /**
@@ -111,6 +131,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    
     
   }
 
