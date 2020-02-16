@@ -14,14 +14,16 @@ public class Drive extends CommandBase {
   private final SixWheelDriveTrainSubsystem driveTrain;
   private final DoubleSupplier leftSpeed;
   private final DoubleSupplier rightSpeed;
+  ControlPanelSubsystem controlPanelSubsystem;
 
   /**
    * Creates a new Drive.
    */
-  public Drive(SixWheelDriveTrainSubsystem driveTrain, DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
+  public Drive(SixWheelDriveTrainSubsystem driveTrain, ControlPanelSubsystem controlPanelSubsystem, DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
     this.leftSpeed = leftSpeed; 
     this.rightSpeed = rightSpeed;
     this.driveTrain = driveTrain;
+    this.controlPanelSubsystem = controlPanelSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
   }
@@ -29,6 +31,7 @@ public class Drive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.m_robotContainer.setDrivingEnabled(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,6 +53,10 @@ public class Drive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (!controlPanelSubsystem.controlPanelSensor() && controlPanelSubsystem.getPistonState() && !Robot.m_robotContainer.getManualOverride()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
