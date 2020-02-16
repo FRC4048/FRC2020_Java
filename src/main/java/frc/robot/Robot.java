@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                        m_robotContainer.autoChooser.getAction());
     Command autonomousCommand = m_robotContainer.getAutonomousCommand(getAutoCommand, m_robotContainer.autoChooser.getDelay());
-    Logging.instance().traceMessage(MessageLevel.INFORMATION, "AutoCommand is: " + autonomousCommand.toString());
+    Logging.instance().traceMessage(MessageLevel.INFORMATION, "AutoCommand is: " + getAutoCommand.toString() + " " + m_robotContainer.autoChooser.getDelay());
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }

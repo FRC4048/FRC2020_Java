@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import frc.robot.commands.Delay;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.CompressorSubsystem;
@@ -38,6 +37,7 @@ import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Robot;
 
@@ -149,28 +149,28 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
     case LEFT_DEPOSIT:
-      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
-                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2));
+      autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new WaitCommand(2));
       //delay(2) to be replaced with shoot
       break;
 
     case RIGHT_DEPOSIT:
-      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
-                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
+      autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new WaitCommand(2)).andThen(trajectoryCommands.get(1)).andThen(() 
                               -> driveTrain.tankDriveVolts(0, 0));
       //delay(2) to be replaced with shoot
       break;
 
     case MIDDLE_DEPOSIT:
-      autoCommand = new Delay(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
-                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(2)).andThen(trajectoryCommands.get(1)).andThen(() 
+      autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new WaitCommand(2)).andThen(trajectoryCommands.get(1)).andThen(() 
                               -> driveTrain.tankDriveVolts(0, 0));
       //delay(2) to be replaced with shoot
       break;
 
     case RIGHT_PICKUP:
-      autoCommand = new Delay(1).andThen(trajectoryCommands.get(0)).andThen(() 
-                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new Delay(1)).andThen(trajectoryCommands.get(1)).andThen(() 
+      autoCommand = new WaitCommand(1).andThen(trajectoryCommands.get(0)).andThen(() 
+                              -> driveTrain.tankDriveVolts(0, 0)).andThen(new WaitCommand(1)).andThen(trajectoryCommands.get(1)).andThen(() 
                               -> driveTrain.tankDriveVolts(0, 0)).andThen(trajectoryCommands.get(2)).andThen(() 
                               -> driveTrain.tankDriveVolts(0, 0));
       //delay(2) to be replaced with shoot
@@ -181,7 +181,7 @@ public class RobotContainer {
       break;
 
     case FEED_LEFT:
-      autoCommand = new Delay(autoChooser.getDelay()).andThen(new Delay(2)).andThen(trajectoryCommands.get(0)).andThen(()
+      autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(new WaitCommand(2)).andThen(trajectoryCommands.get(0)).andThen(()
                               -> driveTrain.tankDriveVolts(0, 0));
       break;
 
