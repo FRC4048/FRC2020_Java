@@ -46,6 +46,11 @@ public class RotateToColorSequence extends SequentialCommandGroup {
   }
 
   @Override
+  public void end(boolean interrupted) {
+
+  }
+
+  @Override
   public boolean isFinished() {
     if (controlPanelSubsystem.getWaitSensorTimeout()) {
       controlPanelSubsystem.movePiston(false);

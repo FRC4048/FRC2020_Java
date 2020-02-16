@@ -46,9 +46,18 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
   }
 
   @Override
-  public boolean isFinished() {
+  public void end(boolean interrupted) {
     if (controlPanelSubsystem.getWaitSensorTimeout()) {
       controlPanelSubsystem.movePiston(false);
+      super.end(true);
+    } else {
+      super.end(interrupted);
+    }
+  }
+
+  @Override
+  public boolean isFinished() {
+    if (controlPanelSubsystem.getWaitSensorTimeout()) {
       return true;
     } else {
       return super.isFinished();
