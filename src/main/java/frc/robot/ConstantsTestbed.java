@@ -77,6 +77,7 @@ interface ConstantsTestbed {
     public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.2;
     public static final double CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT = 6;
     public static final double CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT = 3;
+    public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;
     public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
 
     //OI

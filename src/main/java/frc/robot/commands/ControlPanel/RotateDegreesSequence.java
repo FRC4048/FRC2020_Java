@@ -20,10 +20,17 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
   /**
    * Creates a new RotateDegreesSequence.
    */
+  ControlPanelSubsystem controlPanelSubsystem;
+  SixWheelDriveTrainSubsystem driveTrain;
+  double driveBackSpeed;
   public RotateDegreesSequence(ControlPanelSubsystem controlPanelSubsystem, SixWheelDriveTrainSubsystem driveTrain, double degreesTurn, double driveBackSpeed, double speed) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-
+    this.controlPanelSubsystem = controlPanelSubsystem;
+    this.driveTrain = driveTrain;
+    this.driveBackSpeed = driveBackSpeed;
+    controlPanelSubsystem.setWaitSensorTimeout(false);
+    
     addCommands (
       new MoveSolenoid(controlPanelSubsystem, true),
       new WaitForSensor(controlPanelSubsystem),
@@ -31,5 +38,20 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
       new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(2),
       new MoveSolenoid(controlPanelSubsystem, false)
       );
+  }
+
+  @Override
+    public void initialize() {
+    super.initialize();
+  }
+
+  @Override
+  public boolean isFinished() {
+    if (controlPanelSubsystem.getWaitSensorTimeout()) {
+      controlPanelSubsystem.movePiston(false);
+      return true;
+    } else {
+      return super.isFinished();
+    } 
   }
 }

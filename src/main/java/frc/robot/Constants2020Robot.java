@@ -80,6 +80,7 @@ interface Constants2020Robot {
     public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.2;
     public static final double CONTROL_PANEL_ROTATE_DEGREES = 6;
     public static final double CONTROL_PANEL_ROTATE_TO_COLOR = 3;
+    public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;
     public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
 
     //OI

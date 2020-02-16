@@ -26,6 +26,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
     private final int TIMEOUT = 100;
+    private boolean sensorTimeout = false;
     private String gameDataColor;
 
     public ControlPanelSubsystem() {
@@ -79,6 +80,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
     public String fmsColor() {
         gameDataColor = DriverStation.getInstance().getGameSpecificMessage();
         return gameDataColor;
+    }
+
+    public boolean getWaitSensorTimeout() {
+        return sensorTimeout;
+    }
+
+    public void setWaitSensorTimeout(boolean timeout) {
+        sensorTimeout = timeout;
     }
 
     public void periodic() {

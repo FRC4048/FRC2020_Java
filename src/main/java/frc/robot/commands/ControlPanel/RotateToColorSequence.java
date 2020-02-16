@@ -7,6 +7,8 @@
 
 package frc.robot.commands.ControlPanel;
 
+import java.nio.channels.InterruptedByTimeoutException;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.drivetrain.MoveBackwards;
@@ -20,15 +22,36 @@ public class RotateToColorSequence extends SequentialCommandGroup {
   /**
    * Creates a new RotateToColorSequence.
    */
+  ControlPanelSubsystem controlPanelSubsystem;
+  SixWheelDriveTrainSubsystem driveTrain;
+  double driveBackSpeed;
   public RotateToColorSequence(ControlPanelSubsystem controlPanelSubsystem, SixWheelDriveTrainSubsystem driveTrain, double driveBackSpeed) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
+    this.controlPanelSubsystem = controlPanelSubsystem;
+    this.driveTrain = driveTrain;
+    this.driveBackSpeed = driveBackSpeed;
+
     addCommands(
       new MoveSolenoid(controlPanelSubsystem, true),
-      new WaitForSensor(controlPanelSubsystem),
+      new WaitForSensor(controlPanelSubsystem).withTimeout(Constants.CONTROL_PANEL_WAIT_SENSOR_TIMEOUT),
       new RotateToColor(controlPanelSubsystem).withTimeout(Constants.CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT),
       new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(2),
       new MoveSolenoid(controlPanelSubsystem, false)
       );
+  }
+  @Override
+    public void initialize() {
+    super.initialize();
+  }
+
+  @Override
+  public boolean isFinished() {
+    if (controlPanelSubsystem.getWaitSensorTimeout()) {
+      controlPanelSubsystem.movePiston(false);
+      return true;
+    } else {
+      return super.isFinished();
+    } 
   }
 }
