@@ -82,9 +82,6 @@ public class RobotContainer {
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
   }
 
-  public SixWheelDriveTrainSubsystem driveTrainGetter(){
-    return driveTrain;
-  }
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.
    * 
@@ -122,7 +119,7 @@ public class RobotContainer {
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
       break;
     case FEED_LEFT:
-      //feed
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(-1, 0, 180).build();
       break;
     case FEED_RIGHT:
       //feed
@@ -183,11 +180,10 @@ public class RobotContainer {
       autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
       break;
 
-    //case FEED_LEFT:
-      //delay
-      //reverse intake
-      //curve back right
-      //break;
+    case FEED_LEFT:
+      autoCommand = new Delay(autoChooser.getDelay()).andThen(new Delay(2)).andThen(trajectoryCommands.get(0)).andThen(()
+                              -> driveTrain.tankDriveVolts(0, 0));
+      break;
 
     //case FEED_RIGHT:
       //delay

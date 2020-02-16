@@ -40,8 +40,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
-    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1], true);
-    rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1]);
+    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1], Constants.ENCODER_LEFT_INVERSION);
+    rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], Constants.ENCODER_RIGHT_INVERSION);
     navX = new AHRS(I2C.Port.kMXP);
 
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
@@ -96,11 +96,9 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
-    SmartShuffleboard.put("Test", "Gyro", getAngle());
-    SmartShuffleboard.put("Test", "EncoderRight", rightEncoder.getDistance());
-    SmartShuffleboard.put("Test", "EncoderLeft", leftEncoder.getDistance());
+    resetGyro();
+    resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
   }
-
   /**
    * Returns the current pose of the robot
    * 
@@ -118,10 +116,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     rightEncoder.reset();
   }
 
-  public void encoderTest(){
-    SmartShuffleboard.put("Test", "EncoderLeft", leftEncoder.get());
-    SmartShuffleboard.put("Test", "EncoderRight", rightEncoder.get());
-  }
   /**
    * Resets the Ododemtry to a specified pose
    * 

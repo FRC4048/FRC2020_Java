@@ -83,4 +83,7 @@ interface Constants2020Robot {
 
     public static final boolean DRIVE_RIGHT_INVERSION = false;
     public static final boolean DRIVE_LEFT_INVERSION = false;
+
+    public static final boolean ENCODER_RIGHT_INVERSION = false;
+    public static final boolean ENCODER_LEFT_INVERSION = true;
 }
