@@ -49,6 +49,7 @@ import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
@@ -105,6 +106,8 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
+
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
   }
 
   /**

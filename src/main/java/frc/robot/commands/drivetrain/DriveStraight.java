@@ -8,15 +8,22 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 
 public class DriveStraight extends CommandBase {
   private SixWheelDriveTrainSubsystem drivetrain;
   private double distance;
   private double speed;
+  private double[] motorSpeeds;
   private double currDistance;
   private final double MIN_SPEED = 0.25;
-  private final double MAX_ERROR = 1; //The distance to start the pid calculation 
+  private final double MAX_SPEED = 0.8;
+  private final double SLOW_DOWN_DISTANCE = 1; //The distance to start the pid calculation 
+  private final double SPEEDUP_FACTOR = 0.1;
+
   /**
    * Creates a new DriveStraight.
    * @param distance the distance to drive in meters
@@ -34,14 +41,23 @@ public class DriveStraight extends CommandBase {
   @Override
   public void initialize() {
     drivetrain.resetEncoders();
-    currDistance = (drivetrain.getLeftEncoder() + drivetrain.getRightEncoder()) / 2;
+    currDistance = 0;
+    speed = Math.max(speed, MIN_SPEED);
+    speed = Math.min(speed, MAX_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     currDistance = Math.abs((drivetrain.getLeftEncoder() + drivetrain.getRightEncoder())/2);
-    drivetrain.drive(PIDCalc(speed), PIDCalc(speed), false);
+    double error = distance - currDistance;
+    motorSpeeds = PIDCalc(speed, error, drivetrain.getLeftEncoder(), drivetrain.getRightEncoder());
+    drivetrain.drive(motorSpeeds[0], motorSpeeds[1], false);
+    SmartShuffleboard.put("Drive", "Encoders", "Left", drivetrain.getLeftEncoder());
+    SmartShuffleboard.put("Drive", "Encoders", "Right", drivetrain.getRightEncoder());
+    SmartShuffleboard.put("Drive", "Speeds", "Speed", speed);
+    SmartShuffleboard.put("Drive", "Speeds", "Left", motorSpeeds[0]);
+    SmartShuffleboard.put("Drive", "Speeds", "Right", motorSpeeds[1]);
   }
 
   // Called once the command ends or is interrupted.
@@ -56,17 +72,27 @@ public class DriveStraight extends CommandBase {
     return Math.abs(currDistance) >= Math.abs(distance);
   }
 
-  public double PIDCalc(double speed) {
-    double error = distance - currDistance;
-    if(speed == 0) {
-      return 0;
-    } else if(error < MAX_ERROR) {
-      if (speed > 0) {
-        return (error/MAX_ERROR) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
-      }
-      return -((error/MAX_ERROR) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED); 
-    } else {
-      return speed;
+  public double[] PIDCalc(double speed, double distanceLeft, double leftEncoder, double rightEncoder) {
+    double[] speeds = {0,0};   // left speed, right speed
+    double speedupFactor = 1 + (leftEncoder - rightEncoder) * SPEEDUP_FACTOR;
+
+
+    if (speed != 0) {
+       if (distanceLeft < SLOW_DOWN_DISTANCE) {
+          if (speed > 0) {
+             speeds[0] = ((distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED) * speedupFactor;
+             speeds[1] = (distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
+          }
+          else {
+             speeds[0] = -((distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED) * speedupFactor;
+             speeds[1] = -((distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED); 
+          }
+       }
+       else {
+         speeds[0] = speed * speedupFactor;
+         speeds[1] = speed;
+       }
     }
+    return speeds;
   }
 }
