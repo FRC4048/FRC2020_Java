@@ -37,6 +37,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrain.
    */
   public SixWheelDriveTrainSubsystem() {
+    Exception ex = new Exception("Constructor");
+    ex.printStackTrace();
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
@@ -47,7 +49,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     navX = new AHRS(I2C.Port.kMXP);
     gearSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.DRIVE_TRAIN_GEARSWITCH_ID);
-
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
     

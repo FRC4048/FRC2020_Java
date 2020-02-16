@@ -30,7 +30,7 @@ import frc.robot.utils.logging.Logging;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
+  public static RobotContainer m_robotContainer;
   private Diagnostics diagnostics;
 
   /**
@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartShuffleboard.put("Driver", "MANUAL OVERRIDE ENABLED", m_robotContainer.getManualOverride());  
     Logging.instance().writeAllData();
   }
 
