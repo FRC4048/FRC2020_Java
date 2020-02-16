@@ -8,6 +8,7 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
@@ -26,7 +27,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
     addCommands (
       new MoveSolenoid(controlPanelSubsystem, true),
       new WaitForSensor(controlPanelSubsystem),
-      new RotateDegrees(controlPanelSubsystem, degreesTurn, speed),
+      new RotateDegrees(controlPanelSubsystem, degreesTurn, speed).withTimeout(Constants.CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT),
       new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(2),
       new MoveSolenoid(controlPanelSubsystem, false)
       );
