@@ -189,9 +189,9 @@ public class RobotContainer {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 1, 0).build();
       //Start where the last one ended and drive end up in the same place we started
-      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
+      // trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
       //Theoretically more trajectory objects could be added
       break;
     default:
@@ -209,7 +209,7 @@ public class RobotContainer {
     switch(autoOption){
     case CROSS_LINE:
       //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
-      autoCommand = trajectoryCommands.get(0).andThen(trajectoryCommands.get(1).andThen(() -> driveTrain.tankDriveVolts(0, 0)));
+      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
       break;
     default:
       autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
