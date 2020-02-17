@@ -39,8 +39,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrain.
    */
   public SixWheelDriveTrainSubsystem() {
-    Exception ex = new Exception("Constructor");
-    ex.printStackTrace();
+    // Exception ex = new Exception("Constructor");
+    // ex.printStackTrace();
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
@@ -62,8 +62,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     leftEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
 
-    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
-    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
+    Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
+    Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
   }
 
   /**

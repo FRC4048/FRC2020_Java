@@ -34,8 +34,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
         controlPanelMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
         controlPanelMotor.setNeutralMode(NeutralMode.Brake);
 
-        Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagColorSensor("Control Panel Color Sensor", colorSensor));
-        Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Control Panel Optical Sensor", opticalSensor));
+        Robot.getDiagnostics().addDiagnosable(new DiagColorSensor("Control Panel Color Sensor", colorSensor));
+        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Control Panel Optical Sensor", opticalSensor));
     }
 
     public boolean getPistonState() {

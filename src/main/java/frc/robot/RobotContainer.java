@@ -75,7 +75,6 @@ public class RobotContainer {
   private final WinchSubsystem winchSubsystem = new WinchSubsystem();
   public final PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final Diagnostics diagnostics = new Diagnostics();
 
   private boolean drivingEnabled = true;
   private boolean manualOverride = false;
@@ -229,7 +228,4 @@ public class RobotContainer {
     return autoCommand;
   }
 
-  public Diagnostics getDiagnostics() {
-    return diagnostics;
-  }
 }

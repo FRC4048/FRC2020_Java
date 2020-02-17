@@ -41,10 +41,10 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     slot2A = new DigitalInput(Constants.SLOT2_A_ID);
     slot2B = new DigitalInput(Constants.SLOT2_B_ID);
-    slot3A = new DigitalInput(Constants.SLOT2_A_ID);
-    slot3B = new DigitalInput(Constants.SLOT2_B_ID);
-    slot4A = new DigitalInput(Constants.SLOT2_A_ID);
-    slot4B = new DigitalInput(Constants.SLOT2_B_ID);
+    slot3A = new DigitalInput(Constants.SLOT3_A_ID);
+    slot3B = new DigitalInput(Constants.SLOT3_B_ID);
+    slot4A = new DigitalInput(Constants.SLOT4_A_ID);
+    slot4B = new DigitalInput(Constants.SLOT4_B_ID);
 
     slot2 = new DigitalInputGroup(slot2A, slot2B);
     slot3 = new DigitalInputGroup(slot3A, slot3B);

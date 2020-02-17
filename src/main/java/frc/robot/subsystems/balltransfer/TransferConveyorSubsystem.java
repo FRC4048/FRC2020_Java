@@ -36,8 +36,8 @@ public class TransferConveyorSubsystem extends SubsystemBase {
         slot5 = new DigitalInputGroup(slot5A, slot5B);
         //slot5 = new DigitalInput(5);
 
-        Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor A", slot5A));
-        Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor B", slot5B));
+        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor A", slot5A));
+        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor B", slot5B));
     }
 
     public void periodic() {

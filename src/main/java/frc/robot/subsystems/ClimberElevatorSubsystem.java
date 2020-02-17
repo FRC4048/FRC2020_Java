@@ -43,8 +43,8 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
     climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
-    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Forward Switch", climberMotor, Direction.FORWARD));
-    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Reverse Switch", climberMotor, Direction.REVERSE));
+    Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Forward Switch", climberMotor, Direction.FORWARD));
+    Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Reverse Switch", climberMotor, Direction.REVERSE));
   }
 
   public void setClimber(double speed) {
