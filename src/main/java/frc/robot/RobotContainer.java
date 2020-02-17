@@ -108,6 +108,8 @@ public class RobotContainer {
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
 
     SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
   }
 
   /**

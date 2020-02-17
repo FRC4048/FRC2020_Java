@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.SmartShuffleboard;
 
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
@@ -98,6 +99,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
+    SmartShuffleboard.put("Drive", "Encoders", "L", getLeftEncoderRaw());
+    SmartShuffleboard.put("Drive", "Encoders", "R", getRightEncoderRaw());
   }
 
   /**
@@ -154,12 +157,20 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     gearSolenoid.set(state);
   }
 
-  public double getLeftEncoder() {
+  public double getLeftEncoderDistance() {
     return leftEncoder.getDistance();
   }
 
-  public double getRightEncoder() {
+  public double getRightEncoderDistance() {
     return rightEncoder.getDistance();
+  }
+
+  public int getLeftEncoderRaw() {
+    return leftEncoder.getRaw();
+  }
+
+  public int getRightEncoderRaw() {
+    return rightEncoder.getRaw();
   }
 }
 

@@ -22,7 +22,8 @@ public class DriveStraight extends CommandBase {
   private final double MIN_SPEED = 0.25;
   private final double MAX_SPEED = 0.8;
   private final double SLOW_DOWN_DISTANCE = 1; //The distance to start the pid calculation 
-  private final double SPEEDUP_FACTOR = 0.1;
+  private final double SPEEDUP_FACTOR = 15; // % to increase speed
+  private final double ENCODERE_ERROR_THRESHOLD = 10;
 
   /**
    * Creates a new DriveStraight.
@@ -49,15 +50,15 @@ public class DriveStraight extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currDistance = Math.abs((drivetrain.getLeftEncoder() + drivetrain.getRightEncoder())/2);
-    double error = distance - currDistance;
-    motorSpeeds = PIDCalc(speed, error, drivetrain.getLeftEncoder(), drivetrain.getRightEncoder());
+    currDistance = Math.abs((drivetrain.getLeftEncoderDistance() + drivetrain.getRightEncoderDistance())/2);
+    double DistanceError = distance - currDistance;
+    motorSpeeds = PIDCalc(speed, DistanceError, drivetrain.getLeftEncoderRaw(), drivetrain.getRightEncoderRaw());
     drivetrain.drive(motorSpeeds[0], motorSpeeds[1], false);
-    SmartShuffleboard.put("Drive", "Encoders", "Left", drivetrain.getLeftEncoder());
-    SmartShuffleboard.put("Drive", "Encoders", "Right", drivetrain.getRightEncoder());
+    SmartShuffleboard.put("Drive", "Encoders", "Left", drivetrain.getLeftEncoderRaw());
+    SmartShuffleboard.put("Drive", "Encoders", "Right", drivetrain.getRightEncoderRaw());
     SmartShuffleboard.put("Drive", "Speeds", "Speed", speed);
-    SmartShuffleboard.put("Drive", "Speeds", "Left", motorSpeeds[0]);
-    SmartShuffleboard.put("Drive", "Speeds", "Right", motorSpeeds[1]);
+    SmartShuffleboard.put("Drive", "Speeds", "LeftS", motorSpeeds[0]);
+    SmartShuffleboard.put("Drive", "Speeds", "RightS", motorSpeeds[1]);
   }
 
   // Called once the command ends or is interrupted.
@@ -72,25 +73,34 @@ public class DriveStraight extends CommandBase {
     return Math.abs(currDistance) >= Math.abs(distance);
   }
 
-  public double[] PIDCalc(double speed, double distanceLeft, double leftEncoder, double rightEncoder) {
+  public double[] PIDCalc(double speed, double distanceError, double leftEncoder, double rightEncoder) {
     double[] speeds = {0,0};   // left speed, right speed
-    double speedupFactor = 1 + (leftEncoder - rightEncoder) * SPEEDUP_FACTOR;
-
+    double speedupFactor = 1;
+    double encoderError =  Math.abs(leftEncoder - rightEncoder);
+    if (encoderError > ENCODERE_ERROR_THRESHOLD) {
+      speedupFactor = 1 + SPEEDUP_FACTOR/100;
+    }
+    SmartShuffleboard.put("Drive", "Speeds", "speed up", speedupFactor);
 
     if (speed != 0) {
-       if (distanceLeft < SLOW_DOWN_DISTANCE) {
+       if (distanceError < SLOW_DOWN_DISTANCE) {
           if (speed > 0) {
-             speeds[0] = ((distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED) * speedupFactor;
-             speeds[1] = (distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
+             speeds[0] = (distanceError/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
+             speeds[1] = (distanceError/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
           }
           else {
-             speeds[0] = -((distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED) * speedupFactor;
-             speeds[1] = -((distanceLeft/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED); 
+             speeds[0] = -((distanceError/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED);
+             speeds[1] = -((distanceError/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED); 
           }
        }
        else {
-         speeds[0] = speed * speedupFactor;
+         speeds[0] = speed;
          speeds[1] = speed;
+       }
+       if (leftEncoder > rightEncoder) {
+          speeds[1] *= speedupFactor;
+       } else if (rightEncoder > leftEncoder) {
+          speeds[0] *= speedupFactor;
        }
     }
     return speeds;
