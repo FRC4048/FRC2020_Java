@@ -54,11 +54,11 @@ public class DriveStraight extends CommandBase {
     double DistanceError = distance - currDistance;
     motorSpeeds = PIDCalc(speed, DistanceError, drivetrain.getLeftEncoderRaw(), drivetrain.getRightEncoderRaw());
     drivetrain.drive(motorSpeeds[0], motorSpeeds[1], false);
-    SmartShuffleboard.put("Drive", "Encoders", "Left", drivetrain.getLeftEncoderRaw());
-    SmartShuffleboard.put("Drive", "Encoders", "Right", drivetrain.getRightEncoderRaw());
-    SmartShuffleboard.put("Drive", "Speeds", "Speed", speed);
-    SmartShuffleboard.put("Drive", "Speeds", "LeftS", motorSpeeds[0]);
-    SmartShuffleboard.put("Drive", "Speeds", "RightS", motorSpeeds[1]);
+    if (Constants.ENABLE_DEBUG) {
+       SmartShuffleboard.put("Drive", "Speeds", "Speed", speed);
+       SmartShuffleboard.put("Drive", "Speeds", "LeftS", motorSpeeds[0]);
+       SmartShuffleboard.put("Drive", "Speeds", "RightS", motorSpeeds[1]);
+    }
   }
 
   // Called once the command ends or is interrupted.

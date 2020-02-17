@@ -12,14 +12,13 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 /**
  * Add your docs here.
  */
 public class ColorSensor {
-    public enum ColorValue {RED, YELLOW, GREEN, BLUE, UNKOWN};
+    public enum ColorValue {RED, YELLOW, GREEN, BLUE, UNKNOWN};
 
     //Accurate measurments for up to 2.5 inches
     private static final Color BLUE_TARGET = ColorMatch.makeColor(0.135, 0.461, 0.404);
@@ -49,7 +48,7 @@ public class ColorSensor {
         ColorMatchResult match = m_colorMatcher.matchColor(detectedColor);
 
         if (match == null){
-            return ColorValue.UNKOWN;
+            return ColorValue.UNKNOWN;
         } 
         if (match.color == BLUE_TARGET) {
             return ColorValue.BLUE;
@@ -60,7 +59,7 @@ public class ColorSensor {
           } else if (match.color == YELLOW_TARGET) {
             return ColorValue.YELLOW;
           } else {
-              return ColorValue.UNKOWN;
+              return ColorValue.UNKNOWN;
           }
     }
 }

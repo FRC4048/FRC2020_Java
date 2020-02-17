@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.PowerDistPanel;
+import frc.robot.commands.ControlPanel.*;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -44,11 +45,10 @@ import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
-import frc.robot.subsystems.WinchSubsystem;
-import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -65,30 +65,41 @@ import frc.robot.commands.conveyorbelt.ShootBalls;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
   // The robot's subsystems and commands are defined here...
   private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
   private final ShooterSubsystem shooterSubsystem =  new ShooterSubsystem();
+  private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
+  private boolean drivingEnabled = true;
+  private boolean manualOverride = false;
+
   private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
   private WinchSubsystem winchSubsystem = new WinchSubsystem();
 
   public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
   private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-  private Joystick joyLeft = new Joystick(0);
-  private Joystick joyRight = new Joystick(1);
+  private static Joystick joyLeft = new Joystick(0);
+  private static Joystick joyRight = new Joystick(1);
   private Joystick controller = new Joystick(2);
   private XboxController xboxController = new XboxController(2);
 
-  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft,1); //TODO: change this based on what we use
+  private JoystickButton driverMarkPlace = new JoystickButton(joyLeft, 1); // TODO: change this based on what we use
   private JoystickButton gearSwitchLowSpeed = new JoystickButton(joyLeft, 6);
   private JoystickButton gearSwitchHighSpeed = new JoystickButton(joyRight, 11);
 
   public AutoChooser autoChooser = new AutoChooser();
+  private JoystickButton buttonX = new JoystickButton(controller, Constants.XBOX_X_BUTTON); // Button X is the control
+                                                                                            // panel rotate to position
+  private JoystickButton buttonA = new JoystickButton(controller, Constants.XBOX_A_BUTTON);
+  private JoystickButton buttonY = new JoystickButton(controller, Constants.XBOX_Y_BUTTON);
+  private JoystickButton buttonB = new JoystickButton(controller, Constants.XBOX_B_BUTTON);
+
   private JoystickButton intakeBalls = new JoystickButton(controller, Constants.XBOX_LEFT_BUMPER);
-  
+
   private JoystickButton xBoxLeftStick = new JoystickButton(controller, Constants.XBOX_LEFT_STICK_PRESS);
   private JoystickButton xBoxRightStick = new JoystickButton(controller, Constants.XBOX_RIGHT_STICK_PRESS);
 
@@ -99,8 +110,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
     autoChooser.addOptions();
-    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));  
+    driveTrain.setDefaultCommand(new Drive(driveTrain, () -> joyLeft.getY(), () -> joyRight.getY()));
     conveyorSubsystem.setDefaultCommand(new StateDetector(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem));
+    controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
+
     // Configure the button bindings
     configureButtonBindings();
     autoChooser.initialize();
@@ -110,6 +123,36 @@ public class RobotContainer {
     SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
     SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
     SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
+  }
+
+  private double getXBoxRightJoyX() {
+    return controller.getX(GenericHID.Hand.kRight);
+  }
+
+  public void setDrivingEnabled(boolean mode) {
+    drivingEnabled = mode;
+  }
+
+  public boolean getDrivingEnabled() {
+    return drivingEnabled;
+  }
+
+  public static void doRumble() {
+    joyLeft.setRumble(GenericHID.RumbleType.kLeftRumble, 1);
+		joyRight.setRumble(GenericHID.RumbleType.kRightRumble, 1);
+  }
+
+  public void stopRumble() {
+    joyLeft.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+    joyRight.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+  }
+
+  public void setManualOverride(boolean mode) {
+    manualOverride = mode;
+  }
+
+  public boolean getManualOverride() {
+    return manualOverride;
   }
 
   /**
@@ -126,6 +169,16 @@ public class RobotContainer {
     intakeBalls.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
 
 
+    SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleSolenoid(controlPanelSubsystem));
+    SmartShuffleboard.putCommand("Control Panel", "RotateClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "RotateCountrerClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, -Constants.CONTROL_PANEL_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "Color Rotate", new RotateToColor(controlPanelSubsystem));
+    SmartShuffleboard.putCommand("Driver", "MANUAL OVERRIDE", new LogCommandWrapper(new ManualOverride(), "ManualOverride"));
+    buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
+    buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "Sequence Rotate", new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    SmartShuffleboard.putCommand("Control Panel", "Go Backwards", new MoveBackwards(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED).withTimeout(2));
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
 
     Command gearSwitchLow = new GearSwitch(driveTrain, true);
@@ -133,7 +186,7 @@ public class RobotContainer {
 
     Command gearSwitchHigh = new GearSwitch(driveTrain, false);
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
-    
+
     shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem))); //This will start the motors at full speed when pressed down
     shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors")); //This will stop the motors once the button is released
 
