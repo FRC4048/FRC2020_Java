@@ -39,7 +39,7 @@ public class ShootBalls extends CommandBase {
   @Override
   public void execute() {
     conveyorSubsystem.moveConveyor(1); 
-    shooterSubsystem.moveShooter(0.5);
+    shooterSubsystem.moveShooter(1);
     transferConveyorSubsystem.moveTransfer(1); 
   }
 

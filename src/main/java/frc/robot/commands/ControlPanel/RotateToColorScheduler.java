@@ -37,7 +37,7 @@ public class RotateToColorScheduler extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_robotContainer.getManualOverride()) {
+    if (Robot.m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateToColor(controlPanelSubsystem), "RotateToColor").schedule();
     } else {
       new LogCommandWrapper(new RotateToColorSequence(controlPanelSubsystem, driveTrain, driveBackSpeed), "RotateToColorSequence").schedule();

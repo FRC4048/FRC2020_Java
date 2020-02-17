@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.balltransfer;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMax;
@@ -41,6 +42,7 @@ public class ShooterSubsystem extends SubsystemBase {
     slot1 = new DigitalInputGroup(slot1A, slot1B);
 //    slot1 = new DigitalInput(1);
     shooterMotor.setInverted(true);
+    shooterMotor.setNeutralMode(NeutralMode.Brake);
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor A", slot1A));
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor B", slot1B));
   }
