@@ -110,12 +110,14 @@ public class Robot extends TimedRobot {
                                                        m_robotContainer.autoChooser.getAction());
     Command autonomousCommand = m_robotContainer.getAutonomousCommand(getAutoCommand, m_robotContainer.autoChooser.getDelay());
     Logging.instance().traceMessage(MessageLevel.INFORMATION, "AutoCommand is: " + getAutoCommand.toString() + " " + m_robotContainer.autoChooser.getDelay());
+    
+    m_robotContainer.driveTrainGetter().resetGyro();
+    m_robotContainer.driveTrainGetter().resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
-    m_robotContainer.driveTrainGetter().resetGyro();;
-    m_robotContainer.driveTrainGetter().resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
   }
+
 
   /**
    * This function is called periodically during autonomous.

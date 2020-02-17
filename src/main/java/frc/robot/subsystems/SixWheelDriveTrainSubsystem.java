@@ -88,7 +88,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * @return angle of robot between -180-180
    */
   public double getAngle() {
-    return Math.IEEEremainder(navX.getAngle(), 360);
+    return Math.IEEEremainder(navX.getAngle(), 360) * -1;
   }
 
   @Override
@@ -96,8 +96,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
     driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
-    SmartShuffleboard.put("Test", "EncoderLeft", leftEncoder.getDistance());
-    SmartShuffleboard.put("Test", "EncoderRight", rightEncoder.getDistance());
   }
   /**
    * Returns the current pose of the robot

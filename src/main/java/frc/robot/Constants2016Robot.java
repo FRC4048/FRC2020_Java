@@ -9,10 +9,10 @@ interface Constants2016Robot {
     
     //CAN ID
     public static final int PDP_CAN_ID = 0;
-    public static final int MOTOR_LEFT1_ID = 3;
-    public static final int MOTOR_LEFT2_ID = 4;
-    public static final int MOTOR_RIGHT1_ID = 1;
-    public static final int MOTOR_RIGHT2_ID = 2;
+    public static final int MOTOR_LEFT1_ID = 1;
+    public static final int MOTOR_LEFT2_ID = 2;
+    public static final int MOTOR_RIGHT1_ID = 3;
+    public static final int MOTOR_RIGHT2_ID = 4;
     public static final int CONTROL_PANEL_CAN_ID = 5;
     public static final int SHOOTER_MOTOR_ID = 6;
     public static final int CONVEYOR_MOTOR_ID = 7;
@@ -75,8 +75,8 @@ interface Constants2016Robot {
     public static final int XBOX_RIGHT_STICK_PRESS = 10;
 
     //Inversion
-    public static final boolean DRIVE_RIGHT_INVERSION = false;
-    public static final boolean DRIVE_LEFT_INVERSION = true;
+    public static final boolean DRIVE_RIGHT_INVERSION = true;
+    public static final boolean DRIVE_LEFT_INVERSION = false;
 
     public static final boolean ENCODER_RIGHT_INVERSION = true;
     public static final boolean ENCODER_LEFT_INVERSION = false;
