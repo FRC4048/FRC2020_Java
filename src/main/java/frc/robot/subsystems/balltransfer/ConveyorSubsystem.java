@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utils.DigitalInputGroup;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.logging.Logging;
 
 public class ConveyorSubsystem extends SubsystemBase {
@@ -50,6 +52,12 @@ public class ConveyorSubsystem extends SubsystemBase {
     slot3 = new DigitalInputGroup(slot3A, slot3B);
     slot4 = new DigitalInputGroup(slot4A, slot4B);
     
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot2 Optical Sensor A", slot2A));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot2 Optical Sensor B", slot2B));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot3 Optical Sensor A", slot3A));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot3 Optical Sensor B", slot3B));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot4 Optical Sensor A", slot4A));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot4 Optical Sensor B", slot4B));
   }
 
   @Override

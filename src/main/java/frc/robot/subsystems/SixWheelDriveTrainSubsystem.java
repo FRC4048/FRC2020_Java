@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.utils.diag.DiagEncoder;
+import frc.robot.utils.diag.DiagNavX;
 
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
@@ -39,8 +40,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrain.
    */
   public SixWheelDriveTrainSubsystem() {
-    // Exception ex = new Exception("Constructor");
-    // ex.printStackTrace();
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
@@ -64,6 +63,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
+    Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));
   }
 
   /**
