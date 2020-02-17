@@ -48,6 +48,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
+import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -69,15 +70,14 @@ public class RobotContainer {
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
   private final ShooterSubsystem shooterSubsystem =  new ShooterSubsystem();
-  private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
+  private final ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
+  private final ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
+  private final WinchSubsystem winchSubsystem = new WinchSubsystem();
+  public final PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
   private boolean drivingEnabled = true;
   private boolean manualOverride = false;
-
-  private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
-  private WinchSubsystem winchSubsystem = new WinchSubsystem();
-
-  public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
-  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   private static Joystick joyLeft = new Joystick(0);
   private static Joystick joyRight = new Joystick(1);
@@ -227,4 +227,5 @@ public class RobotContainer {
     }
     return autoCommand;
   }
+
 }
