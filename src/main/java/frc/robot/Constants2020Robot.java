@@ -37,6 +37,7 @@ interface Constants2020Robot {
     public static final int PDP_DRIVE_L2 = 15;
     public static final int PDP_DRIVE_R1 = 0;
     public static final int PDP_DRIVE_R2 = 1;
+    public static final int PDP_ELEVATOR = 8;
 
 
     //DIO
