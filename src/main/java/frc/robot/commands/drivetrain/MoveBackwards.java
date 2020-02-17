@@ -34,7 +34,7 @@ public class MoveBackwards extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive(-driveBackSpeed, -driveBackSpeed);    
+    driveTrain.drive(driveBackSpeed, driveBackSpeed); //It was driving forwards so we got rid of - to make it drive backwards    
   }
 
   // Called once the command ends or is interrupted.
