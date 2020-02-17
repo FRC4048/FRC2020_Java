@@ -19,6 +19,7 @@ public class AutoChooser {
     private SendableChooser<Position> positionChooser;
     private SendableChooser<Action> actionChooser;
     private NetworkTableEntry delayEntry;
+    AutoCommand autonomousCommand;
     //position at beginning of match
     enum Position{
         MIDDLE, LEFT, RIGHT;
@@ -32,11 +33,11 @@ public class AutoChooser {
         LEFT_DEPOSIT, RIGHT_DEPOSIT, MIDDLE_DEPOSIT, RIGHT_PICKUP,
         DO_NOTHING, CROSS_LINE, FEED_LEFT, FEED_RIGHT;
     }
-
-
+ 
     public AutoChooser(){
         positionChooser = new SendableChooser<Position>();
         actionChooser = new SendableChooser<Action>();
+        AutoCommand autonomousCommand = getAutonomousCommand(getPosition(), getAction());
     }
     public void addOptions(){
         positionChooser.addOption(Position.LEFT.name(), Position.LEFT);
@@ -55,24 +56,28 @@ public class AutoChooser {
         tab.add("Autonomous Action", actionChooser);
         delayEntry = tab.add("Delay", 0).getEntry();
     }
-    public void print(){
-        System.out.println(positionChooser.getSelected());
-        System.out.println(actionChooser.getSelected());
-    }
 
     public Action getAction(){
-        return actionChooser.getSelected();
+        if(actionChooser.getSelected() != null){
+            return actionChooser.getSelected();
+        } else{
+            return Action.DO_NOTHING;
+        }
     }
 
     public Position getPosition(){
-        return positionChooser.getSelected();
+        if(positionChooser.getSelected() != null){
+            return positionChooser.getSelected();
+        } else{
+            return Position.MIDDLE;
+        }
     }
-   
+
     public int getDelay(){
         int delay = delayEntry.getNumber(0).intValue();
-        if(getAutonomousCommand(getPosition(), getAction()) == AutoCommand.DO_NOTHING
-            || getAutonomousCommand(getPosition(), getAction()) == AutoCommand.RIGHT_PICKUP 
-            || getAutonomousCommand(getPosition(), getAction()) == AutoCommand.CROSS_LINE){
+        if(autonomousCommand == AutoCommand.DO_NOTHING
+            || autonomousCommand == AutoCommand.RIGHT_PICKUP 
+            || autonomousCommand == AutoCommand.CROSS_LINE){
             return 0;
         }
         if(delay <= 6 && delay > 0){

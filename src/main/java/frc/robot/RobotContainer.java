@@ -82,6 +82,9 @@ public class RobotContainer {
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
   }
 
+  public SixWheelDriveTrainSubsystem driveTrainGetter(){
+    return driveTrain;
+  }
   /**
    * Takes the auto mode and converts it into a command/commandgroup that will be run.
    * 

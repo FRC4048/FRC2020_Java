@@ -77,4 +77,7 @@ interface Constants2016Robot {
     //Inversion
     public static final boolean DRIVE_RIGHT_INVERSION = false;
     public static final boolean DRIVE_LEFT_INVERSION = true;
+
+    public static final boolean ENCODER_RIGHT_INVERSION = true;
+    public static final boolean ENCODER_LEFT_INVERSION = false;
 }

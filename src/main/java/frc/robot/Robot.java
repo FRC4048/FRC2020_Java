@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
+    diagnostics = new Diagnostics();
   }
 
   /**
@@ -78,9 +80,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
+    if (m_robotContainer.autoChooser.getPosition() != null && m_robotContainer.autoChooser.getAction() != null){
+      frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                        m_robotContainer.autoChooser.getAction());
-    SmartShuffleboard.put("Driver", "Chosen Command:", getAutoCommand.name() +": " + m_robotContainer.autoChooser.getDelay());
+      SmartShuffleboard.put("Driver", "Chosen Command:", getAutoCommand.name() +": " + m_robotContainer.autoChooser.getDelay());
+    }
   }
 
   /**
@@ -109,6 +113,8 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
+    m_robotContainer.driveTrainGetter().resetGyro();;
+    m_robotContainer.driveTrainGetter().resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
   }
 
   /**
