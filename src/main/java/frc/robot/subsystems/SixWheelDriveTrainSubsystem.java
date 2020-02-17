@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.utils.diag.DiagEncoder;
 
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
@@ -59,6 +61,9 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     leftEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
+
+    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
+    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
   }
 
   /**

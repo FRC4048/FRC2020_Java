@@ -25,7 +25,7 @@ public class DiagColorSensor implements Diagnosable {
     private NetworkTableEntry networkTableEntry;
     private Map<ColorSensor.ColorValue, Boolean> colorMap;
 
-    public DiagColorSensor(ColorSensor colorsensor, String name) {
+    public DiagColorSensor(String name, ColorSensor colorsensor) {
         this.name = name;
         this.colorsensor = colorsensor;
         colorMap = new HashMap<ColorSensor.ColorValue, Boolean>();

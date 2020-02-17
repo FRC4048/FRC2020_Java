@@ -13,12 +13,16 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utils.DigitalInputGroup;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.logging.Logging;
 
 public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonSRX shooterMotor;
+  private DigitalInput slot1A;
+  private DigitalInput slot1B;
   private static DigitalInputGroup slot1;
 //  private static DigitalInput slot1;
 
@@ -27,8 +31,13 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public ShooterSubsystem() {
     shooterMotor = new WPI_TalonSRX(Constants.SHOOTER_MOTOR_ID);
-    slot1 = new DigitalInputGroup(new DigitalInput(Constants.SLOT1_A_ID), new DigitalInput(Constants.SLOT1_B_ID));
+    slot1A = new DigitalInput(Constants.SLOT1_A_ID);
+    slot1B = new DigitalInput(Constants.SLOT1_B_ID);
+    slot1 = new DigitalInputGroup(slot1A, slot1B);
 //    slot1 = new DigitalInput(1);
+
+    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor A", slot1A));
+    Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor B", slot1B));
   }
 
   @Override

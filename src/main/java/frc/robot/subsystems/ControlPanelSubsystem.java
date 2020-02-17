@@ -15,6 +15,8 @@ import frc.robot.RobotContainer;
 import frc.robot.utils.ColorSensor;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.ColorSensor.ColorValue;
+import frc.robot.utils.diag.DiagColorSensor;
+import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.logging.Logging;
 
 import java.util.HashMap;
@@ -31,6 +33,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
     public ControlPanelSubsystem() {
         controlPanelMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
         controlPanelMotor.setNeutralMode(NeutralMode.Brake);
+
+        Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagColorSensor("Control Panel Color Sensor", colorSensor));
+        Robot.m_robotContainer.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Control Panel Optical Sensor", opticalSensor));
     }
 
     public boolean getPistonState() {
