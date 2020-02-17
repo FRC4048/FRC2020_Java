@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.conveyorbelt.M2M3Command;
+import frc.robot.commands.conveyorbelt.ShootBallAuto;
 import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.commands.conveyorbelt.StopMotors;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -52,6 +53,7 @@ import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.conveyorbelt.ShootBalls;
 
@@ -144,6 +146,10 @@ public class RobotContainer {
     manualOverride = mode;
   }
 
+  public SixWheelDriveTrainSubsystem driveTrainGetter(){
+    return driveTrain;
+  }
+
   public boolean getManualOverride() {
     return manualOverride;
   }
@@ -181,18 +187,33 @@ public class RobotContainer {
    * @param autoOption the enum of the auto running
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption) {
+  public Command getAutonomousCommand(AutoChooser.AutoCommand autoOption, int autoDelay) {
     Trajectory[] trajectory = new Trajectory[10]; //Arbitrary number to allow as many as we want can add more if needed
     Command autoCommand; //Command that will actuall be returned in this method
     //Set up trajectories
     switch(autoOption) {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
+    case LEFT_DEPOSIT:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -3.1242, 0).build();
+      break;
+    case MIDDLE_DEPOSIT:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -1.72085, 0).build();
+      break;
+    case RIGHT_DEPOSIT:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, 0, 0).build();
+      break;
+    case RIGHT_PICKUP:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(7.991602, -1.699514, 0).build();
+      break;
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 1, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(1, 0, 0).build();
       //Start where the last one ended and drive end up in the same place we started
       // trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
       //Theoretically more trajectory objects could be added
+      break;
+    case DO_NOTHING:
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build();
       break;
     default:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
@@ -207,13 +228,36 @@ public class RobotContainer {
 
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
-    case CROSS_LINE:
-      //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
-      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
-      break;
-    default:
-      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
-      break;
+      case LEFT_DEPOSIT:
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+          -> driveTrain.tankDriveVolts(0, 0)).andThen(
+          new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
+        break;
+
+      case MIDDLE_DEPOSIT:
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+          -> driveTrain.tankDriveVolts(0, 0)).andThen(
+          new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
+        break;
+
+      case RIGHT_DEPOSIT:
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+          -> driveTrain.tankDriveVolts(0, 0)).andThen(
+          new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
+          break;
+
+      case CROSS_LINE:
+        //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
+        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        break;
+
+      case DO_NOTHING:
+        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        break;
+        
+      default:
+        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        break;
     }
     return autoCommand;
   }

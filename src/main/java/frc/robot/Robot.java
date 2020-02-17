@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
+import frc.robot.utils.logging.Logging.MessageLevel;
 
 
 /**
@@ -99,9 +102,14 @@ public class Robot extends TimedRobot {
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                        m_robotContainer.autoChooser.getAction());
-     if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
-       m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
-     }
+    Command autonomousCommand = m_robotContainer.getAutonomousCommand(getAutoCommand, m_robotContainer.autoChooser.getDelay());
+    Logging.instance().traceMessage(MessageLevel.INFORMATION, "AutoCommand is: " + getAutoCommand.toString() + " " + m_robotContainer.autoChooser.getDelay());
+    
+    m_robotContainer.driveTrainGetter().resetGyro();
+    m_robotContainer.driveTrainGetter().resetOdodemtry(new Pose2d(0, 0, new Rotation2d(0)));
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    }
   }
 
   /**
