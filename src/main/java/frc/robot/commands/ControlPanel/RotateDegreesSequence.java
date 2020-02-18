@@ -28,7 +28,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
 
     addCommands (
       new MoveSolenoid(controlPanelSubsystem, Value.kForward),
-      new WaitCommand(0.5);
+      new WaitCommand(0.5),
       new MoveSolenoid(controlPanelSubsystem, Value.kOff),
       new WaitForSensor(controlPanelSubsystem),
       new SetDrivingEnabled(false),
