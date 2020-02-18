@@ -27,6 +27,7 @@ public class RotateToColorSequence extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     addCommands(
       new MoveSolenoid(controlPanelSubsystem, Value.kForward),
+      new WaitCommand(0.5),
       new MoveSolenoid(controlPanelSubsystem, Value.kOff),
       new WaitForSensor(controlPanelSubsystem),
       new SetDrivingEnabled(false),
