@@ -43,7 +43,7 @@ public class RotateDegreesScheduler extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_robotContainer.getManualOverride()) {
+    if (Robot.m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed), "RotateDegrees").schedule();
     } else {
       new LogCommandWrapper(new RotateDegreesSequence(controlPanelSubsystem, driveTrain, degreesTurn, speed, driveBackSpeed), "RotateDegreesSequence").schedule();

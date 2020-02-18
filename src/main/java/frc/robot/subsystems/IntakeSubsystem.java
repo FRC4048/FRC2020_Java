@@ -35,6 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.configPeakOutputForward(1, TIMEOUT);
     intakeMotor.configPeakOutputReverse(-1, TIMEOUT);
     intakeMotor.setNeutralMode(NeutralMode.Brake);
+    intakeMotor.setInverted(true);
     isRunning = false;
   }
 
@@ -60,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void spinMotor(double speed){
-    intakeMotor.set(speed);
+    intakeMotor.set(speed); 
   }
 
   public void setIsRunning(boolean isRunning) {

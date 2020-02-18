@@ -31,7 +31,7 @@ public class MotorSpinIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinMotor(0.5);
+    intakeSubsystem.spinMotor(1);
   }
 
   // Called once the command ends or is interrupted.

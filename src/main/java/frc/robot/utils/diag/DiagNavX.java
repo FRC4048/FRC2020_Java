@@ -5,18 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.utils.diag;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
- *
- * Change the interface definition as needed to use one of the specific hardware
- * maps.
+ * Add your docs here.
  */
+public class DiagNavX extends DiagDistanceTraveled {
+    private AHRS navX;
 
-public interface Constants extends Constants2020Robot {
+    public DiagNavX(String name, int requiredTravel, AHRS navX) {
+        super(name, requiredTravel);
+        this.navX = navX;
 
+        reset();
+    }
 
+    @Override
+    protected int getCurrentValue() {
+        return (int)navX.getAngle();
+    }
 }
