@@ -37,17 +37,18 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     if (Robot.m_robotContainer.getDrivingEnabled() || Robot.m_robotContainer.getManualOverride()) {
-      driveTrain.drive(leftSpeed.getAsDouble(), rightSpeed.getAsDouble());
+      driveTrain.drive(leftSpeed.getAsDouble(), rightSpeed.getAsDouble(), true);
     } else {
-      driveTrain.drive(0,0);
+      driveTrain.drive(0, 0, false);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrain.drive(0,0);
+    driveTrain.drive(0,0, false);
   }
 
   // Returns true when the command should end.

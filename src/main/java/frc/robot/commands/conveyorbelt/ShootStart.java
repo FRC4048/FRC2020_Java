@@ -5,17 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 
-public class ManualOverride extends CommandBase {
+public class ShootStart extends CommandBase {
   /**
-   * Creates a new ManualOverride.
+   * Creates a new ShootStart.
    */
-  public ManualOverride() {
+  public ShootStart() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,7 +25,6 @@ public class ManualOverride extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.m_robotContainer.setManualOverride(!Robot.m_robotContainer.getManualOverride());
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +36,5 @@ public class ManualOverride extends CommandBase {
   @Override
   public boolean isFinished() {
     return true;
-    
   }
 }

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ControlPanel.*;
 import frc.robot.subsystems.*;
 
@@ -38,6 +39,7 @@ import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
+import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.balltransfer.BallTransferState;
@@ -45,14 +47,18 @@ import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ClimberElevatorSubsystem;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
+import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.LogCommandWrapper;
 import frc.robot.utils.logging.MarkPlaceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.conveyorbelt.ShootBalls;
+import frc.robot.commands.conveyorbelt.ShootStart;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -69,15 +75,14 @@ public class RobotContainer {
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
   private final ShooterSubsystem shooterSubsystem =  new ShooterSubsystem();
-  private ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
+  private final ControlPanelSubsystem controlPanelSubsystem = new ControlPanelSubsystem();
+  private final ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
+  private final WinchSubsystem winchSubsystem = new WinchSubsystem();
+  public final PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
   private boolean drivingEnabled = true;
   private boolean manualOverride = false;
-
-  private ClimberElevatorSubsystem climberElevatorSubsystem = new ClimberElevatorSubsystem();
-  private WinchSubsystem winchSubsystem = new WinchSubsystem();
-
-  public PowerDistPanel m_PowerDistPanel = new PowerDistPanel();
-  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   private static Joystick joyLeft = new Joystick(0);
   private static Joystick joyRight = new Joystick(1);
@@ -116,10 +121,14 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
+
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
   }
 
   private double getXBoxRightJoyX() {
-    return controller.getX(GenericHID.Hand.kRight);
+    return xboxController.getX(Hand.kRight);
   }
 
   public void setDrivingEnabled(boolean mode) {
@@ -158,15 +167,8 @@ public class RobotContainer {
     Command markPlaceCommand = new MarkPlaceCommand();
     driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
     intakeBalls.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
-    intakeBalls.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
+    intakeBalls.whileHeld(new MotorSpinIntake(intakeSubsystem));
     intakeBalls.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
-
-
-    SmartShuffleboard.putCommand("Control Panel", "Toggle Elevator", new ToggleSolenoid(controlPanelSubsystem));
-    SmartShuffleboard.putCommand("Control Panel", "RotateClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, Constants.CONTROL_PANEL_SPEED));
-    SmartShuffleboard.putCommand("Control Panel", "RotateCountrerClockwiseDegrees", new RotateDegrees(controlPanelSubsystem, 4*360, -Constants.CONTROL_PANEL_SPEED));
-    SmartShuffleboard.putCommand("Control Panel", "Color Rotate", new RotateToColor(controlPanelSubsystem));
-    SmartShuffleboard.putCommand("Driver", "MANUAL OVERRIDE", new LogCommandWrapper(new ManualOverride(), "ManualOverride"));
     buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
     buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
     buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
@@ -175,15 +177,16 @@ public class RobotContainer {
     SmartShuffleboard.putCommand("Control Panel", "Wait Sesnir", new WaitForSensor(controlPanelSubsystem));
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
 
-    Command gearSwitchLow = new GearSwitch(driveTrain, true);
-    gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(gearSwitchLow, "GearSwitch Speed Low"));
+    gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, true), "GearSwitch Speed Low"));
+    gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, false), "GearSwitch Speed High"));
 
-    Command gearSwitchHigh = new GearSwitch(driveTrain, false);
-    gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(gearSwitchHigh, "GearSwitch Speed High"));
+    shootBall.whenPressed(new LogCommandWrapper(new ShootStart()));
+    shootBall.whileHeld(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, false)); //This will start the motors at full speed when pressed down
+    shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors after shoot")); //This will stop the motors once the button is released
 
-    shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem))); //This will start the motors at full speed when pressed down
-    shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors")); //This will stop the motors once the button is released
+    //TODO: add a flush ball button
 
+    SmartShuffleboard.putCommand("Driver", "Manual Override", new ManualOverride());
   }
 
   /**
@@ -200,9 +203,9 @@ public class RobotContainer {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withWaypoint(1, 0).withEndPoint(2, 0, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(2, 1, 0).build();
       //Start where the last one ended and drive end up in the same place we started
-      trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
+      // trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
       //Theoretically more trajectory objects could be added
       break;
     default:
@@ -220,7 +223,7 @@ public class RobotContainer {
     switch(autoOption){
     case CROSS_LINE:
       //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
-      autoCommand = trajectoryCommands.get(0).andThen(trajectoryCommands.get(1).andThen(() -> driveTrain.tankDriveVolts(0, 0)));
+      autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
       break;
     default:
       autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
@@ -228,4 +231,5 @@ public class RobotContainer {
     }
     return autoCommand;
   }
+
 }

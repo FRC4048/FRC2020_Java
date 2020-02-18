@@ -16,7 +16,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.diag.DiagTalonSrxSwitch;
+import frc.robot.utils.diag.DiagTalonSrxSwitch.Direction;
 
 public class ClimberElevatorSubsystem extends SubsystemBase {
   private WPI_TalonSRX climberMotor;
@@ -39,6 +42,9 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
 
     climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+
+    Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Forward Switch", climberMotor, Direction.FORWARD));
+    Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Reverse Switch", climberMotor, Direction.REVERSE));
   }
 
   public void setClimber(double speed) {

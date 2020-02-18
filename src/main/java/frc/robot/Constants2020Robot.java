@@ -37,6 +37,7 @@ interface Constants2020Robot {
     public static final int PDP_DRIVE_L2 = 15;
     public static final int PDP_DRIVE_R1 = 0;
     public static final int PDP_DRIVE_R2 = 1;
+    public static final int PDP_ELEVATOR = 8;
 
 
     //DIO
@@ -77,7 +78,7 @@ interface Constants2020Robot {
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
     public static final double CONTROL_PANEL_COLOR_SPEED = 0.25;
-    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.2;
+    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.7;
     public static final double CONTROL_PANEL_ROTATE_DEGREES = 6;
     public static final double CONTROL_PANEL_ROTATE_TO_COLOR = 3;
     public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;

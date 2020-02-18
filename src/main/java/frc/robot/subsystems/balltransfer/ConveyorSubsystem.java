@@ -13,30 +13,52 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utils.DigitalInputGroup;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.logging.Logging;
 
 public class ConveyorSubsystem extends SubsystemBase {
 
   private WPI_TalonSRX conveyorMotor;
-   private static DigitalInputGroup slot2;
-   private static DigitalInputGroup slot3;
-   private static DigitalInputGroup slot4;
-//  private static DigitalInput slot2;
-//  private static DigitalInput slot3;
-//  private static DigitalInput slot4;
+  
+  private DigitalInput slot2A;
+  private DigitalInput slot2B;
+  private DigitalInput slot3A;
+  private DigitalInput slot3B;
+  private DigitalInput slot4A;
+  private DigitalInput slot4B;
+
+  private static DigitalInputGroup slot2;
+  private static DigitalInputGroup slot3;
+  private static DigitalInputGroup slot4;
+  // private static DigitalInput slot2;
+  // private static DigitalInput slot3;
+  // private static DigitalInput slot4;
   private int commandCounter;
 
   public ConveyorSubsystem() {
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
+    conveyorMotor.setInverted(true);
+    
+    slot2A = new DigitalInput(Constants.SLOT2_A_ID);
+    slot2B = new DigitalInput(Constants.SLOT2_B_ID);
+    slot3A = new DigitalInput(Constants.SLOT3_A_ID);
+    slot3B = new DigitalInput(Constants.SLOT3_B_ID);
+    slot4A = new DigitalInput(Constants.SLOT4_A_ID);
+    slot4B = new DigitalInput(Constants.SLOT4_B_ID);
 
-//    slot2 = new DigitalInput(2);
-//    slot3 = new DigitalInput(3);
-//    slot4 = new DigitalInput(4);
-     slot2 = new DigitalInputGroup(new DigitalInput(Constants.SLOT2_A_ID), new DigitalInput(Constants.SLOT2_B_ID));
-     slot3 = new DigitalInputGroup(new DigitalInput(Constants.SLOT3_A_ID), new DigitalInput(Constants.SLOT3_B_ID));
-     slot4 = new DigitalInputGroup(new DigitalInput(Constants.SLOT4_A_ID), new DigitalInput(Constants.SLOT4_B_ID));
+    slot2 = new DigitalInputGroup(slot2A, slot2B);
+    slot3 = new DigitalInputGroup(slot3A, slot3B);
+    slot4 = new DigitalInputGroup(slot4A, slot4B);
+    
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot2 Optical Sensor A", slot2A));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot2 Optical Sensor B", slot2B));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot3 Optical Sensor A", slot3A));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot3 Optical Sensor B", slot3B));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot4 Optical Sensor A", slot4A));
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot4 Optical Sensor B", slot4B));
   }
 
   @Override
@@ -45,7 +67,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     SmartShuffleboard.put("Driver", "Slot3", getSlot3());
     SmartShuffleboard.put("Driver", "Slot4", getSlot4());
   }
-  
+
   public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
     protected void addAll() {
       add("slot2", getSlot2());
@@ -54,6 +76,7 @@ public class ConveyorSubsystem extends SubsystemBase {
       add("Conveyor Motor Running?", conveyorMotor.get() != 0);
     }
   };
+
   /**
    * Sets the conveyor (M2) to a set value
    * 
@@ -71,6 +94,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   public static boolean getSlot2() {
     return !slot2.get();
   }
+
   /**
    * Returns state of Slot 3
    * 
@@ -79,6 +103,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   public static boolean getSlot3() {
     return !slot3.get();
   }
+
   /**
    * Returns state of Slot 4
    * 
@@ -111,7 +136,7 @@ public class ConveyorSubsystem extends SubsystemBase {
    * 
    * @return commandCounter
    */
-  public int commandEnded(){
+  public int commandEnded() {
     return --commandCounter;
   }
 
