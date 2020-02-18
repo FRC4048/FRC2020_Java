@@ -7,6 +7,7 @@
 
 package frc.robot.commands.ControlPanel;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
@@ -26,13 +27,14 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
 
     addCommands (
-      new MoveSolenoid(controlPanelSubsystem, true),
+      new MoveSolenoid(controlPanelSubsystem, Value.kForward),
+      new MoveSolenoid(controlPanelSubsystem, Value.kOff),
       new WaitForSensor(controlPanelSubsystem),
       new SetDrivingEnabled(false),
       new RotateDegrees(controlPanelSubsystem, degreesTurn, speed),
       new WaitCommand(0.1),
       new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(0.3),
-      new MoveSolenoid(controlPanelSubsystem, false)
+      new MoveSolenoid(controlPanelSubsystem, Value.kReverse)
       );
   }
 
