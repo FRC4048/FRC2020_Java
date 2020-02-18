@@ -16,13 +16,21 @@ public class ShootBalls extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
   private TransferConveyorSubsystem transferConveyorSubsystem;
   private ShooterSubsystem shooterSubsystem;
+  private boolean isFlush;
+  private final double SHOOTER_SPEED = 1;
+  private final double CONVEYOR_SPEED = 1;
+  private final double TRANSFER_SPEED = 1;
+
   /**
    * Creates a new ShootBalls.
+   * 
+   * @param direction the direction that the balls will be shooting out of
    */
-  public ShootBalls(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShootBalls(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, boolean isFlush) {
     this.conveyorSubsystem = conveyorSubsystem;
     this.transferConveyorSubsystem = transferConveyorSubsystem;
     this.shooterSubsystem = shooterSubsystem;
+    this.isFlush = isFlush;
 
     addRequirements(conveyorSubsystem);
     addRequirements(transferConveyorSubsystem);
@@ -38,9 +46,15 @@ public class ShootBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorSubsystem.moveConveyor(1); 
-    shooterSubsystem.moveShooter(1);
-    transferConveyorSubsystem.moveTransfer(1); 
+    if(!isFlush) {
+      conveyorSubsystem.moveConveyor(CONVEYOR_SPEED); 
+      shooterSubsystem.moveShooter(SHOOTER_SPEED);
+      transferConveyorSubsystem.moveTransfer(TRANSFER_SPEED); 
+    } else {
+      conveyorSubsystem.moveConveyor(-CONVEYOR_SPEED); 
+      shooterSubsystem.moveShooter(-SHOOTER_SPEED);
+      transferConveyorSubsystem.moveTransfer(-TRANSFER_SPEED);  
+    }
   }
 
   // Called once the command ends or is interrupted.
