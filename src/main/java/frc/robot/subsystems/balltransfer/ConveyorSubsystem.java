@@ -40,7 +40,8 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public ConveyorSubsystem() {
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
-
+    conveyorMotor.setInverted(true);
+    
     slot2A = new DigitalInput(Constants.SLOT2_A_ID);
     slot2B = new DigitalInput(Constants.SLOT2_B_ID);
     slot3A = new DigitalInput(Constants.SLOT3_A_ID);

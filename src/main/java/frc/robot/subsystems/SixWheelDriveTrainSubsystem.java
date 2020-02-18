@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
@@ -44,7 +45,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
-
+    
     leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
     rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], true);
 
@@ -61,6 +62,11 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     leftEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
 
+    left1.setNeutralMode(NeutralMode.Brake);
+    left2.setNeutralMode(NeutralMode.Brake);
+    right1.setNeutralMode(NeutralMode.Brake);
+    right2.setNeutralMode(NeutralMode.Brake);
+      
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));

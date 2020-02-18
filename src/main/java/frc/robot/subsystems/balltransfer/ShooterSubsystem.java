@@ -7,8 +7,8 @@
 
 package frc.robot.subsystems.balltransfer;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,7 +35,8 @@ public class ShooterSubsystem extends SubsystemBase {
     slot1B = new DigitalInput(Constants.SLOT1_B_ID);
     slot1 = new DigitalInputGroup(slot1A, slot1B);
 //    slot1 = new DigitalInput(1);
-
+    shooterMotor.setInverted(true);
+    shooterMotor.setNeutralMode(NeutralMode.Brake);
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor A", slot1A));
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor B", slot1B));
   }

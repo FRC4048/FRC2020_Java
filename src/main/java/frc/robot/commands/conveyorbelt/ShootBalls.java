@@ -38,7 +38,7 @@ public class ShootBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorSubsystem.moveConveyor(1);
+    conveyorSubsystem.moveConveyor(1); 
     shooterSubsystem.moveShooter(1);
     transferConveyorSubsystem.moveTransfer(1); 
   }
@@ -52,6 +52,6 @@ public class ShootBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
