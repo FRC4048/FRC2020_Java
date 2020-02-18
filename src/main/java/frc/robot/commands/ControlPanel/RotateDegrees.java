@@ -23,11 +23,11 @@ public class RotateDegrees extends CommandBase {
   //private final double TARGET_ENCODER_VALUE = 100;
   private double ticksToTurn;
   private double speed;
-  public RotateDegrees(ControlPanelSubsystem controlPanelSubsystem, double degreesTurn, double speed) {
+  public RotateDegrees(ControlPanelSubsystem controlPanelSubsystem, double degreesTurn, double rotationSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.degreesTurn = degreesTurn;
-    this.speed = speed;
+    speed = rotationSpeed;
     addRequirements(controlPanelSubsystem);
   }
 

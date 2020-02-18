@@ -77,7 +77,7 @@ public class RotateToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((desiredSensorColor != null) || (controlPanelSubsystem.getCurrentColor() == desiredSensorColor  )) {
+    if ((desiredSensorColor != null) && (controlPanelSubsystem.getCurrentColor() == desiredSensorColor  )) {
       return true;
     } else if (unknownCounter > Constants.CONTROL_PANEL_UNKNOWN_LIMIT){
       return true;

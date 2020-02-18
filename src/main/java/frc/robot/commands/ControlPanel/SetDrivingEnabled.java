@@ -9,14 +9,15 @@ package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
 
-public class ManualOverride extends CommandBase {
+public class SetDrivingEnabled extends CommandBase {
+  private boolean status;
   /**
-   * Creates a new ManualOverride.
+   * Creates a new SetDrivingEnabled.
    */
-  public ManualOverride() {
+  public SetDrivingEnabled(boolean status) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.status = status;
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +28,7 @@ public class ManualOverride extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.m_robotContainer.setManualOverride(!Robot.m_robotContainer.getManualOverride());
+    Robot.m_robotContainer.setDrivingEnabled(status);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +40,5 @@ public class ManualOverride extends CommandBase {
   @Override
   public boolean isFinished() {
     return true;
-    
   }
 }
