@@ -28,9 +28,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.driveTrain = driveTrain;
-    this.driveBackSpeed = driveBackSpeed;
-    controlPanelSubsystem.setWaitSensorTimeout(false);
-    
+    this.driveBackSpeed = driveBackSpeed;    
     addCommands (
       new MoveSolenoid(controlPanelSubsystem, true),
       new WaitForSensor(controlPanelSubsystem),

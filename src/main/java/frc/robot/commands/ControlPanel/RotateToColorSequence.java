@@ -7,8 +7,6 @@
 
 package frc.robot.commands.ControlPanel;
 
-import java.nio.channels.InterruptedByTimeoutException;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.drivetrain.MoveBackwards;
@@ -34,7 +32,7 @@ public class RotateToColorSequence extends SequentialCommandGroup {
 
     addCommands(
       new MoveSolenoid(controlPanelSubsystem, true),
-      new WaitForSensor(controlPanelSubsystem).withTimeout(Constants.CONTROL_PANEL_WAIT_SENSOR_TIMEOUT),
+      new WaitForSensor(controlPanelSubsystem),
       new RotateToColor(controlPanelSubsystem).withTimeout(Constants.CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT),
       new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(2),
       new MoveSolenoid(controlPanelSubsystem, false)
@@ -47,16 +45,21 @@ public class RotateToColorSequence extends SequentialCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-
+    if (controlPanelSubsystem.getWaitSensorTimeout()) {
+      controlPanelSubsystem.movePiston(false);
+      super.end(true);
+    } else {
+      super.end(interrupted);
+    }
   }
 
   @Override
   public boolean isFinished() {
     if (controlPanelSubsystem.getWaitSensorTimeout()) {
-      controlPanelSubsystem.movePiston(false);
       return true;
     } else {
       return super.isFinished();
     } 
   }
 }
+

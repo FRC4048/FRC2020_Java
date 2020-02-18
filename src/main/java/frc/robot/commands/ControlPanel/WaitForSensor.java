@@ -48,12 +48,12 @@ public class WaitForSensor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(timer.hasPeriodPassed(Constants.CONTROL_PANEL_WAIT_SENSOR_TIMEOUT)) {
+    if(timer.hasPeriodPassed(Constants.CONTROL_PANEL_WAIT_SENSOR_TIMEOUT) || !controlPanelSubsystem.controlPanelSensor()) {
       controlPanelSubsystem.setWaitSensorTimeout(true);
       SmartShuffleboard.put("Control Panel", "Wait Sesnor Time", false);
       return true;
     } else {
-      return !controlPanelSubsystem.controlPanelSensor();
+      return false;
     }   
   }
 }
