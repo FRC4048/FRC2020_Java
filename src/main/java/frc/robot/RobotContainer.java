@@ -38,6 +38,7 @@ import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
+import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.balltransfer.BallTransferState;
@@ -45,6 +46,8 @@ import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ClimberElevatorSubsystem;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
@@ -117,6 +120,10 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
+
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
+    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
   }
 
   private double getXBoxRightJoyX() {
