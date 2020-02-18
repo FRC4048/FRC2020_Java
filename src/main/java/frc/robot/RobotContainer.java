@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ControlPanel.*;
 import frc.robot.subsystems.*;
 
@@ -119,7 +120,7 @@ public class RobotContainer {
   }
 
   private double getXBoxRightJoyX() {
-    return controller.getX(GenericHID.Hand.kRight);
+    return xboxController.getX(Hand.kRight);
   }
 
   public void setDrivingEnabled(boolean mode) {
@@ -163,8 +164,6 @@ public class RobotContainer {
     buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
     buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
     buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
-    SmartShuffleboard.putCommand("Control Panel", "Sequence Rotate", new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
-    SmartShuffleboard.putCommand("Control Panel", "Go Backwards", new MoveBackwards(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED).withTimeout(2));
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
 
     gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, true), "GearSwitch Speed Low"));
@@ -173,6 +172,7 @@ public class RobotContainer {
     shootBall.whenPressed(new LogCommandWrapper(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem))); //This will start the motors at full speed when pressed down
     shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors")); //This will stop the motors once the button is released
 
+    SmartShuffleboard.putCommand("Driver", "Manual Override", new ManualOverride());
   }
 
   /**

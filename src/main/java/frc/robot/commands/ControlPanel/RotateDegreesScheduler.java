@@ -21,7 +21,6 @@ public class RotateDegreesScheduler extends CommandBase {
   private double degreesTurn;
   private double speed;
   private double driveBackSpeed;
-  private RobotContainer m_robotContainer = Robot.m_robotContainer;
 
   /**
    * Creates a new RotateDegreesScheduler.
@@ -46,7 +45,7 @@ public class RotateDegreesScheduler extends CommandBase {
     if (Robot.m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed), "RotateDegrees").schedule();
     } else {
-      new LogCommandWrapper(new RotateDegreesSequence(controlPanelSubsystem, driveTrain, degreesTurn, speed, driveBackSpeed), "RotateDegreesSequence").schedule();
+      new LogCommandWrapper(new RotateDegreesSequence(controlPanelSubsystem, driveTrain, degreesTurn, driveBackSpeed, speed), "RotateDegreesSequence").schedule();
     }
   }
 

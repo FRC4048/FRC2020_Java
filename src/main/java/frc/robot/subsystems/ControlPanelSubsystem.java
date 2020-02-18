@@ -33,7 +33,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
     public ControlPanelSubsystem() {
         controlPanelMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
         controlPanelMotor.setNeutralMode(NeutralMode.Brake);
-
+        controlPanelMotor.configPeakOutputForward(1);
+        controlPanelMotor.configPeakOutputReverse(-1);
+        
         Robot.getDiagnostics().addDiagnosable(new DiagColorSensor("Control Panel Color Sensor", colorSensor));
         Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Control Panel Optical Sensor", opticalSensor));
     }
@@ -87,11 +89,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        if (!controlPanelSensor() && getPistonState() && !Robot.m_robotContainer.getManualOverride()) {
-            Robot.m_robotContainer.setDrivingEnabled(false);
-        } else {
-            Robot.m_robotContainer.setDrivingEnabled(true);
-        }
         
         SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());
         SmartShuffleboard.put("Control Panel", "Data", "Color Sensor Value", getCurrentColor().name());

@@ -17,7 +17,6 @@ import frc.robot.utils.logging.LogCommandWrapper;
 public class RotateToColorScheduler extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
   private SixWheelDriveTrainSubsystem driveTrain;
-  private RobotContainer m_robotContainer = Robot.m_robotContainer;
   private double driveBackSpeed;
   /**
    * Creates a new RotateToColorScheduler.
