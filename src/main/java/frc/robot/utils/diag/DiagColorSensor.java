@@ -25,7 +25,7 @@ public class DiagColorSensor implements Diagnosable {
     private NetworkTableEntry networkTableEntry;
     private Map<ColorSensor.ColorValue, Boolean> colorMap;
 
-    public DiagColorSensor(ColorSensor colorsensor, String name) {
+    public DiagColorSensor(String name, ColorSensor colorsensor) {
         this.name = name;
         this.colorsensor = colorsensor;
         colorMap = new HashMap<ColorSensor.ColorValue, Boolean>();
@@ -43,7 +43,7 @@ public class DiagColorSensor implements Diagnosable {
         colorMap.put(colorValue, true);
         boolean allColors = colorMap.get(ColorValue.RED) && colorMap.get(ColorValue.BLUE) 
                             && colorMap.get(ColorValue.GREEN) && colorMap.get(ColorValue.YELLOW) 
-                            && colorMap.get(ColorValue.UNKOWN);
+                            && colorMap.get(ColorValue.UNKNOWN);
         if (networkTableEntry != null) {
             networkTableEntry.setBoolean(allColors);
         }
@@ -55,7 +55,7 @@ public class DiagColorSensor implements Diagnosable {
         colorMap.put(ColorValue.GREEN, false);
         colorMap.put(ColorValue.BLUE, false);
         colorMap.put(ColorValue.YELLOW, false);
-        colorMap.put(ColorValue.UNKOWN, false);
+        colorMap.put(ColorValue.UNKNOWN, false);
     }
 
 }
