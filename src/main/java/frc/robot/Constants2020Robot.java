@@ -77,8 +77,11 @@ interface Constants2020Robot {
     //CONTROL PANEL CONTANTS
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
-    public static final double CONTROL_PANEL_COLOR_SPEED = 0.25;
-    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.7;
+    public static final double CONTROL_PANEL_COLOR_SPEED = 0.5;
+    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 1;
+    public static final double CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT = 6;
+    public static final double CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT = 3;
+    public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;
     public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
 
     //OI

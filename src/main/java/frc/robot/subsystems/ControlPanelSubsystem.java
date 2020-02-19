@@ -21,6 +21,7 @@ import frc.robot.utils.diag.DiagColorSensor;
 import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.diag.DiagTalonSrxEncoder;
 import frc.robot.utils.logging.Logging;
+import frc.robot.utils.logging.Logging.MessageLevel;
 
 import java.util.HashMap;
 
@@ -31,6 +32,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
     private final int TIMEOUT = 100;
+    private boolean sensorTimeout = false;
     private String gameDataColor;
 
     public ControlPanelSubsystem() {
@@ -90,6 +92,15 @@ public class ControlPanelSubsystem extends SubsystemBase {
     public String fmsColor() {
         gameDataColor = DriverStation.getInstance().getGameSpecificMessage();
         return gameDataColor;
+    }
+
+    public boolean getWaitSensorTimeout() {
+        return sensorTimeout;
+    }
+
+    public void setWaitSensorTimeout(boolean timeout) {
+        sensorTimeout = timeout;
+        Logging.instance().traceMessage(MessageLevel.INFORMATION, "Sensor Timeout: " + timeout);
     }
 
     public void periodic() {
