@@ -61,6 +61,6 @@ public class RotateDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {    
-    return (Math.abs(controlPanelSubsystem.getEncoder() - encoderValue) > Math.abs(ticksToTurn)) || Timer.getFPGATimestamp() - initTime >= Constants.CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT;
+    return (Math.abs(controlPanelSubsystem.getEncoder() - encoderValue) > Math.abs(ticksToTurn)) || (Timer.getFPGATimestamp() - initTime) >= Constants.CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT;
   }
 }

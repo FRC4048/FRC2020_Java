@@ -80,7 +80,7 @@ public class RotateToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (((desiredSensorColor != null) && (controlPanelSubsystem.getCurrentColor() == desiredSensorColor)) || Timer.getFPGATimestamp() - initTime > Constants.CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT) {
+    if (((desiredSensorColor != null) && (controlPanelSubsystem.getCurrentColor() == desiredSensorColor)) || (Timer.getFPGATimestamp() - initTime) > Constants.CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT) {
       return true;
     } else if (unknownCounter > Constants.CONTROL_PANEL_UNKNOWN_LIMIT){
       return true;
