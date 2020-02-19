@@ -7,12 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
@@ -47,6 +50,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     diagnostics = new Diagnostics();
     m_robotContainer = new RobotContainer();
+      // UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+      // camera.setResolution(640, 480);
+      // Shuffleboard.add(camera);
   }
 
   /**

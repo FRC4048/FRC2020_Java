@@ -197,13 +197,13 @@ public class RobotContainer {
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -3.1242, 0).build();
       break;
     case MIDDLE_DEPOSIT:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -1.72085, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -1.55, 0).build();
       break;
     case RIGHT_DEPOSIT:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, 0, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, 1.6, 0).build();
       break;
     case RIGHT_PICKUP:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(7.991602, -1.699514, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(7.8, 1.6, 0).build();
       break;
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
@@ -251,10 +251,14 @@ public class RobotContainer {
         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
         break;
 
+      case RIGHT_PICKUP:
+         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+         break;
+
       case DO_NOTHING:
         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
         break;
-        
+
       default:
         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
         break;
