@@ -24,11 +24,13 @@ public class ManualRotate extends CommandBase {
 
     @Override
     public void execute() {
+        
         controlPanelSubsystem.rotateWithSpeed(speed.getAsDouble() * Constants.CONTROL_PANEL_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
+        controlPanelSubsystem.rotateWithSpeed(0);
     }
 
     @Override

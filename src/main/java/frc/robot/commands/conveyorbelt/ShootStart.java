@@ -5,33 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.conveyorbelt;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.utils.SmartShuffleboard;
 
-public class WaitForSensor extends CommandBase {
-  private ControlPanelSubsystem controlPanelSubsystem;
-
+public class ShootStart extends CommandBase {
   /**
-   * Creates a new WaitForSensor.
+   * Creates a new ShootStart.
    */
-  Timer timer = new Timer();
-  public WaitForSensor(ControlPanelSubsystem controlPanelSubsystem) {
+  public ShootStart() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.controlPanelSubsystem = controlPanelSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    controlPanelSubsystem.setWaitSensorTimeout(false);
-    SmartShuffleboard.put("Control Panel", "Wait Sesnor Time", true);
-    timer.reset();
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,20 +30,11 @@ public class WaitForSensor extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(timer.hasPeriodPassed(Constants.CONTROL_PANEL_WAIT_SENSOR_TIMEOUT)) {
-      controlPanelSubsystem.setWaitSensorTimeout(true);
-      SmartShuffleboard.put("Control Panel", "Wait Sesnor Time", false);
-      return true;
-    } else if (!controlPanelSubsystem.controlPanelSensor()) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 }
