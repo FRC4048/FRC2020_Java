@@ -52,7 +52,7 @@ public class WaitForSensor extends CommandBase {
       controlPanelSubsystem.setWaitSensorTimeout(true);
       SmartShuffleboard.put("Control Panel", "Wait Sesnor Time", false);
       return true;
-    } else if (!controlPanelSubsystem.controlPanelSensor()) {
+    } else if (controlPanelSubsystem.controlPanelSensor()) { //The sensor is no longer looking to be broken, but rather made; the sensor has changed position
       return true;
     } else {
       return false;
