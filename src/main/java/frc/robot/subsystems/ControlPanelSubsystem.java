@@ -19,6 +19,7 @@ import frc.robot.utils.diag.DiagColorSensor;
 import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.diag.DiagTalonSrxEncoder;
 import frc.robot.utils.logging.Logging;
+import frc.robot.utils.logging.Logging.MessageLevel;
 
 import java.util.HashMap;
 
@@ -97,6 +98,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
     public void setWaitSensorTimeout(boolean timeout) {
         sensorTimeout = timeout;
+        Logging.instance().traceMessage(MessageLevel.INFORMATION, "Sensor Timeout: " + timeout);
     }
 
     public void periodic() {

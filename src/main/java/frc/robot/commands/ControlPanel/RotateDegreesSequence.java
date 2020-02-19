@@ -14,7 +14,7 @@ import frc.robot.Robot;
 import frc.robot.commands.drivetrain.MoveBackwards;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
-
+import frc.robot.utils.logging.LogCommandWrapper;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
@@ -32,13 +32,13 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
     this.driveTrain = driveTrain;
     this.driveBackSpeed = driveBackSpeed;
     addCommands (
-      new MoveSolenoid(controlPanelSubsystem, true),
-      new WaitForSensor(controlPanelSubsystem),
-      new SetDrivingEnabled(false),
-      new RotateDegrees(controlPanelSubsystem, degreesTurn, speed).withTimeout(Constants.CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT),
-      new WaitCommand(0.1),
-      new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed).withTimeout(0.3),
-      new MoveSolenoid(controlPanelSubsystem, false)
+      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, true)),
+      new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem)),
+      new LogCommandWrapper(new SetDrivingEnabled(false)),
+      new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed)),
+      new LogCommandWrapper(new WaitCommand(0.1)),
+      (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
+      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, false))
       );
   }
 

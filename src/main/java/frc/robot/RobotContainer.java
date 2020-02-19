@@ -54,7 +54,9 @@ import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.LogCommandWrapper;
+import frc.robot.utils.logging.Logging;
 import frc.robot.utils.logging.MarkPlaceCommand;
+import frc.robot.utils.logging.Logging.MessageLevel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.conveyorbelt.ShootBalls;
@@ -133,6 +135,9 @@ public class RobotContainer {
 
   public void setDrivingEnabled(boolean mode) {
     drivingEnabled = mode;
+
+
+    Logging.instance().traceMessage(MessageLevel.INFORMATION, "Driving Enabled Set To: " + drivingEnabled);
   }
 
   public boolean getDrivingEnabled() {
