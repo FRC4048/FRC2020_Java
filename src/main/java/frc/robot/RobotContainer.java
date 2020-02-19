@@ -177,11 +177,7 @@ public class RobotContainer {
     buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
     buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
     buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
-    SmartShuffleboard.putCommand("Control Panel", "Sequence Rotate", new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 4*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
-    SmartShuffleboard.putCommand("Control Panel", "Go Backwards", new MoveBackwards(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED).withTimeout(2));
-    SmartShuffleboard.putCommand("Control Panel", "Wait Sesnir", new WaitForSensor(controlPanelSubsystem));
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
-
     gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, true), "GearSwitch Speed Low"));
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, false), "GearSwitch Speed High"));
 
