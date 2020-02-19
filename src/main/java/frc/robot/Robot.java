@@ -18,6 +18,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
 import frc.robot.commands.*;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -43,6 +50,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     diagnostics = new Diagnostics();
+  
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
