@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
@@ -110,7 +112,9 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
-    driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
+    if(!DriverStation.getInstance().isOperatorControl()) {
+      driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
+    }
     if (Constants.ENABLE_DEBUG) {
        SmartShuffleboard.put("Drive", "Encoders", "L", getLeftEncoderRaw());
        SmartShuffleboard.put("Drive", "Encoders", "R", getRightEncoderRaw());
