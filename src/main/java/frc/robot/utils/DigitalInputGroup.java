@@ -35,4 +35,8 @@ public class DigitalInputGroup {
     public boolean get() {
         return sensor1.get() || sensor2.get(); //TODO: need to figure out if this is true of false broken
     }
+
+    public boolean getShooterState() {
+        return sensor1.get() && !sensor2.get(); //When the shooter is in the right position 
+    }
 }

@@ -62,6 +62,8 @@ public class StateDetector extends CommandBase {
       createCommand(conveyorSubsystem, transferSubsystem, shooterSubsystem, state).withTimeout(TIMEOUT).schedule();
     } else if (IntakeSubsystem.getIsRunning()) { //This is static so we don't have to take an instance of the intake subsystem in this default command
       transferSubsystem.moveTransfer(TRANSFER_LOW_SPEED);
+    } else if (!IntakeSubsystem.getIsRunning()) {
+      transferSubsystem.moveTransfer(0);
     }
   }
 

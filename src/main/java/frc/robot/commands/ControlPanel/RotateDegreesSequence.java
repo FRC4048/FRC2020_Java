@@ -40,7 +40,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
       new LogCommandWrapper(new SetDrivingEnabled(false)),
       new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed)),
       new LogCommandWrapper(new WaitCommand(0.1)),
-      (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
+      // (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
       new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kForward))
       );
   }

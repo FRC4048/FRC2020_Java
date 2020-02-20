@@ -17,7 +17,7 @@ public class ShootBalls extends CommandBase {
   private TransferConveyorSubsystem transferConveyorSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private boolean isFlush;
-  private final double SHOOTER_SPEED = 0.4;
+  private final double SHOOTER_SPEED = 0.33;
   private final double CONVEYOR_SPEED = 1;
   private final double TRANSFER_SPEED = 1;
 

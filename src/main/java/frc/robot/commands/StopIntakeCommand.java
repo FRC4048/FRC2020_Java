@@ -26,7 +26,6 @@ public class StopIntakeCommand extends CommandBase {
   @Override
   public void initialize() {
     intakeSubsystem.retractPiston();
-    intakeSubsystem.setIsRunning(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +36,7 @@ public class StopIntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    intakeSubsystem.setIsRunning(false);
     intakeSubsystem.retractPiston();
     intakeSubsystem.spinMotor(0);
   }

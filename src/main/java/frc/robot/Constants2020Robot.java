@@ -60,7 +60,7 @@ interface Constants2020Robot {
     public static final int INTAKE_PISTON_ID = 0;
     public static final int CLIMBER_PISTON_ID = 2;
     public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
-    public static final int[] CONTROL_PANEL_PISTON_ID = {4,1};
+    public static final int[] CONTROL_PANEL_PISTON_ID = {1,4};
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;

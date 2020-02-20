@@ -103,10 +103,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        
-        SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());
-        SmartShuffleboard.put("Control Panel", "Data", "Color Sensor Value", getCurrentColor().name());
-        SmartShuffleboard.put("Control Panel", "Data", "Game Data", fmsColor());
+        if(Constants.ENABLE_DEBUG) {
+            SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());
+            SmartShuffleboard.put("Control Panel", "Data", "Color Sensor Value", getCurrentColor().name());
+            SmartShuffleboard.put("Control Panel", "Data", "Game Data", fmsColor());
+        }
 
     }
     

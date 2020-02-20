@@ -35,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
     slot1B = new DigitalInput(Constants.SLOT1_B_ID);
     slot1 = new DigitalInputGroup(slot1A, slot1B);
 //    slot1 = new DigitalInput(1);
-    shooterMotor.setInverted(true);
+    shooterMotor.setInverted(false);
     shooterMotor.setNeutralMode(NeutralMode.Brake);
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor A", slot1A));
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Shooter Slot1 Optical Sensor B", slot1B));

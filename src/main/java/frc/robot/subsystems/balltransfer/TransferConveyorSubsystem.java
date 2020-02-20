@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.balltransfer;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -36,6 +37,9 @@ public class TransferConveyorSubsystem extends SubsystemBase {
         slot5 = new DigitalInputGroup(slot5A, slot5B);
         //slot5 = new DigitalInput(5);
 
+        transferMotor.setInverted(true);
+        transferMotor.setNeutralMode(NeutralMode.Brake);
+        
         Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor A", slot5A));
         Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor B", slot5B));
     }
@@ -66,6 +70,6 @@ public class TransferConveyorSubsystem extends SubsystemBase {
      * @return boolean state of slot 5
      */
     public static boolean getSlot5() {
-        return !slot5.get();
+        return slot5.getShooterState();
     }
 }

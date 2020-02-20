@@ -64,8 +64,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(speed); 
   }
 
-  public void setIsRunning(boolean isRunning) {
-    this.isRunning = isRunning;
+  public static void setIsRunning(boolean run) {
+    isRunning = run;
   }
 
   public static boolean getIsRunning() {
