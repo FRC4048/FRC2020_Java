@@ -39,7 +39,8 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
     climberMotor.configPeakOutputForward(1, TIMEOUT);
     climberMotor.configPeakOutputReverse(-1, TIMEOUT);
     climberMotor.setNeutralMode(NeutralMode.Brake);
-
+    climberMotor.setInverted(true);
+    
     climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
