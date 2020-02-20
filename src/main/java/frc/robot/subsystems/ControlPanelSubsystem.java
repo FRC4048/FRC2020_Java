@@ -23,12 +23,11 @@ import frc.robot.utils.diag.DiagTalonSrxEncoder;
 import frc.robot.utils.logging.Logging;
 import frc.robot.utils.logging.Logging.MessageLevel;
 
-import java.util.HashMap;
 
 //Y = Toggle Piston X = Rotation B = Color
 public class ControlPanelSubsystem extends SubsystemBase {  
     private WPI_TalonSRX controlPanelMotor = new WPI_TalonSRX(Constants.CONTROL_PANEL_CAN_ID);
-    private DoubleSolenoid controlPanelSolenoid = new DoubleSolenoid(Constants.CONTROL_PANEL_PISTON_ID[0], Constants.CONTROL_PANEL_PISTON_ID[1]);
+    private DoubleSolenoid controlPanelSolenoid = new DoubleSolenoid(Constants.PCM_CAN_ID, Constants.CONTROL_PANEL_PISTON_ID[0], Constants.CONTROL_PANEL_PISTON_ID[1]);
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
     private final int TIMEOUT = 100;

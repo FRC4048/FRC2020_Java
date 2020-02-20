@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ControlPanel.*;
 import frc.robot.subsystems.*;
@@ -124,9 +125,12 @@ public class RobotContainer {
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
 
-    SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
-    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
-    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
+    SmartDashboard.putData("forward", new MoveSolenoid(controlPanelSubsystem, Value.kForward));
+    SmartDashboard.putData("reverse", new MoveSolenoid(controlPanelSubsystem, Value.kReverse));
+    SmartDashboard.putData("off", new MoveSolenoid(controlPanelSubsystem, Value.kOff));
+    // SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
+    // SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
+    // SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
   }
 
   private double getXBoxRightJoyX() {
