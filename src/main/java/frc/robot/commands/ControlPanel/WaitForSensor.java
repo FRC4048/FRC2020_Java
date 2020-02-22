@@ -15,13 +15,15 @@ import frc.robot.utils.SmartShuffleboard;
 
 public class WaitForSensor extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
+  private boolean sensorStateWanted;
 
   /**
    * Creates a new WaitForSensor.
    */
   Timer timer = new Timer();
-  public WaitForSensor(ControlPanelSubsystem controlPanelSubsystem) {
+  public WaitForSensor(ControlPanelSubsystem controlPanelSubsystem, boolean sensorStateWanted) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.sensorStateWanted = sensorStateWanted;
     this.controlPanelSubsystem = controlPanelSubsystem;
   }
 
@@ -50,9 +52,8 @@ public class WaitForSensor extends CommandBase {
   public boolean isFinished() {
     if(timer.hasPeriodPassed(Constants.CONTROL_PANEL_WAIT_SENSOR_TIMEOUT)) {
       controlPanelSubsystem.setWaitSensorTimeout(true);
-      SmartShuffleboard.put("Control Panel", "Wait Sesnor Time", false);
       return true;
-    } else if (!controlPanelSubsystem.controlPanelSensor()) {
+    } else if (controlPanelSubsystem.controlPanelSensor() == sensorStateWanted) { //The sensor is no longer looking to be broken, but rather made; the sensor has changed position
       return true;
     } else {
       return false;

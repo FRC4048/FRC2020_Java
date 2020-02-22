@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public IntakeSubsystem() {
     intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_ID);
-    piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID[0]);
+    piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID);
 
     int TIMEOUT = 100;
 
@@ -64,8 +64,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(speed); 
   }
 
-  public void setIsRunning(boolean isRunning) {
-    this.isRunning = isRunning;
+  public static void setIsRunning(boolean run) {
+    isRunning = run;
   }
 
   public static boolean getIsRunning() {

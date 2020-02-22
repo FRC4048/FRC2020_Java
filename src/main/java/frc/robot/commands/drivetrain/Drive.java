@@ -54,11 +54,6 @@ public class Drive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (!controlPanelSubsystem.controlPanelSensor() && controlPanelSubsystem.getPistonState() && !Robot.m_robotContainer.getManualOverride()) {
-    //   Robot.m_robotContainer.setDrivingEnabled(false);
-    //   return false;
-    // } else {
       return false;
-    // }
   }
 }

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.ControlPanel;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -32,13 +33,15 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
     this.driveTrain = driveTrain;
     this.driveBackSpeed = driveBackSpeed;
     addCommands (
-      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, true)),
-      new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem)),
+      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kReverse)),
+      new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem, false)),
+      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kOff)),
+      new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem, true)),
       new LogCommandWrapper(new SetDrivingEnabled(false)),
       new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed)),
       new LogCommandWrapper(new WaitCommand(0.1)),
-      (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
-      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, false))
+      // (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
+      new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kForward))
       );
   }
 
@@ -51,7 +54,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     Robot.m_robotContainer.setDrivingEnabled(true);
     if (controlPanelSubsystem.getWaitSensorTimeout()) {
-      controlPanelSubsystem.movePiston(false);
+      controlPanelSubsystem.movePiston(Value.kForward);
       super.end(true);
     } else {
       super.end(interrupted);

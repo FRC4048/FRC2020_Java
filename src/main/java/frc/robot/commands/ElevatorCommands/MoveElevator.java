@@ -25,7 +25,7 @@ public class MoveElevator extends CommandBase {
     @Override
     public void execute() {
         if (climberElevatorSubsystem.getPistonState()) {
-            climberElevatorSubsystem.setClimber(xboxController.getY(GenericHID.Hand.kLeft) * Constants.ELEVATOR_SPEED);
+            climberElevatorSubsystem.setClimber((xboxController.getY(GenericHID.Hand.kLeft) * Constants.ELEVATOR_SPEED));
         }
     }
 

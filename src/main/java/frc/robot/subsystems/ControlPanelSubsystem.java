@@ -5,9 +5,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -21,12 +23,11 @@ import frc.robot.utils.diag.DiagTalonSrxEncoder;
 import frc.robot.utils.logging.Logging;
 import frc.robot.utils.logging.Logging.MessageLevel;
 
-import java.util.HashMap;
 
 //Y = Toggle Piston X = Rotation B = Color
 public class ControlPanelSubsystem extends SubsystemBase {  
     private WPI_TalonSRX controlPanelMotor = new WPI_TalonSRX(Constants.CONTROL_PANEL_CAN_ID);
-    private Solenoid controlPanelSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.CONTROL_PANEL_PISTON_ID);
+    private DoubleSolenoid controlPanelSolenoid = new DoubleSolenoid(Constants.PCM_CAN_ID, Constants.CONTROL_PANEL_PISTON_ID[0], Constants.CONTROL_PANEL_PISTON_ID[1]);
     private ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
     private DigitalInput opticalSensor = new DigitalInput(Constants.CONTROL_PANEL_SENSOR_ID); 
     private final int TIMEOUT = 100;
@@ -44,12 +45,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
         Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxEncoder("Control Panel Encoder", 100, controlPanelMotor));
     }
 
-    public boolean getPistonState() {
+    public Value getPistonState() {
         return controlPanelSolenoid.get();
     }
 
-    public void movePiston(boolean on) {
-        controlPanelSolenoid.set(on);
+    public void movePiston(Value state) {
+        controlPanelSolenoid.set(state);
     }
 
     public void rotateWithSpeed(double speed) {
@@ -102,10 +103,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        
-        SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());
-        SmartShuffleboard.put("Control Panel", "Data", "Color Sensor Value", getCurrentColor().name());
-        SmartShuffleboard.put("Control Panel", "Data", "Game Data", fmsColor());
+        if(Constants.ENABLE_DEBUG) {
+            SmartShuffleboard.put("Control Panel", "Data", "Encoder Value", getEncoder());
+            SmartShuffleboard.put("Control Panel", "Data", "Color Sensor Value", getCurrentColor().name());
+            SmartShuffleboard.put("Control Panel", "Data", "Game Data", fmsColor());
+        }
 
     }
     

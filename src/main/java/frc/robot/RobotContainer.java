@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ControlPanel.*;
 import frc.robot.subsystems.*;
@@ -126,10 +127,7 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
-
-    SmartShuffleboard.putCommand("Drive", "DriveStraight 2m, 0.4 power, 3sec", new DriveStraight(2, 0.4, driveTrain).withTimeout(3));
-    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.5 power, 15sec", new DriveStraight(10, 0.5, driveTrain).withTimeout(15));
-    SmartShuffleboard.putCommand("Drive", "DriveStraight 10m, 0.2 power, 33sec", new DriveStraight(10, 0.2, driveTrain).withTimeout(33));
+    
   }
 
   private double getXBoxRightJoyX() {
@@ -138,8 +136,6 @@ public class RobotContainer {
 
   public void setDrivingEnabled(boolean mode) {
     drivingEnabled = mode;
-
-
     Logging.instance().traceMessage(MessageLevel.INFORMATION, "Driving Enabled Set To: " + drivingEnabled);
   }
 
@@ -176,8 +172,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Command markPlaceCommand = new MarkPlaceCommand();
-    driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
+    // Command markPlaceCommand = new MarkPlaceCommand();
+    // driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
     intakeBalls.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
     intakeBalls.whileHeld(new MotorSpinIntake(intakeSubsystem));
     intakeBalls.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
@@ -282,4 +278,7 @@ public class RobotContainer {
     return autoCommand;
   }
 
+  public ControlPanelSubsystem getControlPanelSubsystem() {
+    return controlPanelSubsystem;
+  }
 }

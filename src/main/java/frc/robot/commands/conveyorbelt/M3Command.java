@@ -19,7 +19,7 @@ import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class M3Command extends CommandBase {
-  private final double STAGER_SPEED = 0.5;
+  private final double STAGER_SPEED = 0.8;
   private TransferConveyorSubsystem transferConveyorSubsystem;
   private BallTransferState wantedState;
   private Supplier<Integer> startCB;
