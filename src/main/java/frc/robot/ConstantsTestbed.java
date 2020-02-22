@@ -18,7 +18,7 @@ interface ConstantsTestbed {
 
     //CAN ID
     public static final int PDP_CAN_ID = 0;
-    public static final int MOTOR_LEFT1_ID = 1;
+    public static final int MOTOR_LEFT1_ID = 7;
     public static final int MOTOR_LEFT2_ID = 2;
     public static final int MOTOR_RIGHT1_ID = 3;
     public static final int MOTOR_RIGHT2_ID = 4;
@@ -54,10 +54,10 @@ interface ConstantsTestbed {
     public static final int SLOT5_B_ID = 19;
 
     //PCM
-    public static final int[] INTAKE_PISTON_ID = {4,5};
+    public static final int INTAKE_PISTON_ID = 0;
     public static final int CLIMBER_PISTON_ID = 2;
     public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
-    public static final int CONTROL_PANEL_PISTON_ID = 1;
+    public static final int[] CONTROL_PANEL_PISTON_ID = {4,5};
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;
@@ -75,7 +75,10 @@ interface ConstantsTestbed {
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
     public static final double CONTROL_PANEL_COLOR_SPEED = 0.5;
-    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.2;
+    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 1;
+    public static final double CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT = 6;
+    public static final double CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT = 3;
+    public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;
     public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
 
     //OI

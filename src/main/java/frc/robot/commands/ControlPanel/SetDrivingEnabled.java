@@ -5,33 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Robot;
 
-public class MotorSpinIntake extends CommandBase {
-  private IntakeSubsystem intakeSubsystem;
-
+public class SetDrivingEnabled extends CommandBase {
+  private boolean status;
   /**
-   * Creates a new MotorSpinIntake.
+   * Creates a new SetDrivingEnabled.
    */
-  public MotorSpinIntake(IntakeSubsystem intakeSubsystem) {
+  public SetDrivingEnabled(boolean status) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intakeSubsystem = intakeSubsystem;
-    addRequirements(intakeSubsystem);
+    this.status = status;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    IntakeSubsystem.setIsRunning(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinMotor(0.7);
+    Robot.m_robotContainer.setDrivingEnabled(status);
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +39,6 @@ public class MotorSpinIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

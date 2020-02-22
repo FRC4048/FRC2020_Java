@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.balltransfer;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -40,6 +41,8 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public ConveyorSubsystem() {
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
+    conveyorMotor.setInverted(true);
+    conveyorMotor.setNeutralMode(NeutralMode.Brake);
 
     slot2A = new DigitalInput(Constants.SLOT2_A_ID);
     slot2B = new DigitalInput(Constants.SLOT2_B_ID);

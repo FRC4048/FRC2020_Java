@@ -17,6 +17,7 @@ public class WinchSubsystem extends SubsystemBase {
         winchMotor.configPeakOutputForward(1, TIMEOUT);
         winchMotor.configPeakOutputReverse(-1, TIMEOUT);
         winchMotor.setNeutralMode(NeutralMode.Brake);
+        winchMotor.setInverted(true);
     }
 
     public void moveWinch(double speed) {
