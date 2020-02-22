@@ -109,6 +109,7 @@ public class RobotContainer {
 
   private JoystickButton shootBall = new JoystickButton(controller, Constants.XBOX_RIGHT_BUMPER);
 
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -117,6 +118,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new Drive(driveTrain, controlPanelSubsystem, () -> joyLeft.getY(), () -> joyRight.getY()));
     conveyorSubsystem.setDefaultCommand(new StateDetector(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem));
     controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
+    conveyorSubsystem.setDefaultCommand(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, true, xboxController.getTriggerAxis(Hand.kRight)));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -182,7 +184,7 @@ public class RobotContainer {
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, false), "GearSwitch Speed High"));
 
     shootBall.whenPressed(new LogCommandWrapper(new ShootStart()));
-    shootBall.whileHeld(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, false)); //This will start the motors at full speed when pressed down
+    shootBall.whileHeld(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, false, xboxController.getTriggerAxis(Hand.kRight))); //This will start the motors at full speed when pressed down
     shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors after shoot")); //This will stop the motors once the button is released
 
     //TODO: add a flush ball button

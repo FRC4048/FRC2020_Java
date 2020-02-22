@@ -8,6 +8,7 @@
 package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
@@ -17,6 +18,7 @@ public class ShootBalls extends CommandBase {
   private TransferConveyorSubsystem transferConveyorSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private boolean isFlush;
+  private double rightTriggerVaue;
   private final double SHOOTER_SPEED = 1;
   private final double CONVEYOR_SPEED = 1;
   private final double TRANSFER_SPEED = 1;
@@ -26,11 +28,12 @@ public class ShootBalls extends CommandBase {
    * 
    * @param direction the direction that the balls will be shooting out of
    */
-  public ShootBalls(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, boolean isFlush) {
+  public ShootBalls(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, boolean isFlush, double rightTriggerValue) {
     this.conveyorSubsystem = conveyorSubsystem;
     this.transferConveyorSubsystem = transferConveyorSubsystem;
     this.shooterSubsystem = shooterSubsystem;
     this.isFlush = isFlush;
+    this.rightTriggerVaue = rightTriggerVaue;
 
     addRequirements(conveyorSubsystem);
     addRequirements(transferConveyorSubsystem);
@@ -50,7 +53,7 @@ public class ShootBalls extends CommandBase {
       conveyorSubsystem.moveConveyor(CONVEYOR_SPEED); 
       shooterSubsystem.moveShooter(SHOOTER_SPEED);
       transferConveyorSubsystem.moveTransfer(TRANSFER_SPEED); 
-    } else {
+    } else if (rightTriggerVaue > 0.3){
       conveyorSubsystem.moveConveyor(-CONVEYOR_SPEED); 
       shooterSubsystem.moveShooter(-SHOOTER_SPEED);
       transferConveyorSubsystem.moveTransfer(-TRANSFER_SPEED);  
