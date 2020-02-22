@@ -73,6 +73,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));
+
+    resetGyro();
   }
 
   /**

@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.MotorSpinIntake;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StopIntakeCommand;
@@ -76,7 +77,7 @@ import frc.robot.commands.conveyorbelt.ShootStart;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  public final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();
@@ -225,10 +226,8 @@ public class RobotContainer {
       //Theoretically more trajectory objects could be added
       break;
     case DO_NOTHING:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build();
       break;
     default:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
       break;
     }
 
@@ -268,13 +267,13 @@ public class RobotContainer {
          break;
 
       case DO_NOTHING:
-        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        autoCommand = new DoNothing();
         break;
 
       default:
-        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        autoCommand = new DoNothing();
         break;
-    } 
+    }
     return autoCommand;
   }
 

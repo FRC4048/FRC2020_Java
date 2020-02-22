@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.LimeLightVision;
+import frc.robot.commands.drivetrain.TurnToAngle;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
@@ -65,6 +66,10 @@ public class Robot extends TimedRobot {
     // limelight = new LimeLightVision();
     // limelight.setLedOff();
     // limelight.setStream(0);
+    SmartShuffleboard.putCommand("Turn", "Turn to 0", new TurnToAngle(m_robotContainer.driveTrain, 0));
+    SmartShuffleboard.putCommand("Turn", "Turn to 5", new TurnToAngle(m_robotContainer.driveTrain, 5));
+    SmartShuffleboard.putCommand("Turn", "Turn to 90", new TurnToAngle(m_robotContainer.driveTrain, 90));
+    SmartShuffleboard.putCommand("Turn", "Turn to -90", new TurnToAngle(m_robotContainer.driveTrain, -90));
   }
 
   /**
@@ -84,6 +89,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartShuffleboard.put("Driver", "MANUAL OVERRIDE ENABLED", m_robotContainer.getManualOverride());  
     Logging.instance().writeAllData();
+    SmartShuffleboard.put("Turn", "Angle", m_robotContainer.driveTrain.getAngle() * -1);
   }
 
   /**

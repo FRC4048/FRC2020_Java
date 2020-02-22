@@ -9,6 +9,7 @@ package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 
 public class TurnToAngle extends CommandBase {
   /**
@@ -17,11 +18,12 @@ public class TurnToAngle extends CommandBase {
   private final double MIN_ANGLE = -180;
   private final double MAX_ANGLE = 180;
   private final double ANGLE_THRESHOLD = 2;
-  private final double MAX_SPEED = 0.2;
-  private final double MIN_SPEED = 0.1;
+  private final double MAX_SPEED = 0.4;
+  private final double MIN_SPEED = 0.2;
   private SixWheelDriveTrainSubsystem driveTrain;
   private double angle;
   private double currAngle;
+  private double speed = 0.0;
 
   public TurnToAngle(SixWheelDriveTrainSubsystem driveTrain, int angle) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,11 +41,10 @@ public class TurnToAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currAngle = driveTrain.getAngle();
-    double angleError = Math.abs(currAngle - angle);
-    double speed = 0.0;
+    currAngle = driveTrain.getAngle() * -1;
+    double angleError = angle - currAngle;
 
-    if (Math.abs(angle - currAngle) < ANGLE_THRESHOLD) {
+    if (Math.abs(angle - currAngle) <= ANGLE_THRESHOLD) {
       speed = 0.0;
     } else {
       if (Math.abs(currAngle - angle) > 180) {
@@ -55,15 +56,21 @@ public class TurnToAngle extends CommandBase {
       // 180 is the maximum error
       angleError = angle - currAngle;
 
-      speed = (angleError / 180) * (MAX_SPEED - MIN_SPEED);
-      if (angleError < 0)
-        speed -= MIN_SPEED;
+      if (Math.abs(angleError) > 25)
+        speed = MAX_SPEED;
       else
-        speed += MIN_SPEED;
-      if (Math.abs(angle - currAngle) < ANGLE_THRESHOLD)
-        speed = 0;
+        speed = MAX_SPEED * (angleError/25);
+    }
+    if (angle < currAngle){
+      driveTrain.drive(-Math.abs(speed), Math.abs(speed));
+    } 
+    else if (currAngle < angle){
+      driveTrain.drive(Math.abs(speed), -Math.abs(speed));
     }
 
+    SmartShuffleboard.put("Turn", "Right speed", -speed);
+    SmartShuffleboard.put("Turn", "Left speed", speed);
+    SmartShuffleboard.put("Turn", "Error", angleError);
   }
 
   // Called once the command ends or is interrupted.
