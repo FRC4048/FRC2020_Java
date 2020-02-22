@@ -17,6 +17,8 @@ public class TurnToAngle extends CommandBase {
   private final double MIN_ANGLE = -180;
   private final double MAX_ANGLE = 180;
   private final double ANGLE_THRESHOLD = 2;
+  private final double MAX_SPEED = 0.2;
+  private final double MIN_SPEED = 0.1;
   private SixWheelDriveTrainSubsystem driveTrain;
   private double angle;
   private double currAngle;
@@ -38,7 +40,30 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void execute() {
     currAngle = driveTrain.getAngle();
-    double error
+    double angleError = Math.abs(currAngle - angle);
+    double speed = 0.0;
+
+    if (Math.abs(angle - currAngle) < ANGLE_THRESHOLD) {
+      speed = 0.0;
+    } else {
+      if (Math.abs(currAngle - angle) > 180) {
+        if (currAngle > angle)
+          angle += 360;
+        else
+          angle -= 360;
+      }
+      // 180 is the maximum error
+      angleError = angle - currAngle;
+
+      speed = (angleError / 180) * (MAX_SPEED - MIN_SPEED);
+      if (angleError < 0)
+        speed -= MIN_SPEED;
+      else
+        speed += MIN_SPEED;
+      if (Math.abs(angle - currAngle) < ANGLE_THRESHOLD)
+        speed = 0;
+    }
+
   }
 
   // Called once the command ends or is interrupted.
