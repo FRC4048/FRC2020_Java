@@ -95,6 +95,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     SmartShuffleboard.put("Drive", "Distance", Math.abs((m_robotContainer.driveTrainGetter().getLeftEncoderDistance() + m_robotContainer.driveTrainGetter().getRightEncoderDistance())/2));
+    SmartShuffleboard.put("Driver", "AutoCommandVerify", m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(), m_robotContainer.autoChooser.getAction())
+                                                                                                           + " " + m_robotContainer.autoChooser.getDelay());
   }
 
   /**
@@ -120,7 +122,6 @@ public class Robot extends TimedRobot {
                                                        m_robotContainer.autoChooser.getAction());
     Command autonomousCommand = m_robotContainer.getAutonomousCommand(getAutoCommand, m_robotContainer.autoChooser.getDelay());
     Logging.instance().traceMessage(MessageLevel.INFORMATION, "AutoCommand is: " + getAutoCommand.toString() + " " + m_robotContainer.autoChooser.getDelay());
-    
     m_robotContainer.driveTrainGetter().resetGyro();
     m_robotContainer.driveTrainGetter().resetOdodemtry(new Pose2d(0, 0, new Rotation2d(0)));
     if (autonomousCommand != null) {
