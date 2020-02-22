@@ -51,6 +51,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ClimberElevatorSubsystem;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.commands.drivetrain.MoveBackwards;
+import frc.robot.commands.drivetrain.ResetPose;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.TrajectoryBuilder;
 import frc.robot.utils.diag.Diagnostics;
@@ -222,7 +223,7 @@ public class RobotContainer {
       break;
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(1, 0, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(1.5, 0, 0).build();
       //Start where the last one ended and drive end up in the same place we started
       // trajectory[1] = TrajectoryBuilder.start().withStartPosition(2, 0, 0).withEndPoint(0, 0, 0).build();
       //Theoretically more trajectory objects could be added
@@ -267,7 +268,7 @@ public class RobotContainer {
         break;
 
       case RIGHT_PICKUP:
-         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+         autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).andThen(() -> driveTrain.tankDriveVolts(0, 0));
          break;
 
       case DO_NOTHING:
@@ -277,7 +278,7 @@ public class RobotContainer {
       default:
         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
         break;
-    }
+    } 
     return autoCommand;
   }
 

@@ -21,6 +21,8 @@ public class DriveStraight extends CommandBase {
   private double currDistance;
   private final double MIN_SPEED = 0.25;
   private final double MAX_SPEED = 0.8;
+  private final double MIN_BACK_SPEED = -0.25;
+  private final double MAX_BACK_SPEED = -0.8;
   private final double SLOW_DOWN_DISTANCE = 1; //The distance to start the pid calculation 
   private final double SPEEDUP_FACTOR = 15; // % to increase speed
   private final double ENCODERE_ERROR_THRESHOLD = 10;
@@ -43,15 +45,21 @@ public class DriveStraight extends CommandBase {
   public void initialize() {
     drivetrain.resetEncoders();
     currDistance = 0;
-    speed = Math.max(speed, MIN_SPEED);
-    speed = Math.min(speed, MAX_SPEED);
-  }
+    if (speed > 0){
+      speed = Math.max(speed, MIN_SPEED);
+      speed = Math.min(speed, MAX_SPEED);
+    }
+    if (speed < 0){
+      speed = Math.max(speed, MAX_BACK_SPEED);
+      speed = Math.min(speed, MIN_BACK_SPEED);
+    }
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     currDistance = Math.abs((drivetrain.getLeftEncoderDistance() + drivetrain.getRightEncoderDistance())/2);
-    double DistanceError = distance - currDistance;
+    double DistanceError = Math.abs(distance - currDistance);
     motorSpeeds = PIDCalc(speed, DistanceError, drivetrain.getLeftEncoderRaw(), drivetrain.getRightEncoderRaw());
     drivetrain.drive(motorSpeeds[0], motorSpeeds[1], false);
     if (Constants.ENABLE_DEBUG) {
@@ -83,7 +91,7 @@ public class DriveStraight extends CommandBase {
     SmartShuffleboard.put("Drive", "Speeds", "speed up", speedupFactor);
 
     if (speed != 0) {
-       if (distanceError < SLOW_DOWN_DISTANCE) {
+       if (Math.abs(distanceError) < SLOW_DOWN_DISTANCE) {
           if (speed > 0) {
              speeds[0] = (distanceError/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
              speeds[1] = (distanceError/SLOW_DOWN_DISTANCE) * (Math.abs(speed) - MIN_SPEED) + MIN_SPEED;
@@ -97,9 +105,9 @@ public class DriveStraight extends CommandBase {
          speeds[0] = speed;
          speeds[1] = speed;
        }
-       if (leftEncoder > rightEncoder) {
+       if (Math.abs(leftEncoder) > Math.abs(rightEncoder)) {
           speeds[1] *= speedupFactor;
-       } else if (rightEncoder > leftEncoder) {
+       } else if (Math.abs(rightEncoder) > Math.abs(leftEncoder)) {
           speeds[0] *= speedupFactor;
        }
     }
