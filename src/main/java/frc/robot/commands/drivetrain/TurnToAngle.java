@@ -18,8 +18,9 @@ public class TurnToAngle extends CommandBase {
   private final double MIN_ANGLE = -180;
   private final double MAX_ANGLE = 180;
   private final double ANGLE_THRESHOLD = 2;
-  private final double MAX_SPEED = 0.4;
-  private final double MIN_SPEED = 0.2;
+  private final double MAX_SPEED = 0.3;
+  private final double MIN_SPEED = 0.2;   
+  private final int SLOWDOWN_ANGLE = 45;
   private SixWheelDriveTrainSubsystem driveTrain;
   private double angle;
   private double currAngle;
@@ -34,8 +35,6 @@ public class TurnToAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    angle = Math.max(angle, MIN_ANGLE);
-    angle = Math.min(angle, MAX_ANGLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,28 +43,29 @@ public class TurnToAngle extends CommandBase {
     currAngle = driveTrain.getAngle() * -1;
     double angleError = angle - currAngle;
 
-    if (Math.abs(angle - currAngle) <= ANGLE_THRESHOLD) {
+    if (Math.abs(angleError) > 180) {
+      if (currAngle > angle)
+        angle += 360;
+      else
+        angle -= 360;
+    }
+
+    angleError = angle - currAngle;
+
+    if (Math.abs(angleError) <= ANGLE_THRESHOLD) {
       speed = 0.0;
     } else {
-      if (Math.abs(currAngle - angle) > 180) {
-        if (currAngle > angle)
-          angle += 360;
-        else
-          angle -= 360;
-      }
-      // 180 is the maximum error
-      angleError = angle - currAngle;
-
-      if (Math.abs(angleError) > 25)
+      if (Math.abs(angleError) > SLOWDOWN_ANGLE)
         speed = MAX_SPEED;
       else
-        speed = MAX_SPEED * (angleError/25);
+        speed = (MAX_SPEED - MIN_SPEED) * (Math.abs(angleError)/SLOWDOWN_ANGLE) + MIN_SPEED;
     }
+
     if (angle < currAngle){
-      driveTrain.drive(-Math.abs(speed), Math.abs(speed));
+      driveTrain.drive(-Math.abs(speed), Math.abs(speed), false);
     } 
     else if (currAngle < angle){
-      driveTrain.drive(Math.abs(speed), -Math.abs(speed));
+      driveTrain.drive(Math.abs(speed), -Math.abs(speed), false);
     }
 
     SmartShuffleboard.put("Turn", "Right speed", -speed);

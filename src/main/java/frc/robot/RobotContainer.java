@@ -77,7 +77,7 @@ import frc.robot.commands.conveyorbelt.ShootStart;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  public final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
+  private final SixWheelDriveTrainSubsystem driveTrain = new SixWheelDriveTrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final TransferConveyorSubsystem transferConveyorSubsystem = new TransferConveyorSubsystem();

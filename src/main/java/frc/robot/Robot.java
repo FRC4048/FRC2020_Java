@@ -66,10 +66,6 @@ public class Robot extends TimedRobot {
     // limelight = new LimeLightVision();
     // limelight.setLedOff();
     // limelight.setStream(0);
-    SmartShuffleboard.putCommand("Turn", "Turn to 0", new TurnToAngle(m_robotContainer.driveTrain, 0));
-    SmartShuffleboard.putCommand("Turn", "Turn to 5", new TurnToAngle(m_robotContainer.driveTrain, 5));
-    SmartShuffleboard.putCommand("Turn", "Turn to 90", new TurnToAngle(m_robotContainer.driveTrain, 90));
-    SmartShuffleboard.putCommand("Turn", "Turn to -90", new TurnToAngle(m_robotContainer.driveTrain, -90));
   }
 
   /**
@@ -89,7 +85,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartShuffleboard.put("Driver", "MANUAL OVERRIDE ENABLED", m_robotContainer.getManualOverride());  
     Logging.instance().writeAllData();
-    SmartShuffleboard.put("Turn", "Angle", m_robotContainer.driveTrain.getAngle() * -1);
   }
 
   /**
