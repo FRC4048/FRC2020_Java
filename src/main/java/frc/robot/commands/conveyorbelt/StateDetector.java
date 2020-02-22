@@ -22,8 +22,8 @@ public class StateDetector extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private TransferConveyorSubsystem transferSubsystem;
-  private final double TIMEOUT = 5; // seconds
-  private final double TRANSFER_LOW_SPEED = 0.4;
+  private final double TIMEOUT = 2; // seconds
+  private final double TRANSFER_LOW_SPEED = 0.8;
 
   /**
    * Creates a new StateDetector.
@@ -60,7 +60,7 @@ public class StateDetector extends CommandBase {
      */
     if (TransferConveyorSubsystem.getSlot5() && conveyorSubsystem.isCommandAvalible()) { //We will only move motors if there is a ball in the stager
       createCommand(conveyorSubsystem, transferSubsystem, shooterSubsystem, state).withTimeout(TIMEOUT).schedule();
-    } else if (IntakeSubsystem.getIsRunning()) { //This is static so we don't have to take an instance of the intake subsystem in this default command
+    } else if (IntakeSubsystem.getIsRunning() && ConveyorStateMachine.getState() != BallTransferState.S31) { //This is static so we don't have to take an instance of the intake subsystem in this default command
       transferSubsystem.moveTransfer(TRANSFER_LOW_SPEED);
     } else if (!IntakeSubsystem.getIsRunning()) {
       transferSubsystem.moveTransfer(0);

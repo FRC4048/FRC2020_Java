@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return boolean state of slot 1
    */
   public static boolean getSlot1() {
-    return !slot1.get();
+    return slot1.getShooterState();
   }
 
 }

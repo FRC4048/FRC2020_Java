@@ -25,8 +25,8 @@ import frc.robot.utils.logging.Logging;
  */
 public class TransferConveyorSubsystem extends SubsystemBase {
     private WPI_TalonSRX transferMotor;
-    private DigitalInput slot5A;
-    private DigitalInput slot5B; 
+    private static DigitalInput slot5A;
+    private static DigitalInput slot5B; 
     private static DigitalInputGroup slot5;
     // private static DigitalInput slot5;
 
@@ -70,6 +70,6 @@ public class TransferConveyorSubsystem extends SubsystemBase {
      * @return boolean state of slot 5
      */
     public static boolean getSlot5() {
-        return slot5.getShooterState();
+        return !slot5.get();
     }
 }

@@ -124,7 +124,7 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
-
+    
   }
 
   private double getXBoxRightJoyX() {
@@ -229,4 +229,7 @@ public class RobotContainer {
     return autoCommand;
   }
 
+  public ControlPanelSubsystem getControlPanelSubsystem() {
+    return controlPanelSubsystem;
+  }
 }
