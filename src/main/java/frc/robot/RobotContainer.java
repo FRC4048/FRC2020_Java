@@ -184,7 +184,7 @@ public class RobotContainer {
     buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 3.5*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
     buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
     buttonStart.whenPressed(new LogCommandWrapper(new CancelAll()));
-    SmartShuffleboard.putCommand("Driver", "Cancel All",new LogCommandWrapper(new CancelAll()));
+    SmartShuffleboard.putCommand("Driver", "Cancel All", new CancelAll());
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
     gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, true), "GearSwitch Speed Low"));
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, false), "GearSwitch Speed High"));
