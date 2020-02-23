@@ -29,6 +29,7 @@ import frc.robot.utils.logging.Logging;
 import frc.robot.utils.logging.Logging.MessageLevel;
 import frc.robot.commands.*;
 import frc.robot.commands.ControlPanel.MoveSolenoid;
+import frc.robot.commands.drivetrain.DriveStraightWithGyro;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
@@ -153,6 +154,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.driveTrainGetter().resetGyro();
   }
 
   /**

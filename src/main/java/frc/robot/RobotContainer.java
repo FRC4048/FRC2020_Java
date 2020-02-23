@@ -42,6 +42,7 @@ import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
 import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.DriveStraightWithGyro;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
 import frc.robot.subsystems.balltransfer.BallTransferState;
@@ -218,7 +219,7 @@ public class RobotContainer {
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, 1.6, 0).build();
       break;
     case RIGHT_PICKUP:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(7.8, 1.6, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(7.8, 1.4, 0).build();
       break;
     case CROSS_LINE:
       //Start at 0, 0 facing to 0, drive 2 meters forward
@@ -267,7 +268,7 @@ public class RobotContainer {
         break;
 
       case RIGHT_PICKUP:
-         autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+         autoCommand = new DriveStraightWithGyro(driveTrain, -0.4, 4.8).andThen(new WaitCommand(0.25)).andThen(new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).andThen(() -> driveTrain.tankDriveVolts(0, 0));
          break;
 
       case DO_NOTHING:
