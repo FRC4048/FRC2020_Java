@@ -44,6 +44,7 @@ interface Constants2020Robot {
     public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
     public static final int CONTROL_PANEL_SENSOR_ID = 5;
+    public static final int INTAKE_SENSOR = 6; 
     public static final int SLOT1_A_ID = 10;  
     public static final int SLOT1_B_ID = 11;
     public static final int SLOT2_A_ID = 12;
@@ -77,12 +78,12 @@ interface Constants2020Robot {
     //CONTROL PANEL CONTANTS
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
-    public static final double CONTROL_PANEL_COLOR_SPEED = 0.5;
+    public static final double CONTROL_PANEL_COLOR_SPEED = 0.25;
     public static final double CONTROL_PANEL_BACKWARDS_SPEED = 1;
     public static final double CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT = 6;
     public static final double CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT = 3;
     public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;
-    public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
+    public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 100;
 
     //OI
     public static final int XBOX_A_BUTTON = 1;
