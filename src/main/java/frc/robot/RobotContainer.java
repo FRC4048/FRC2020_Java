@@ -208,7 +208,7 @@ public class RobotContainer {
     switch(autoOption) {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case LEFT_DEPOSIT:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -3.1242, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -3.32, 0).build();
       break;
     case MIDDLE_DEPOSIT:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -1.55, 0).build();
@@ -269,7 +269,7 @@ public class RobotContainer {
       case RIGHT_PICKUP:
          autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(
            new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).
-           andThen(new TurnToAngle(driveTrain, 0)).andThen(
+           andThen(new TurnToAngle(driveTrain, 0))  .andThen(
              () -> driveTrain.tankDriveVolts(0, 0));
          break;
 
