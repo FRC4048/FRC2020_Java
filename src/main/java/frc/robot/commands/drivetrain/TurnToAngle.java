@@ -8,6 +8,7 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 import frc.robot.utils.SmartShuffleboard;
 
@@ -15,8 +16,6 @@ public class TurnToAngle extends CommandBase {
   /**
    * Creates a new TurnToAngle.
    */
-  private final double MIN_ANGLE = -180;
-  private final double MAX_ANGLE = 180;
   private final double ANGLE_THRESHOLD = 2;
   private final double MAX_SPEED = 0.3;
   private final double MIN_SPEED = 0.2;   
@@ -30,6 +29,7 @@ public class TurnToAngle extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.angle = angle;
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -67,15 +67,17 @@ public class TurnToAngle extends CommandBase {
     else if (currAngle < angle){
       driveTrain.drive(Math.abs(speed), -Math.abs(speed), false);
     }
-
-    SmartShuffleboard.put("Turn", "Right speed", -speed);
-    SmartShuffleboard.put("Turn", "Left speed", speed);
-    SmartShuffleboard.put("Turn", "Error", angleError);
+    if (Constants.ENABLE_DEBUG == true){
+      SmartShuffleboard.put("Turn", "Right speed", -speed);
+      SmartShuffleboard.put("Turn", "Left speed", speed);
+      SmartShuffleboard.put("Turn", "Error", angleError);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    driveTrain.drive(0, 0, false);
   }
 
   // Returns true when the command should end.

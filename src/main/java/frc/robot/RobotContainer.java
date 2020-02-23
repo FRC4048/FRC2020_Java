@@ -45,6 +45,7 @@ import frc.robot.commands.drivetrain.Drive;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.commands.drivetrain.TurnToAngle;
 import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
@@ -240,19 +241,22 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
       case LEFT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
+        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
         break;
 
       case MIDDLE_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
+        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
         break;
 
       case RIGHT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
+        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
           break;
@@ -263,7 +267,10 @@ public class RobotContainer {
         break;
 
       case RIGHT_PICKUP:
-         autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+         autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(
+           new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).
+           andThen(new TurnToAngle(driveTrain, 0)).andThen(
+             () -> driveTrain.tankDriveVolts(0, 0));
          break;
 
       case DO_NOTHING:
