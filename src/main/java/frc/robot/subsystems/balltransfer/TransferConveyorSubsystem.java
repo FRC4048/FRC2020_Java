@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -24,33 +23,38 @@ import frc.robot.utils.logging.Logging;
  * Add your docs here.
  */
 public class TransferConveyorSubsystem extends SubsystemBase {
+
+    public enum S5RequiredSensor {UPPER, LOWER}
+
     private WPI_TalonSRX transferMotor;
-    private static DigitalInput slot5A;
-    private static DigitalInput slot5B; 
-    private static DigitalInputGroup slot5;
+    private static DigitalInput slot5Lower;
+    private static DigitalInput slot5Upper;
+//    private static DigitalInputGroup slot5;
     // private static DigitalInput slot5;
 
     public TransferConveyorSubsystem() {
         transferMotor = new WPI_TalonSRX(Constants.TRANSFER_MOTOR_ID);
-        slot5A = new DigitalInput(Constants.SLOT5_A_ID);
-        slot5B = new DigitalInput(Constants.SLOT5_B_ID);
-        slot5 = new DigitalInputGroup(slot5A, slot5B);
+        slot5Lower = new DigitalInput(Constants.SLOT5_LOWER);
+        slot5Upper = new DigitalInput(Constants.SLOT5_UPPER);
+//        slot5 = new DigitalInputGroup(slot5Lower, slot5Upper);
         //slot5 = new DigitalInput(5);
 
         transferMotor.setInverted(true);
         transferMotor.setNeutralMode(NeutralMode.Brake);
         
-        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor A", slot5A));
-        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor B", slot5B));
+        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor Lower", slot5Lower));
+        Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot5 Optical Sensor Upper", slot5Upper));
     }
 
     public void periodic() {
-        SmartShuffleboard.put("Driver", "Slot5", getSlot5());
+        SmartShuffleboard.put("Driver", "Slot5 Upper", getSlot5Upper());
+        SmartShuffleboard.put("Driver", "Slot5 Lower", getSlot5Lower());
     }
 
     public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
         protected void addAll() {
-          add("slot5", getSlot5());
+          add("slot5", getSlot5Upper());
+          add("slot5", getSlot5Lower());
           add("Shooter Motor Running?", transferMotor.get() != 0);
         }
     };
@@ -69,7 +73,11 @@ public class TransferConveyorSubsystem extends SubsystemBase {
      * 
      * @return boolean state of slot 5
      */
-    public static boolean getSlot5() {
-        return !slot5.get();
+    public static boolean getSlot5Upper() {
+        return !slot5Upper.get();
+    }
+
+    public static boolean getSlot5Lower() {
+        return !slot5Lower.get();
     }
 }
