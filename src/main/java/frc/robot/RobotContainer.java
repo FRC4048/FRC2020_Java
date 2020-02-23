@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import frc.robot.commands.MotorSpinIntake;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StopIntakeCommand;
+import frc.robot.commands.CancelAll.CancelAll;
 import frc.robot.commands.WinchCommands.MoveWinch;
 import frc.robot.commands.ElevatorCommands.MoveElevator;
 import frc.robot.commands.ElevatorCommands.ToggleClimberPiston;
@@ -105,6 +106,8 @@ public class RobotContainer {
   private JoystickButton buttonA = new JoystickButton(controller, Constants.XBOX_A_BUTTON);
   private JoystickButton buttonY = new JoystickButton(controller, Constants.XBOX_Y_BUTTON);
   private JoystickButton buttonB = new JoystickButton(controller, Constants.XBOX_B_BUTTON);
+
+  private JoystickButton buttonStart = new JoystickButton(controller, Constants.XBOX_START_BUTTON);
 
   private JoystickButton intakeBalls = new JoystickButton(controller, Constants.XBOX_LEFT_BUMPER);
 
@@ -180,6 +183,8 @@ public class RobotContainer {
     buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
     buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 3.5*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
     buttonB.whenPressed(new RotateToColorScheduler(controlPanelSubsystem, driveTrain, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
+    buttonStart.whenPressed(new LogCommandWrapper(new CancelAll()));
+    SmartShuffleboard.putCommand("Driver", "Cancel All",new LogCommandWrapper(new CancelAll()));
     xBoxLeftStick.and(xBoxRightStick).whenActive(new LogCommandWrapper(new ToggleClimberPiston(climberElevatorSubsystem), "ToggleClimberPiston")); //This detects if both joysticks are pressed.
     gearSwitchLowSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, true), "GearSwitch Speed Low"));
     gearSwitchHighSpeed.whenPressed(new LogCommandWrapper(new GearSwitch(driveTrain, false), "GearSwitch Speed High"));
