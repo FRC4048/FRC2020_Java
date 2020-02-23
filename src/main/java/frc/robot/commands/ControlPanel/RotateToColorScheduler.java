@@ -17,7 +17,6 @@ import frc.robot.utils.logging.LogCommandWrapper;
 public class RotateToColorScheduler extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
   private SixWheelDriveTrainSubsystem driveTrain;
-  private RobotContainer m_robotContainer = Robot.m_robotContainer;
   private double driveBackSpeed;
   /**
    * Creates a new RotateToColorScheduler.
@@ -37,7 +36,7 @@ public class RotateToColorScheduler extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_robotContainer.getManualOverride()) {
+    if (Robot.m_robotContainer.getManualOverride()) {
       new LogCommandWrapper(new RotateToColor(controlPanelSubsystem), "RotateToColor").schedule();
     } else {
       new LogCommandWrapper(new RotateToColorSequence(controlPanelSubsystem, driveTrain, driveBackSpeed), "RotateToColorSequence").schedule();

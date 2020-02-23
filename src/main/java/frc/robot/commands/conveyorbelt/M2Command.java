@@ -18,11 +18,11 @@ import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class M2Command extends CommandBase {
   private ConveyorSubsystem conveyorSubsystem;
-  private final double CONVEYOR_SPEED = 0.5;
+  private final double CONVEYOR_SPEED = 0.6;
   private BallTransferState wantedState;
   private boolean force;
   private Timer timer;
-  private final double DELAY = 1; 
+  private final double DELAY = 0.4; 
   private Supplier<Integer> startCB;
   private Supplier<Integer> endCB;
 

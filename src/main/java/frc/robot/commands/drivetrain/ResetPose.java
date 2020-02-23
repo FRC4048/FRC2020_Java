@@ -5,33 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SixWheelDriveTrainSubsystem;
 
-public class MotorSpinIntake extends CommandBase {
-  private IntakeSubsystem intakeSubsystem;
-
+public class ResetPose extends CommandBase {
   /**
-   * Creates a new MotorSpinIntake.
+   * Creates a new ResetPose.
    */
-  public MotorSpinIntake(IntakeSubsystem intakeSubsystem) {
+  SixWheelDriveTrainSubsystem driveTrain;
+  public ResetPose(SixWheelDriveTrainSubsystem driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intakeSubsystem = intakeSubsystem;
-    addRequirements(intakeSubsystem);
+    this.driveTrain = driveTrain;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    IntakeSubsystem.setIsRunning(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinMotor(0.7);
+    driveTrain.resetOdodemtry(new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +41,6 @@ public class MotorSpinIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

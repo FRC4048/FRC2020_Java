@@ -7,6 +7,7 @@
 
 package frc.robot.commands.ControlPanel;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
@@ -21,6 +22,7 @@ public class RotateToColor extends CommandBase {
   private String fmsColor;
   private ColorValue desiredSensorColor;
   private int unknownCounter;
+  private double initTime;
 
   public RotateToColor(ControlPanelSubsystem controlPanelSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,6 +33,8 @@ public class RotateToColor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    initTime = Timer.getFPGATimestamp();
+    unknownCounter = 0;
     fmsColor = controlPanelSubsystem.fmsColor();
     if (fmsColor.length() > 0) {
       switch (fmsColor.charAt(0)) {
@@ -57,10 +61,11 @@ public class RotateToColor extends CommandBase {
   public void execute() {
     if (desiredSensorColor != null) {
       controlPanelSubsystem.rotateWithSpeed(Constants.CONTROL_PANEL_COLOR_SPEED);
-      SmartShuffleboard.put("Control Panel", "Action", "Spinning");
       if (controlPanelSubsystem.getCurrentColor() == ColorValue.UNKNOWN) {
         unknownCounter++;
-        SmartShuffleboard.put("Control Panel", "Unknown Counter", unknownCounter);
+        if (Constants.ENABLE_DEBUG) {
+          SmartShuffleboard.put("Control Panel", "Unknown Counter", unknownCounter);
+        }
       } else {
         unknownCounter = 0;
       }
@@ -71,15 +76,17 @@ public class RotateToColor extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     controlPanelSubsystem.stopRotation();
-    SmartShuffleboard.put("Control Panel", "Action", "Stopping");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((desiredSensorColor != null) || (controlPanelSubsystem.getCurrentColor() == desiredSensorColor  )) {
+    if ((Timer.getFPGATimestamp() - initTime) > Constants.CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT) {
       return true;
-    } else if (unknownCounter > Constants.CONTROL_PANEL_UNKNOWN_LIMIT){
+    }
+    if ((desiredSensorColor != null) && (controlPanelSubsystem.getCurrentColor() == desiredSensorColor)) {
+      return true;
+    } else if (unknownCounter > Constants.CONTROL_PANEL_UNKNOWN_LIMIT) {
       return true;
     } else {
       return false;

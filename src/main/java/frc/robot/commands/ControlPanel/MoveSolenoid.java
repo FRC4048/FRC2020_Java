@@ -7,17 +7,18 @@
 
 package frc.robot.commands.ControlPanel;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
 public class MoveSolenoid extends CommandBase {
   private ControlPanelSubsystem controlPanelSubsystem;
-  private boolean move;
+  private Value move;
 
   /**
    * Creates a new MoveSolenoid.
    */
-  public MoveSolenoid(ControlPanelSubsystem controlPanelSubsystem, boolean move) {
+  public MoveSolenoid(ControlPanelSubsystem controlPanelSubsystem, Value move) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.move = move;

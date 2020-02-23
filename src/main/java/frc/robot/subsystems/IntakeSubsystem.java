@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public IntakeSubsystem() {
     intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_ID);
-    piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID[0]);
+    piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID);
 
     int TIMEOUT = 100;
 
@@ -35,6 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.configPeakOutputForward(1, TIMEOUT);
     intakeMotor.configPeakOutputReverse(-1, TIMEOUT);
     intakeMotor.setNeutralMode(NeutralMode.Brake);
+    intakeMotor.setInverted(true);
     isRunning = false;
   }
 
@@ -60,11 +61,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void spinMotor(double speed){
-    intakeMotor.set(speed);
+    intakeMotor.set(speed); 
   }
 
-  public void setIsRunning(boolean isRunning) {
-    this.isRunning = isRunning;
+  public static void setIsRunning(boolean run) {
+    isRunning = run;
   }
 
   public static boolean getIsRunning() {

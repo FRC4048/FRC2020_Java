@@ -16,7 +16,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.diag.DiagTalonSrxSwitch;
+import frc.robot.utils.diag.DiagTalonSrxSwitch.Direction;
 
 public class ClimberElevatorSubsystem extends SubsystemBase {
   private WPI_TalonSRX climberMotor;
@@ -36,9 +39,13 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
     climberMotor.configPeakOutputForward(1, TIMEOUT);
     climberMotor.configPeakOutputReverse(-1, TIMEOUT);
     climberMotor.setNeutralMode(NeutralMode.Brake);
-
+    climberMotor.setInverted(false);
+    
     climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+
+    Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Forward Switch", climberMotor, Direction.FORWARD));
+    Robot.getDiagnostics().addDiagnosable(new DiagTalonSrxSwitch("Climber Elevator Reverse Switch", climberMotor, Direction.REVERSE));
   }
 
   public void setClimber(double speed) {
@@ -61,11 +68,11 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
     return climberSolenoid.get();
   }
 
-  public boolean getBottomSwitch() {
+  public boolean getTopSwitch() {
     return climberMotor.getSensorCollection().isRevLimitSwitchClosed();
   }
 
-  public boolean getTopSwitch(){
+  public boolean getBottomSwitch(){
     return climberMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 

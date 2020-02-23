@@ -7,58 +7,52 @@
 
 package frc.robot.commands.conveyorbelt;
 
-import java.util.function.Supplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
-import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
-import frc.robot.utils.logging.Logging;
-import frc.robot.utils.logging.Logging.MessageLevel;
 import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
+import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
+import frc.robot.subsystems.balltransfer.ShooterSubsystem;
+import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 
-public class M3Command extends CommandBase {
-  private final double STAGER_SPEED = 0.8;
+public class ShootBallAuto extends CommandBase {
+  private ConveyorSubsystem conveyorSubsystem;
   private TransferConveyorSubsystem transferConveyorSubsystem;
-  private BallTransferState wantedState;
-  private Supplier<Integer> startCB;
-  private Supplier<Integer> endCB;
-
+  private ShooterSubsystem shooterSubsystem;
   /**
-   * Creates a new M3Command.
+   * Creates a new ShootBallAuto.
    */
-  public M3Command(TransferConveyorSubsystem transferConveyorSubsystem, BallTransferState initState, Supplier<Integer> startCB, Supplier<Integer> endCB) {
+  public ShootBallAuto(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem) {
+    this.conveyorSubsystem = conveyorSubsystem;
     this.transferConveyorSubsystem = transferConveyorSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
+
+    addRequirements(conveyorSubsystem);
     addRequirements(transferConveyorSubsystem);
-    wantedState = ConveyorStateMachine.wantedState(initState);
-    this.startCB = startCB;
-    this.endCB = endCB;
+    addRequirements(shooterSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startCB.get(); //We add one to the command counter to signify that a command is currently scheudled
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    transferConveyorSubsystem.moveTransfer(STAGER_SPEED);
+    conveyorSubsystem.moveConveyor(1); 
+    shooterSubsystem.moveShooter(1);
+    transferConveyorSubsystem.moveTransfer(1); 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    transferConveyorSubsystem.moveTransfer(0);
-    endCB.get(); //We subtract one from the counter to signify that the command has been completed
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ConveyorStateMachine.getState().getS5() == wantedState.getS5();
+    return ConveyorStateMachine.getState() == BallTransferState.S0;
   }
 }

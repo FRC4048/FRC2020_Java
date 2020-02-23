@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
@@ -18,6 +21,10 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.utils.diag.DiagEncoder;
+import frc.robot.utils.diag.DiagNavX;
+import frc.robot.utils.SmartShuffleboard;
 
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private WPI_TalonSRX left1;
@@ -37,8 +44,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrain.
    */
   public SixWheelDriveTrainSubsystem() {
-    Exception ex = new Exception("Constructor");
-    ex.printStackTrace();
     left1 = new WPI_TalonSRX(Constants.MOTOR_LEFT1_ID);
     left2 = new WPI_TalonSRX(Constants.MOTOR_LEFT2_ID);
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
@@ -59,6 +64,15 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     leftEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
+
+    left1.setNeutralMode(NeutralMode.Brake);
+    left2.setNeutralMode(NeutralMode.Brake);
+    right1.setNeutralMode(NeutralMode.Brake);
+    right2.setNeutralMode(NeutralMode.Brake);
+
+    Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
+    Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
+    Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));
   }
 
   /**
@@ -67,9 +81,11 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * @param speedLeft
    * @param speedRight
    */
-  public void drive(double speedLeft, double speedRight){
-    speedLeft = Math.signum(speedLeft) * Math.pow(speedLeft, 2);
-    speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
+  public void drive(double speedLeft, double speedRight, boolean isSquared){
+    if(isSquared) {
+      speedLeft = Math.signum(speedLeft) * Math.pow(speedLeft, 2);
+      speedRight = Math.signum(speedRight) * Math.pow(speedRight, 2);
+    }
     // driveTrain.tankDrive(speedLeft, speedRight);
     //The joysticks are inverted so inverting this makes it drive correctly.
     left1.set(ControlMode.PercentOutput, speedLeft);
@@ -96,7 +112,13 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
-    driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
+    if(!DriverStation.getInstance().isOperatorControl()) {
+      driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
+    }
+    if (Constants.ENABLE_DEBUG) {
+       SmartShuffleboard.put("Drive", "Encoders", "L", getLeftEncoderRaw());
+       SmartShuffleboard.put("Drive", "Encoders", "R", getRightEncoderRaw());
+    }
   }
 
   /**
@@ -151,6 +173,22 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    */
   public void switchGear(boolean state) {
     gearSolenoid.set(state);
+  }
+
+  public double getLeftEncoderDistance() {
+    return leftEncoder.getDistance();
+  }
+
+  public double getRightEncoderDistance() {
+    return rightEncoder.getDistance();
+  }
+
+  public int getLeftEncoderRaw() {
+    return leftEncoder.getRaw();
+  }
+
+  public int getRightEncoderRaw() {
+    return rightEncoder.getRaw();
   }
 }
 

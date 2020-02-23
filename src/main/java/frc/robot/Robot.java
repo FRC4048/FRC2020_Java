@@ -7,18 +7,35 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.LimeLightVision;
 import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.diag.Diagnostics;
 import frc.robot.utils.logging.Logging;
+import frc.robot.utils.logging.Logging.MessageLevel;
+import frc.robot.commands.*;
+import frc.robot.commands.ControlPanel.MoveSolenoid;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 
 
 /**
@@ -31,8 +48,8 @@ import frc.robot.utils.logging.Logging;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static RobotContainer m_robotContainer;
-  private Diagnostics diagnostics;
-
+  private static Diagnostics diagnostics;
+  private static LimeLightVision limelight;;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -42,9 +59,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-
-    m_robotContainer = new RobotContainer();
     diagnostics = new Diagnostics();
+    // CameraServer.getInstance().startAutomaticCapture();
+    m_robotContainer = new RobotContainer();
+    // limelight = new LimeLightVision();
+    // limelight.setLedOff();
+    // limelight.setStream(0);
   }
 
   /**
@@ -77,6 +97,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    SmartShuffleboard.put("Drive", "Distance", Math.abs((m_robotContainer.driveTrainGetter().getLeftEncoderDistance() + m_robotContainer.driveTrainGetter().getRightEncoderDistance())/2));
+    SmartShuffleboard.put("Driver", "AutoCommandVerify", m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(), m_robotContainer.autoChooser.getAction())
+                                                                                                           + " " + m_robotContainer.autoChooser.getDelay());
   }
 
   /**
@@ -98,11 +121,16 @@ public class Robot extends TimedRobot {
 		gameInfo.append(", Match Type=");
 		gameInfo.append(DriverStation.getInstance().getMatchType().toString());
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+    new MoveSolenoid(m_robotContainer.getControlPanelSubsystem(), Value.kForward).schedule();
     frc.robot.AutoChooser.AutoCommand getAutoCommand = m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(),
                                                        m_robotContainer.autoChooser.getAction());
-     if (m_robotContainer.getAutonomousCommand(getAutoCommand) != null) {
-       m_robotContainer.getAutonomousCommand(getAutoCommand).schedule();
-     }
+    Command autonomousCommand = m_robotContainer.getAutonomousCommand(getAutoCommand, m_robotContainer.autoChooser.getDelay());
+    Logging.instance().traceMessage(MessageLevel.INFORMATION, "AutoCommand is: " + getAutoCommand.toString() + " " + m_robotContainer.autoChooser.getDelay());
+    m_robotContainer.driveTrainGetter().resetGyro();
+    m_robotContainer.driveTrainGetter().resetOdodemtry(new Pose2d(0, 0, new Rotation2d(0)));
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    }
   }
 
   /**
@@ -121,7 +149,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     Logging.instance().traceMessage(Logging.MessageLevel.INFORMATION, "-----------TELEOP INIT----------");
     Logging.instance().writeAllTitles();
-
+    new MoveSolenoid(m_robotContainer.getControlPanelSubsystem(), Value.kForward).schedule();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -149,5 +177,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     diagnostics.refresh();
+  }
+  
+  public static Diagnostics getDiagnostics() {
+    return diagnostics;
   }
 }

@@ -37,13 +37,14 @@ interface Constants2020Robot {
     public static final int PDP_DRIVE_L2 = 15;
     public static final int PDP_DRIVE_R1 = 0;
     public static final int PDP_DRIVE_R2 = 1;
+    public static final int PDP_ELEVATOR = 8;
 
 
     //DIO
     public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
     public static final int CONTROL_PANEL_SENSOR_ID = 5;
-    public static final int SLOT1_A_ID = 10;   
+    public static final int SLOT1_A_ID = 10;  
     public static final int SLOT1_B_ID = 11;
     public static final int SLOT2_A_ID = 12;
     public static final int SLOT2_B_ID = 13;
@@ -56,10 +57,10 @@ interface Constants2020Robot {
 
 
     //PCM
-    public static final int[] INTAKE_PISTON_ID = {0,1};
+    public static final int INTAKE_PISTON_ID = 0;
     public static final int CLIMBER_PISTON_ID = 2;
     public static final int DRIVE_TRAIN_GEARSWITCH_ID = 3;
-    public static final int CONTROL_PANEL_PISTON_ID = 4;
+    public static final int[] CONTROL_PANEL_PISTON_ID = {1,4};
 
     //DRIVETRAIN CONSTANTS
     public static final double DRIVETRAIN_KS = 0.803;
@@ -77,8 +78,11 @@ interface Constants2020Robot {
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
     public static final double CONTROL_PANEL_SPEED = 0.5;
     public static final double CONTROL_PANEL_COLOR_SPEED = 0.25;
-    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 0.2;
-    public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 10;
+    public static final double CONTROL_PANEL_BACKWARDS_SPEED = 1;
+    public static final double CONTROL_PANEL_ROTATE_DEGREES_TIMEOUT = 6;
+    public static final double CONTROL_PANEL_ROTATE_TO_COLOR_TIMEOUT = 3;
+    public static final double CONTROL_PANEL_WAIT_SENSOR_TIMEOUT = 5;
+    public static final int CONTROL_PANEL_UNKNOWN_LIMIT = 100;
 
     //OI
     public static final int XBOX_A_BUTTON = 1;
@@ -94,5 +98,5 @@ interface Constants2020Robot {
 
     //ROBOT MOVEMENTS
     public static final double ELEVATOR_SPEED = 0.5;
-    double CLIMBER_WINCH_SPEED = 0.5;
+    public static final double CLIMBER_WINCH_SPEED = 1;
 }
