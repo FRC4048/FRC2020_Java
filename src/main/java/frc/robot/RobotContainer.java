@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ControlPanel.*;
+import frc.robot.commands.ReverseIntake;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -127,7 +128,7 @@ public class RobotContainer {
     autoChooser.initialize();
     climberElevatorSubsystem.setDefaultCommand(new MoveElevator(climberElevatorSubsystem, xboxController));
     winchSubsystem.setDefaultCommand(new MoveWinch(winchSubsystem, xboxController));
-    
+
   }
 
   private double getXBoxRightJoyX() {
@@ -191,6 +192,8 @@ public class RobotContainer {
     //TODO: add a flush ball button
 
     SmartShuffleboard.putCommand("Driver", "Manual Override", new ManualOverride());
+    SmartShuffleboard.putCommand("Driver", "Flush reverse", new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, true));
+    SmartShuffleboard.putCommand("Driver", "Reverse Intake", new ReverseIntake(intakeSubsystem, transferConveyorSubsystem).withTimeout(0.5));
   }
 
   /**
@@ -241,19 +244,19 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
       case LEFT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(()
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
         break;
 
       case MIDDLE_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(()
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
         break;
 
       case RIGHT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(() 
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(()
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
           break;
@@ -274,7 +277,7 @@ public class RobotContainer {
       default:
         autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
         break;
-    } 
+    }
     return autoCommand;
   }
 
