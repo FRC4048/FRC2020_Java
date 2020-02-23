@@ -41,7 +41,7 @@ public class RotateToColorSequence extends SequentialCommandGroup {
       new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem, true)),
       new LogCommandWrapper(new SetDrivingEnabled(false)),
       (new LogCommandWrapper(new RotateToColor(controlPanelSubsystem))),
-      new LogCommandWrapper(new WaitCommand(0.1)),
+      new LogCommandWrapper(new WaitCommand(0.2)),
       // (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
       new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kForward))
       );
