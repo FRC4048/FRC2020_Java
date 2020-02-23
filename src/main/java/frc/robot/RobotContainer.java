@@ -175,7 +175,7 @@ public class RobotContainer {
     // Command markPlaceCommand = new MarkPlaceCommand();
     // driverMarkPlace.whenPressed(new LogCommandWrapper(markPlaceCommand, "MarkPlaceCommand")); // TODO update this button
     intakeBalls.whenPressed(new LogCommandWrapper(new StartIntakeCommand(intakeSubsystem), "StartIntakeCommand"));
-    intakeBalls.whileHeld(new MotorSpinIntake(intakeSubsystem));
+    intakeBalls.whileHeld(new LogCommandWrapper(new MotorSpinIntake(intakeSubsystem), "MotorSpinIntake"));
     intakeBalls.whenReleased(new LogCommandWrapper(new StopIntakeCommand(intakeSubsystem), "StopIntakeCommand"));
     buttonY.whenPressed(new LogCommandWrapper(new ToggleSolenoid(controlPanelSubsystem), "ToggleSolenoid"));
     buttonX.whenPressed(new RotateDegreesScheduler(controlPanelSubsystem, driveTrain, 3.5*360, Constants.CONTROL_PANEL_SPEED, Constants.CONTROL_PANEL_BACKWARDS_SPEED));
