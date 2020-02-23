@@ -17,7 +17,7 @@ import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.utils.logging.LogCommandWrapper;
 
 public class M1M2M3Command extends ParallelCommandGroup {
-    private final double DELAY = 0.08;
+    private final double DELAY = 0.02;
 
     public M1M2M3Command(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, BallTransferState initState) {
         this(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, initState, false);

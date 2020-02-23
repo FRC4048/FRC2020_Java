@@ -16,13 +16,13 @@ import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 import frc.robot.utils.logging.LogCommandWrapper;
 
 public class M2M3Command extends ParallelCommandGroup {
-    private final double DELAY = 0.08;
+    private final double DELAY = 0.02;
 
     public M2M3Command(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, BallTransferState initState) {
         addCommands(
                 new LogCommandWrapper(new M3Command(transferConveyorSubsystem, initState, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded)),
                 new SequentialCommandGroup(
-                        new WaitCommand(DELAY),
+//                        new WaitCommand(DELAY),
                         new LogCommandWrapper(new M2Command(conveyorSubsystem, initState, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded))
                 )
         );

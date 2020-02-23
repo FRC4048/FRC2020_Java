@@ -18,7 +18,7 @@ import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 
 public class M1Command extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
-  private final double SHOOTER_SPEED = -0.01;
+  private final double SHOOTER_SPEED = 0.1;
   private BallTransferState wantedState;
   private Supplier<Integer> startCB;
   private Supplier<Integer> endCB;
