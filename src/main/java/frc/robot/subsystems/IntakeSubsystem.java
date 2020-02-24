@@ -10,23 +10,30 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants;
+import frc.robot.utils.SmartShuffleboard;
+import frc.robot.utils.diag.DiagOpticalSensor;
 import frc.robot.utils.logging.Logging;
 
 public class IntakeSubsystem extends SubsystemBase {
   private WPI_TalonSRX intakeMotor;
   private Solenoid piston;
   private static boolean isRunning;
+  private static DigitalInput slot6;
+
   /**
    * Creates a new IntakeSubsystem.
    */
   public IntakeSubsystem() {
     intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_ID);
     piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID);
+    slot6 = new DigitalInput(Constants.SLOT6_ID);
 
     int TIMEOUT = 100;
 
@@ -37,6 +44,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.setNeutralMode(NeutralMode.Brake);
     intakeMotor.setInverted(true);
     isRunning = false;
+
+    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot6 Optical Sensor", slot6));
   }
 
   public Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
@@ -50,6 +59,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartShuffleboard.put("Driver", "Slot6", getSlot6());
+
   }
 
   public void deployPiston() {
@@ -60,8 +71,8 @@ public class IntakeSubsystem extends SubsystemBase {
     piston.set(false);
   }
 
-  public void spinMotor(double speed){
-    intakeMotor.set(speed); 
+  public void spinMotor(double speed) {
+    intakeMotor.set(speed);
   }
 
   public static void setIsRunning(boolean run) {
@@ -70,5 +81,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public static boolean getIsRunning() {
     return isRunning;
+  }
+
+  public static boolean getSlot6() {
+    return !slot6.get();
   }
 }
