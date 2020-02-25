@@ -64,12 +64,12 @@ public class ConveyorMotorStateTest {
         stateMap.put(BallTransferState.S31, "StopMotors");
         stateMap.put(BallTransferState.S32, "StopMotors");
 
-        conveyorSubsystem = new ConveyorSubsystem();
-        transferConveyorSubsystem = new TransferConveyorSubsystem();
-        shooterSubsystem = new ShooterSubsystem();
+//         conveyorSubsystem = new ConveyorSubsystem();
+//        transferConveyorSubsystem = new TransferConveyorSubsystem();
+//        shooterSubsystem = new ShooterSubsystem();
     }
 
-    @Test
+//    @Test
     public void testMotors() {
 
         for (BallTransferState s : BallTransferState.values()) {

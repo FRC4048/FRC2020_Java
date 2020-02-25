@@ -27,7 +27,6 @@ public class IntakeSubsystem extends SubsystemBase {
   private Solenoid piston;
   private static boolean isRunning;
   private static DigitalInput intakeSensor;
-  private static DigitalInput slot6;
 
   /**
    * Creates a new IntakeSubsystem.
@@ -36,7 +35,6 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_ID);
     piston = new Solenoid(Constants.PCM_CAN_ID, Constants.INTAKE_PISTON_ID);
     intakeSensor = new DigitalInput(Constants.INTAKE_SENSOR);
-    slot6 = new DigitalInput(Constants.SLOT6_ID);
 
     int TIMEOUT = 100;
 
@@ -50,7 +48,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Intake Sensor Diagnostics", intakeSensor));
 
-    Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Transfer Slot6 Optical Sensor", slot6));
   }
 
   public Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
@@ -64,8 +61,6 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartShuffleboard.put("Driver", "Slot6", getSlot6());
-
   }
 
   public void deployPiston() {
@@ -89,9 +84,5 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   public static boolean getIntakeSensor() {
     return !intakeSensor.get();
-  }
-
-  public static boolean getSlot6() {
-    return !slot6.get();
   }
 }
