@@ -44,8 +44,8 @@ interface Constants2020Robot {
     public static final int[] DRIVE_ENCODER_LEFT_ID = {0,1};
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
     public static final int CONTROL_PANEL_SENSOR_ID = 5;
-    public static final int INTAKE_SENSOR = 6; 
-    public static final int SLOT1_A_ID = 10;  
+    public static final int INTAKE_SENSOR = 6;
+    public static final int SLOT1_A_ID = 10;
     public static final int SLOT1_B_ID = 11;
     public static final int SLOT2_A_ID = 12;
     public static final int SLOT2_B_ID = 13;
@@ -55,6 +55,7 @@ interface Constants2020Robot {
     public static final int SLOT4_B_ID = 17;
     public static final int SLOT5_LOWER = 9;
     public static final int SLOT5_UPPER = 18;
+    public static final int SLOT6_ID = 6;
 
 
     //PCM

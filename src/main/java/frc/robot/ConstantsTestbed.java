@@ -53,6 +53,8 @@ interface ConstantsTestbed {
     public static final int SLOT4_B_ID = 17;
     public static final int SLOT5_A_ID = 18;
     public static final int SLOT5_B_ID = 19;
+    public static final int SLOT6_ID = 6;
+
 
     //PCM
     public static final int INTAKE_PISTON_ID = 0;
