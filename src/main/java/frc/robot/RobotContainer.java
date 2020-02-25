@@ -9,13 +9,17 @@ package frc.robot;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
+
+import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ControlPanel.*;
+import frc.robot.commands.ReverseIntake;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -27,6 +31,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.conveyorbelt.M2M3Command;
+import frc.robot.commands.conveyorbelt.ReverseAll;
 import frc.robot.commands.conveyorbelt.ShootBallAuto;
 import frc.robot.commands.conveyorbelt.StateDetector;
 import frc.robot.commands.conveyorbelt.StopMotors;
@@ -63,6 +68,7 @@ import frc.robot.utils.logging.Logging.MessageLevel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.conveyorbelt.ShootBalls;
 import frc.robot.commands.conveyorbelt.ShootStart;
 
@@ -112,7 +118,7 @@ public class RobotContainer {
   private JoystickButton xBoxRightStick = new JoystickButton(controller, Constants.XBOX_RIGHT_STICK_PRESS);
 
   private JoystickButton shootBall = new JoystickButton(controller, Constants.XBOX_RIGHT_BUMPER);
-
+  private Trigger trigger = new Trigger(() -> { return (xboxController.getTriggerAxis(Hand.kRight) > 0.5 );});
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -190,10 +196,12 @@ public class RobotContainer {
     shootBall.whenPressed(new LogCommandWrapper(new ShootStart()));
     shootBall.whileHeld(new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, false)); //This will start the motors at full speed when pressed down
     shootBall.whenReleased(new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem), "Stop Conveyor Motors after shoot")); //This will stop the motors once the button is released
-
+    trigger.whileActiveContinuous(new ReverseAll(transferConveyorSubsystem, conveyorSubsystem, shooterSubsystem));
     //TODO: add a flush ball button
 
     SmartShuffleboard.putCommand("Driver", "Manual Override", new ManualOverride());
+    SmartShuffleboard.putCommand("Driver", "Flush reverse", new ShootBalls(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem, true));
+    SmartShuffleboard.putCommand("Driver", "Reverse Intake", new ReverseIntake(intakeSubsystem, transferConveyorSubsystem).withTimeout(0.5));
   }
 
   /**

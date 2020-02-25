@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.utils.SmartShuffleboard;
@@ -25,7 +26,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private WPI_TalonSRX intakeMotor;
   private Solenoid piston;
   private static boolean isRunning;
-  private static DigitalInput intakeSensor;  
+  private static DigitalInput intakeSensor;
+
   /**
    * Creates a new IntakeSubsystem.
    */
@@ -45,6 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     isRunning = false;
 
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Intake Sensor Diagnostics", intakeSensor));
+
   }
 
   public Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
@@ -68,8 +71,8 @@ public class IntakeSubsystem extends SubsystemBase {
     piston.set(false);
   }
 
-  public void spinMotor(double speed){
-    intakeMotor.set(speed); 
+  public void spinMotor(double speed) {
+    intakeMotor.set(speed);
   }
 
   public static void setIsRunning(boolean run) {
@@ -79,7 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public static boolean getIsRunning() {
     return isRunning;
   }
-  public static boolean getIntakeSensor() { 
+  public static boolean getIntakeSensor() {
     return !intakeSensor.get();
   }
 }

@@ -8,65 +8,53 @@
 package frc.robot.commands.conveyorbelt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.balltransfer.BallTransferState;
+import frc.robot.subsystems.balltransfer.ConveyorStateMachine;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
 import frc.robot.subsystems.balltransfer.TransferConveyorSubsystem;
 
-public class ShootBalls extends CommandBase {
-  private ConveyorSubsystem conveyorSubsystem;
+public class ReverseAll extends CommandBase {
   private TransferConveyorSubsystem transferConveyorSubsystem;
+  private ConveyorSubsystem conveyorSubsystem;
   private ShooterSubsystem shooterSubsystem;
-  private boolean isFlush;
-  private final double SHOOTER_SPEED = 1;
-  private final double CONVEYOR_SPEED = 1;
-  private final double TRANSFER_SPEED = 1;
-
+  
   /**
-   * Creates a new ShootBalls.
-   * 
-   * @param direction the direction that the balls will be shooting out of
+   * Creates a new ReverseAll.
    */
-  public ShootBalls(ConveyorSubsystem conveyorSubsystem, TransferConveyorSubsystem transferConveyorSubsystem, ShooterSubsystem shooterSubsystem, boolean isFlush) {
-    this.conveyorSubsystem = conveyorSubsystem;
-    this.transferConveyorSubsystem = transferConveyorSubsystem;
-    this.shooterSubsystem = shooterSubsystem;
-    this.isFlush = isFlush;
-
-    addRequirements(conveyorSubsystem);
-    addRequirements(transferConveyorSubsystem);
-    addRequirements(shooterSubsystem);
+  public ReverseAll(TransferConveyorSubsystem transferConveyorSubsystem, ConveyorSubsystem conveyorSubsystem, ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.conveyorSubsystem = conveyorSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
+    this.transferConveyorSubsystem = transferConveyorSubsystem;
+
+    addRequirements(conveyorSubsystem, shooterSubsystem, transferConveyorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    conveyorSubsystem.setRunStateMachine(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!isFlush) {
-      conveyorSubsystem.moveConveyor(CONVEYOR_SPEED); 
-      shooterSubsystem.moveShooter(SHOOTER_SPEED);
-      transferConveyorSubsystem.moveTransfer(TRANSFER_SPEED); 
-    } else {
-      conveyorSubsystem.moveConveyor(-CONVEYOR_SPEED); 
-      shooterSubsystem.moveShooter(-SHOOTER_SPEED);
-      transferConveyorSubsystem.moveTransfer(-TRANSFER_SPEED);  
-    }
+    conveyorSubsystem.moveConveyor(-1);
+    shooterSubsystem.moveShooter(-1);
+    transferConveyorSubsystem.moveTransfer(-1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    conveyorSubsystem.moveConveyor(0);
+    shooterSubsystem.moveShooter(0);
+    transferConveyorSubsystem.moveTransfer(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
