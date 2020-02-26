@@ -8,7 +8,7 @@ import frc.robot.utils.logging.LogCommandWrapper;
 
 public class ProxyTest {
 
-    @Test
+//    @Test
     public void testProxy() {
         Command testLogCommand = new TestLog().withTimeout(2);
         Command commandWrapper = new LogCommandWrapper(testLogCommand, "TestLogCommand"); 

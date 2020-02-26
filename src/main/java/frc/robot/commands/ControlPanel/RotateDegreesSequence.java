@@ -31,7 +31,8 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     this.controlPanelSubsystem = controlPanelSubsystem;
     this.driveTrain = driveTrain;
-    this.driveBackSpeed = driveBackSpeed;
+    this.driveBackSpeed = driveBackSpeed;    
+    
     addCommands (
       new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kReverse)),
       new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem, false)),
@@ -39,7 +40,7 @@ public class RotateDegreesSequence extends SequentialCommandGroup {
       new LogCommandWrapper(new WaitForSensor(controlPanelSubsystem, true)),
       new LogCommandWrapper(new SetDrivingEnabled(false)),
       new LogCommandWrapper(new RotateDegrees(controlPanelSubsystem, degreesTurn, speed)),
-      new LogCommandWrapper(new WaitCommand(0.1)),
+      new LogCommandWrapper(new WaitCommand(0.2)),
       // (new LogCommandWrapper(new MoveBackwards(controlPanelSubsystem, driveTrain, driveBackSpeed)).withTimeout(0.3)),
       new LogCommandWrapper(new MoveSolenoid(controlPanelSubsystem, Value.kForward))
       );

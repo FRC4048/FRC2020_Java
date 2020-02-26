@@ -23,7 +23,7 @@ import frc.robot.utils.logging.Logging;
 public class ConveyorSubsystem extends SubsystemBase {
 
   private WPI_TalonSRX conveyorMotor;
-  
+
   private DigitalInput slot2A;
   private DigitalInput slot2B;
   private DigitalInput slot3A;
@@ -38,6 +38,8 @@ public class ConveyorSubsystem extends SubsystemBase {
   // private static DigitalInput slot3;
   // private static DigitalInput slot4;
   private int commandCounter;
+
+  private boolean runStateMachine = true;
 
   public ConveyorSubsystem() {
     conveyorMotor = new WPI_TalonSRX(Constants.CONVEYOR_MOTOR_ID);
@@ -54,7 +56,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     slot2 = new DigitalInputGroup(slot2A, slot2B);
     slot3 = new DigitalInputGroup(slot3A, slot3B);
     slot4 = new DigitalInputGroup(slot4A, slot4B);
-    
+
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot2 Optical Sensor A", slot2A));
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot2 Optical Sensor B", slot2B));
     Robot.getDiagnostics().addDiagnosable(new DiagOpticalSensor("Conveyor Slot3 Optical Sensor A", slot3A));
@@ -142,4 +144,11 @@ public class ConveyorSubsystem extends SubsystemBase {
     return --commandCounter;
   }
 
+  public boolean getRunStateMachine() {
+    return runStateMachine;
+  }
+
+  public void setRunStateMachine(boolean state) {
+    runStateMachine = state;
+  }
 }

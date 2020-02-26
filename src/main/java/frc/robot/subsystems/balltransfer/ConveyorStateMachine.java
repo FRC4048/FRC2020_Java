@@ -168,7 +168,23 @@ public class ConveyorStateMachine {
 
     }
 
+    /**
+     * In order to support both upper and lower S5 sensors without creating 64 states, we create a default state of "Upper" that is used in
+     * most cases, and a special state for lower that only impacts S5
+     */
     public static BallTransferState getState() {
-        return getState(ShooterSubsystem.getSlot1(), ConveyorSubsystem.getSlot2(), ConveyorSubsystem.getSlot3(), ConveyorSubsystem.getSlot4(), TransferConveyorSubsystem.getSlot5());
+        return getState(TransferConveyorSubsystem.S5RequiredSensor.UPPER);
+    }
+
+    public static BallTransferState getState(TransferConveyorSubsystem.S5RequiredSensor m5) {
+        boolean slot5;
+        if (m5.equals(TransferConveyorSubsystem.S5RequiredSensor.UPPER)) {
+            slot5 = TransferConveyorSubsystem.getSlot5Upper();
+        } else {
+            slot5 = TransferConveyorSubsystem.getSlot5Lower();
+        }
+        return getState(ShooterSubsystem.getSlot1(),
+                ConveyorSubsystem.getSlot2(), ConveyorSubsystem.getSlot3(), ConveyorSubsystem.getSlot4(),
+                slot5);
     }
 }

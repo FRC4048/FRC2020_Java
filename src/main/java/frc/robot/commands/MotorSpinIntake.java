@@ -7,11 +7,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class MotorSpinIntake extends CommandBase {
   private IntakeSubsystem intakeSubsystem;
+  private boolean isReverse;
+  private double initialTime;
+  private final double INTAKE_TIMER = 0.5;
 
   /**
    * Creates a new MotorSpinIntake.
@@ -26,12 +30,24 @@ public class MotorSpinIntake extends CommandBase {
   @Override
   public void initialize() {
     IntakeSubsystem.setIsRunning(true);
+    isReverse = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinMotor(0.7);
+    if (intakeSubsystem.getIntakeSensor() && !isReverse) {
+      isReverse = true;
+      initialTime = Timer.getFPGATimestamp(); 
+      intakeSubsystem.spinMotor(-0.7);
+    } else if (((Timer.getFPGATimestamp() - initialTime) < INTAKE_TIMER) && isReverse) {
+      intakeSubsystem.spinMotor(-0.7);
+    } else if (((Timer.getFPGATimestamp() - initialTime) >= INTAKE_TIMER) && isReverse) {
+      isReverse = false;
+      intakeSubsystem.spinMotor(0.7);
+    } else {
+      intakeSubsystem.spinMotor(0.7);
+    }
   }
 
   // Called once the command ends or is interrupted.

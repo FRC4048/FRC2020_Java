@@ -7,7 +7,6 @@
 
 package frc.robot.commands.conveyorbelt;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.logging.LogCommandWrapper;
@@ -32,6 +31,7 @@ public class StateDetector extends CommandBase {
     this.conveyorSubsystem = conveyorSubsystem;
     this.transferSubsystem = transferSubsystem;
     this.shooterSubsystem = shooterSubsystem;
+    conveyorSubsystem.setRunStateMachine(true);
 
     addRequirements(transferSubsystem);
     addRequirements(shooterSubsystem);
@@ -58,7 +58,9 @@ public class StateDetector extends CommandBase {
      * being interupted fast enough normally. What this checks is if any other command in the system
      * is being used and if it is we will not try to schedule any commands.
      */
-    if (TransferConveyorSubsystem.getSlot5() && conveyorSubsystem.isCommandAvalible()) { //We will only move motors if there is a ball in the stager
+    if (!conveyorSubsystem.getRunStateMachine()) {
+      transferSubsystem.moveTransfer(0);
+    } else if (TransferConveyorSubsystem.getSlot5Lower() && conveyorSubsystem.isCommandAvalible()) { //We will only move motors if there is a ball in the stager
       createCommand(conveyorSubsystem, transferSubsystem, shooterSubsystem, state).withTimeout(TIMEOUT).schedule();
     } else if (IntakeSubsystem.getIsRunning() && ConveyorStateMachine.getState() != BallTransferState.S31) { //This is static so we don't have to take an instance of the intake subsystem in this default command
       transferSubsystem.moveTransfer(TRANSFER_LOW_SPEED);
@@ -124,17 +126,20 @@ public class StateDetector extends CommandBase {
     case S26:
       return new LogCommandWrapper(new M3Command(transferSubsystem, state, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded), "M3Command");
     case S27:
+      conveyorSubsystem.setRunStateMachine(false);
       return new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferSubsystem, shooterSubsystem), "StopMotors");
     case S28:
       return new LogCommandWrapper(new M3Command(transferSubsystem, state, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded), "M3Command");
     case S29:
       return new LogCommandWrapper(new M3Command(transferSubsystem, state, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded), "M3Command");//The spreadsheet is saying stop
     case S30:
-      return new LogCommandWrapper(new M3Command(transferSubsystem, state, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded), "M3Command");
+      return new LogCommandWrapper(new M3Command(transferSubsystem, state, TransferConveyorSubsystem.S5RequiredSensor.LOWER, conveyorSubsystem::commandStarted, conveyorSubsystem::commandEnded), "M3Command");
     case S31:
+      conveyorSubsystem.setRunStateMachine(false);
       return new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferSubsystem, shooterSubsystem), "StopMotors");
     case S32:
     default:
+      conveyorSubsystem.setRunStateMachine(false);
       return new LogCommandWrapper(new StopMotors(conveyorSubsystem, transferSubsystem, shooterSubsystem), "StopMotors");
     }
   }

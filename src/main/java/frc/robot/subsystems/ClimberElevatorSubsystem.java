@@ -68,11 +68,11 @@ public class ClimberElevatorSubsystem extends SubsystemBase {
     return climberSolenoid.get();
   }
 
-  public boolean getBottomSwitch() {
+  public boolean getTopSwitch() {
     return climberMotor.getSensorCollection().isRevLimitSwitchClosed();
   }
 
-  public boolean getTopSwitch(){
+  public boolean getBottomSwitch(){
     return climberMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
