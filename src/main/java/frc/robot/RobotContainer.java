@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.MotorSpinIntake;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StopIntakeCommand;
@@ -50,6 +51,7 @@ import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.DriveStraightWithGyro;
 import frc.robot.commands.drivetrain.GearSwitch;
 import frc.robot.commands.drivetrain.TrajectoryFollower;
+import frc.robot.commands.drivetrain.TurnToAngle;
 import frc.robot.subsystems.balltransfer.BallTransferState;
 import frc.robot.subsystems.balltransfer.ConveyorSubsystem;
 import frc.robot.subsystems.balltransfer.ShooterSubsystem;
@@ -218,7 +220,7 @@ public class RobotContainer {
     switch(autoOption) {
     //TODO Change the crossline auto to actually make sense, this is currently just an example
     case LEFT_DEPOSIT:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -3.1242, 0).build();
+      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -3.32, 0).build();
       break;
     case MIDDLE_DEPOSIT:
       trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(3.048, -1.55, 0).build();
@@ -237,10 +239,8 @@ public class RobotContainer {
       //Theoretically more trajectory objects could be added
       break;
     case DO_NOTHING:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build();
       break;
     default:
-      trajectory[0] = TrajectoryBuilder.start().withStartPosition(0, 0, 0).withEndPoint(0, 0, 0).build(); //Do nothing?
       break;
     }
 
@@ -253,19 +253,23 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
       case LEFT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(()
+
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
+        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
         break;
 
       case MIDDLE_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(()
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
+        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
         break;
 
       case RIGHT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).andThen(()
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
+        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
           -> driveTrain.tankDriveVolts(0, 0)).andThen(
           new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
           break;
@@ -276,15 +280,18 @@ public class RobotContainer {
         break;
 
       case RIGHT_PICKUP:
-         autoCommand = new DriveStraightWithGyro(driveTrain, -0.4, 4.8).andThen(new WaitCommand(0.25)).andThen(new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+         autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(
+           new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).
+           andThen(new TurnToAngle(driveTrain, 0))  .andThen(
+             () -> driveTrain.tankDriveVolts(0, 0));
          break;
 
       case DO_NOTHING:
-        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        autoCommand = new DoNothing();
         break;
 
       default:
-        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        autoCommand = new DoNothing();
         break;
     }
     return autoCommand;
