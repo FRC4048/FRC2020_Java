@@ -92,7 +92,6 @@
       if (Math.abs(driveTrain.getAngle()) > GYRO_ERROR_THRESHOLD) {
         speedupFactor = 1 + ((Math.abs(angleError)/MAX_ERROR) * MAX_SPEEDUP)/100;
       }
-      SmartShuffleboard.put("Drive", "Speeds", "speed up", speedupFactor);
 
       if (speed != 0) {
         if (Math.abs(distanceError) < SLOW_DOWN_DISTANCE) {
