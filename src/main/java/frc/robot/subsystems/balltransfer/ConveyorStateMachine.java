@@ -183,7 +183,10 @@ public class ConveyorStateMachine {
         } else {
             slot5 = TransferConveyorSubsystem.getSlot5Lower();
         }
-        return getState(ShooterSubsystem.getSlot1(),
+        // return getState(ShooterSubsystem.getSlot1(),
+        //         ConveyorSubsystem.getSlot2(), ConveyorSubsystem.getSlot3(), ConveyorSubsystem.getSlot4(),
+        //         slot5);
+        return getState(true,
                 ConveyorSubsystem.getSlot2(), ConveyorSubsystem.getSlot3(), ConveyorSubsystem.getSlot4(),
                 slot5);
     }

@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 //    SmartShuffleboard.put("Driver", "MANUAL OVERRIDE ENABLED", m_robotContainer.getManualOverride());
-//    Logging.instance().writeAllData();
+   Logging.instance().writeAllData();
   }
 
   /**
