@@ -21,14 +21,14 @@ public class TurnToAngle extends CommandBase {
   private final double MIN_SPEED = 0.2;   
   private final int SLOWDOWN_ANGLE = 45;
   private SixWheelDriveTrainSubsystem driveTrain;
-  private double angle;
+  private double requiredAngle;
   private double currAngle;
   private double speed = 0.0;
 
-  public TurnToAngle(SixWheelDriveTrainSubsystem driveTrain, int angle) {
+  public TurnToAngle(SixWheelDriveTrainSubsystem driveTrain, int requiredAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
-    this.angle = angle;
+    this.requiredAngle = requiredAngle;
     addRequirements(driveTrain);
   }
 
@@ -41,16 +41,16 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void execute() {
     currAngle = driveTrain.getAngle() * -1;
-    double angleError = angle - currAngle;
+    double angleError = requiredAngle - currAngle;
 
     if (Math.abs(angleError) > 180) {
-      if (currAngle > angle)
-        angle += 360;
+      if (currAngle > requiredAngle)
+        requiredAngle += 360;
       else
-        angle -= 360;
+        requiredAngle -= 360;
     }
 
-    angleError = angle - currAngle;
+    angleError = requiredAngle - currAngle;
 
     if (Math.abs(angleError) <= ANGLE_THRESHOLD) {
       speed = 0.0;
@@ -61,10 +61,10 @@ public class TurnToAngle extends CommandBase {
         speed = (MAX_SPEED - MIN_SPEED) * (Math.abs(angleError)/SLOWDOWN_ANGLE) + MIN_SPEED;
     }
 
-    if (angle < currAngle){
+    if (requiredAngle < currAngle){
       driveTrain.drive(-Math.abs(speed), Math.abs(speed), false);
     } 
-    else if (currAngle < angle){
+    else if (currAngle < requiredAngle){
       driveTrain.drive(Math.abs(speed), -Math.abs(speed), false);
     }
     if (Constants.ENABLE_DEBUG == true){
@@ -83,6 +83,6 @@ public class TurnToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(currAngle - angle) <= ANGLE_THRESHOLD;
+    return Math.abs(currAngle - requiredAngle) <= ANGLE_THRESHOLD;
   }
 }
