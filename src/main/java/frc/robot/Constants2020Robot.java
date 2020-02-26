@@ -54,7 +54,7 @@ interface Constants2020Robot {
     public static final int SLOT4_A_ID = 16;
     public static final int SLOT4_B_ID = 17;
     public static final int SLOT5_LOWER = 9;
-    public static final int SLOT5_UPPER = 18;
+    public static final int SLOT5_UPPER = 8;
 
     //PCM
     public static final int INTAKE_PISTON_ID = 0;
