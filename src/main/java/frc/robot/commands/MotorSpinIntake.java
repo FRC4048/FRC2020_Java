@@ -7,23 +7,28 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.utils.SmartShuffleboard;
 
 public class MotorSpinIntake extends CommandBase {
   private IntakeSubsystem intakeSubsystem;
   private boolean isReverse;
   private double initialTime;
   private final double INTAKE_TIMER = 0.5;
+  private XboxController xboxController;
 
   /**
    * Creates a new MotorSpinIntake.
    */
-  public MotorSpinIntake(IntakeSubsystem intakeSubsystem) {
+  public MotorSpinIntake(IntakeSubsystem intakeSubsystem, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem);
+    this.intakeSubsystem = intakeSubsystem;
+    this.xboxController = xboxController;
   }
 
   // Called when the command is initially scheduled.
@@ -36,9 +41,13 @@ public class MotorSpinIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    int directionalMultiplier = 1;
+    if(xboxController.getTriggerAxis(GenericHID.Hand.kLeft) > 0.5){
+      directionalMultiplier = -1;
+    }
     if (intakeSubsystem.getIntakeSensor() && !isReverse) {
       isReverse = true;
-      initialTime = Timer.getFPGATimestamp(); 
+      initialTime = Timer.getFPGATimestamp();
       intakeSubsystem.spinMotor(-0.7);
     } else if (((Timer.getFPGATimestamp() - initialTime) < INTAKE_TIMER) && isReverse) {
       intakeSubsystem.spinMotor(-0.7);
@@ -46,7 +55,7 @@ public class MotorSpinIntake extends CommandBase {
       isReverse = false;
       intakeSubsystem.spinMotor(0.7);
     } else {
-      intakeSubsystem.spinMotor(0.7);
+      intakeSubsystem.spinMotor(0.7 * directionalMultiplier);
     }
   }
 
