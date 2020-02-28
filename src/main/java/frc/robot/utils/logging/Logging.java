@@ -19,7 +19,7 @@ public class Logging {
   /**
    * Logger will log every number of iterations specified here
    */
-  private static final int LOGGING_FREQ = 1;
+  private static final int LOGGING_FREQ = 5;
 
   /**
    * Time period in milliseconds between writing to the log file by the dedicated
