@@ -105,7 +105,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * Resets the Gyro
    */
   public void resetGyro() {
-    // navX.reset();
     gyro.setFusedHeading(0);
   }
 
@@ -115,7 +114,6 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * @return angle of robot between -180-180
    */
   public double getAngle() {
-    // return Math.IEEEremainder(navX.getAngle(), 360) * -1;
     return Math.IEEEremainder(gyro.getFusedHeading(), 360);
   }
 
@@ -123,17 +121,13 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run    
     //Updating the odemetry on regular basis
-    // if(!DriverStation.getInstance().isOperatorControl()) {
+    if(!DriverStation.getInstance().isOperatorControl()) {
       driveOdometry.update(Rotation2d.fromDegrees(getAngle()), leftEncoder.getDistance(), rightEncoder.getDistance());
-    // }
+    }
     if (Constants.ENABLE_DEBUG) {
        SmartShuffleboard.put("Drive", "Encoders", "L", getLeftEncoderRaw());
        SmartShuffleboard.put("Drive", "Encoders", "R", getRightEncoderRaw());
     }
-    SmartShuffleboard.put("Drive", "Encoders", "L", getLeftEncoderRaw());
-       SmartShuffleboard.put("Drive", "Encoders", "R", getRightEncoderRaw());
-       SmartShuffleboard.put("Drive", "Pigeon", getAngle());
-    SmartShuffleboard.put("Drive", "Pose", getPose().toString());
   }
 
   /**
