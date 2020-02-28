@@ -39,7 +39,7 @@ public class Drive extends CommandBase {
   public void execute() {
 
     if (Robot.m_robotContainer.getDrivingEnabled() || Robot.m_robotContainer.getManualOverride()) {
-      driveTrain.drive(leftSpeed.getAsDouble(), rightSpeed.getAsDouble(), true);
+      driveTrain.drive(-leftSpeed.getAsDouble(), -rightSpeed.getAsDouble(), true);
     } else {
       driveTrain.drive(0, 0, false);
     }
