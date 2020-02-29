@@ -9,6 +9,7 @@ import frc.robot.subsystems.WinchSubsystem;
 public class MoveWinch extends CommandBase {
     private WinchSubsystem winchSubsystem;
     private XboxController xboxController;
+    private final double DEAD_ZONE = 0.1;
     public MoveWinch(WinchSubsystem winchSubsystem, XboxController xboxController){
         addRequirements(winchSubsystem);
         this.winchSubsystem = winchSubsystem;
@@ -22,7 +23,8 @@ public class MoveWinch extends CommandBase {
 
     @Override
     public void execute() {
-        winchSubsystem.moveWinch(xboxController.getY(GenericHID.Hand.kRight)* Constants.CLIMBER_WINCH_SPEED);
+        if(Math.abs(xboxController.getY()) > DEAD_ZONE)
+            winchSubsystem.moveWinch(xboxController.getY(GenericHID.Hand.kRight)* Constants.CLIMBER_WINCH_SPEED);
     }
 
     @Override

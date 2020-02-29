@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 public class ManualRotate extends CommandBase {
     private ControlPanelSubsystem controlPanelSubsystem;
     private DoubleSupplier speed;
+    private final double DEAD_ZONE = 0.1;
 
     //This is the default command for the Control Panel Subsystem.
     public ManualRotate(ControlPanelSubsystem controlPanelSubsystem, DoubleSupplier speed){
@@ -24,8 +25,8 @@ public class ManualRotate extends CommandBase {
 
     @Override
     public void execute() {
-        
-        controlPanelSubsystem.rotateWithSpeed(speed.getAsDouble() * Constants.CONTROL_PANEL_SPEED);
+        if(Math.abs(speed.getAsDouble()) > DEAD_ZONE)
+            controlPanelSubsystem.rotateWithSpeed(speed.getAsDouble() * Constants.CONTROL_PANEL_SPEED);
     }
 
     @Override
