@@ -53,7 +53,7 @@ public class DriveStraight extends CommandBase {
       speed = Math.max(speed, MAX_BACK_SPEED);
       speed = Math.min(speed, MIN_BACK_SPEED);
     }
-    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

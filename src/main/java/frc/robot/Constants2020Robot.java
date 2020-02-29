@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 interface Constants2020Robot {
     //Global Constant
-    public static final boolean ENABLE_DEBUG = false;
+    public static final boolean ENABLE_DEBUG = true;
 
     //CAN ID
     public static final int PDP_CAN_ID = 0;
@@ -67,7 +67,7 @@ interface Constants2020Robot {
     public static final double DRIVETRAIN_KS = 0.748;
     public static final double DRIVETRAIN_KV = 2.19;
     public static final double DRIVETRAIN_KA = 0.268;
-    public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = 0.00157490545;
+    public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = 0.0017220045;
     public static final double DRIVETRAIN_P = 7;
     public static final double DRIVETRAIN_I = 0;
     public static final double DRIVETRAIN_D = 0;

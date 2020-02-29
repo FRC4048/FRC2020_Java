@@ -26,7 +26,8 @@ public class ReverseIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        intakeSubsystem.spinMotor(0);
+        transferConveyorSubsystem.moveTransfer(0);
     }
 
     @Override

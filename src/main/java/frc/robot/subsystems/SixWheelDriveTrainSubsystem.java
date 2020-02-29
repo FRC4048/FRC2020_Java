@@ -80,8 +80,12 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
+
     // Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));
     Robot.getDiagnostics().addDiagnosable(new DiagPigeon("Pigeon", 90, gyro));
+
+    resetGyro();
+
   }
 
   /**
@@ -108,7 +112,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     gyro.setFusedHeading(0);
   }
 
-  /**
+  /**get
    * Gets the angle of the robot
    * 
    * @return angle of robot between -180-180
