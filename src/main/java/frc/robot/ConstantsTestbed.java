@@ -30,6 +30,7 @@ interface ConstantsTestbed {
     public static final int CLIMBER_ELEVATOR_ID = 7;
     public static final int CLIMBER_WINCH_ID = 12;
     public static final int PCM_CAN_ID = 10;
+    public static final int PIGEON_CAN_ID = 13;
 
     //PDP
     public static final int PDP_DRIVE_L1 = 13;

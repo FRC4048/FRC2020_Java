@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMUConfiguration;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,6 +26,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.utils.diag.DiagEncoder;
 import frc.robot.utils.diag.DiagNavX;
+import frc.robot.utils.diag.DiagPigeon;
 import frc.robot.utils.SmartShuffleboard;
 
 public class SixWheelDriveTrainSubsystem extends SubsystemBase {
@@ -34,7 +37,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
   private DifferentialDrive driveTrain;
   private Encoder leftEncoder;
   private Encoder rightEncoder;
-  private AHRS navX;
+  // private AHRS navX;
+  private PigeonIMU gyro;
   private Solenoid gearSolenoid;
   private final DifferentialDriveOdometry driveOdometry;
   private SpeedControllerGroup leftGroup;
@@ -49,18 +53,22 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
     right1 = new WPI_TalonSRX(Constants.MOTOR_RIGHT1_ID);
     right2 = new WPI_TalonSRX(Constants.MOTOR_RIGHT2_ID);
 
-    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1]);
-    rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1], true);
+    leftEncoder = new Encoder(Constants.DRIVE_ENCODER_LEFT_ID[0], Constants.DRIVE_ENCODER_LEFT_ID[1], true);
+    rightEncoder = new Encoder(Constants.DRIVE_ENCODER_RIGHT_ID[0], Constants.DRIVE_ENCODER_RIGHT_ID[1]);
 
-    navX = new AHRS(I2C.Port.kMXP);
+    // navX = new AHRS(I2C.Port.kMXP);
+    gyro = new PigeonIMU(Constants.PIGEON_CAN_ID);
+    resetGyro();
     gearSolenoid = new Solenoid(Constants.PCM_CAN_ID, Constants.DRIVE_TRAIN_GEARSWITCH_ID);
     left2.set(ControlMode.Follower, Constants.MOTOR_LEFT1_ID);
     right2.set(ControlMode.Follower, Constants.MOTOR_RIGHT1_ID);
     
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
     
-    right1.setInverted(true);
-    right2.setInverted(true);
+    // right1.setInverted(true);
+    // right2.setInverted(true);    
+    left1.setInverted(true);
+    left2.setInverted(true);
 
     leftEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
@@ -72,9 +80,8 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
 
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Left Drive Encoder", 200, leftEncoder));
     Robot.getDiagnostics().addDiagnosable(new DiagEncoder("Right Drive Encoder", 200, rightEncoder));
-    Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));
-
-    resetGyro();
+    // Robot.getDiagnostics().addDiagnosable(new DiagNavX("NavX Gyro", 90, navX));
+    Robot.getDiagnostics().addDiagnosable(new DiagPigeon("Pigeon", 90, gyro));
   }
 
   /**
@@ -98,7 +105,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * Resets the Gyro
    */
   public void resetGyro() {
-    navX.reset();
+    gyro.setFusedHeading(0);
   }
 
   /**
@@ -107,7 +114,7 @@ public class SixWheelDriveTrainSubsystem extends SubsystemBase {
    * @return angle of robot between -180-180
    */
   public double getAngle() {
-    return Math.IEEEremainder(navX.getAngle(), 360) * -1;
+    return Math.IEEEremainder(gyro.getFusedHeading(), 360);
   }
 
   @Override

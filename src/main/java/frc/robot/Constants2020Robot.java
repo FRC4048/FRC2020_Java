@@ -31,6 +31,7 @@ interface Constants2020Robot {
     public static final int CLIMBER_ELEVATOR_ID = 11;
     public static final int CLIMBER_WINCH_ID = 12;
     public static final int PCM_CAN_ID = 10;
+    public static final int PIGEON_CAN_ID = 13;
 
     //PDP
     public static final int PDP_DRIVE_L1 = 13;
@@ -45,16 +46,16 @@ interface Constants2020Robot {
     public static final int[] DRIVE_ENCODER_RIGHT_ID = {2,3};
     public static final int CONTROL_PANEL_SENSOR_ID = 5;
     public static final int INTAKE_SENSOR = 6;
-    public static final int SLOT1_A_ID = 10;
-    public static final int SLOT1_B_ID = 11;
+    public static final int SLOT1_A_ID = 11;
+    public static final int SLOT1_B_ID = 10;
     public static final int SLOT2_A_ID = 12;
     public static final int SLOT2_B_ID = 13;
-    public static final int SLOT3_A_ID = 14;
+    public static final int SLOT3_A_ID = 7;
     public static final int SLOT3_B_ID = 15;
-    public static final int SLOT4_A_ID = 16;
+    public static final int SLOT4_A_ID = 4;
     public static final int SLOT4_B_ID = 17;
     public static final int SLOT5_LOWER = 9;
-    public static final int SLOT5_UPPER = 18;
+    public static final int SLOT5_UPPER = 8;
 
     //PCM
     public static final int INTAKE_PISTON_ID = 0;
@@ -63,16 +64,16 @@ interface Constants2020Robot {
     public static final int[] CONTROL_PANEL_PISTON_ID = {1,4};
 
     //DRIVETRAIN CONSTANTS
-    public static final double DRIVETRAIN_KS = 0.803;
-    public static final double DRIVETRAIN_KV = 2.3;
-    public static final double DRIVETRAIN_KA = 0.584;
-    public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = 0.00303832381;
+    public static final double DRIVETRAIN_KS = 0.748;
+    public static final double DRIVETRAIN_KV = 2.19;
+    public static final double DRIVETRAIN_KA = 0.268;
+    public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = 0.00157490545;
     public static final double DRIVETRAIN_P = 7;
     public static final double DRIVETRAIN_I = 0;
     public static final double DRIVETRAIN_D = 0;
     public static final double DRIVEAUTO_MAX_VELOCITY = 1;
     public static final double DRIVEAUTO_MAX_ACCEL = 0.6;
-    public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.5136427252077864);
+    public static final DifferentialDriveKinematics DIFFERENTIAL_DRIVE_KINEMATICS = new DifferentialDriveKinematics(0.559);
 
     //CONTROL PANEL CONTANTS
     public static final double CONTROL_PANEL_DEGREES_TO_TICKS = 520/360.0;
