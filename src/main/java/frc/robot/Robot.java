@@ -48,7 +48,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static RobotContainer m_robotContainer;
   private static Diagnostics diagnostics;
-  private static LimeLightVision limelight;;
+  private static LimeLightVision limelight;
+  
+  private static boolean isLogging = false;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -81,7 +83,11 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 //    SmartShuffleboard.put("Driver", "MANUAL OVERRIDE ENABLED", m_robotContainer.getManualOverride());
-  //  Logging.instance().writeAllData();
+    SmartShuffleboard.putCommand("Driver", "Enable Logging", new EnableLogging());    
+
+    if(isLogging) {
+      Logging.instance().writeAllData();
+    }
   }
 
   /**
@@ -179,5 +185,9 @@ public class Robot extends TimedRobot {
 
   public static Diagnostics getDiagnostics() {
     return diagnostics;
+  }
+
+  public static void setIsLogging(boolean isLog) {
+    isLogging = isLog;
   }
 }
