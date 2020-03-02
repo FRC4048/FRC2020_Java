@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     SmartShuffleboard.put("Drive", "Distance", Math.abs((m_robotContainer.driveTrainGetter().getLeftEncoderDistance() + m_robotContainer.driveTrainGetter().getRightEncoderDistance())/2));
-    SmartShuffleboard.put("Driver", "AutoCommandVerify", m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(), m_robotContainer.autoChooser.getAction())
+    SmartShuffleboard.put("Autonomous", "AutoCommandVerify", m_robotContainer.autoChooser.getAutonomousCommand(m_robotContainer.autoChooser.getPosition(), m_robotContainer.autoChooser.getAction())
                                                                                                            + " " + m_robotContainer.autoChooser.getDelay());
   }
 
