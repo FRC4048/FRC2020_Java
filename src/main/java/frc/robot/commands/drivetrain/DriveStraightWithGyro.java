@@ -19,7 +19,7 @@ public class DriveStraightWithGyro extends CommandBase {
   private final double MIN_BACK_SPEED = -0.25;
   private final double MAX_BACK_SPEED = -0.8;
   private final double SLOW_DOWN_DISTANCE = 1; //The distance to start the pid calculation 
-  private final double MAX_SPEEDUP = 100; // % to increase speed
+  private final double MAX_SPEEDUP = 40; // % to increase speed
   private final double GYRO_ERROR_THRESHOLD = 0.1;
   private final double MAX_ERROR = 15;
   private double currAngle;
