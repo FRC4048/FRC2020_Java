@@ -44,8 +44,8 @@ public class AutoChooser {
         positionChooser.addOption(Position.RIGHT.name(), Position.RIGHT); 
         actionChooser.setDefaultOption(Action.CROSS_LINE.name(), Action.CROSS_LINE);
         actionChooser.addOption(Action.DEPOSIT.name(), Action.DEPOSIT);
-        actionChooser.addOption(Action.PICKUP.name(), Action.PICKUP);
-        actionChooser.addOption(Action.FEED.name(), Action.FEED);
+        // actionChooser.addOption(Action.PICKUP.name(), Action.PICKUP);
+        // actionChooser.addOption(Action.FEED.name(), Action.FEED);
         actionChooser.addOption(Action.DO_NOTHING.name(), Action.DO_NOTHING);
 
     }
