@@ -2,22 +2,30 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.logging.Logging;
 
 public class CompressorSubsystem extends SubsystemBase {
 
     private Compressor compressor;
+    private Relay relay; 
+    private DigitalInput input;
 
     public CompressorSubsystem() {
         compressor = new Compressor(Constants.PCM_CAN_ID);
-        compressor.setClosedLoopControl(true);
+        compressor.setClosedLoopControl(false);
+        compressor.start();
+        relay = new Relay(Constants.COMPRESSOR_RELAY, Relay.Direction.kForward); 
+        input = new DigitalInput(Constants.COMPRESSOR_PRESSURE);
     }
     @Override
     public void periodic() {
     }
-
 
     public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(this.getClass()) {
         protected void addAll() {
@@ -34,4 +42,20 @@ public class CompressorSubsystem extends SubsystemBase {
         return compressor.getCompressorCurrent();
     }
 
+    public Relay.Value getRelay() {
+        return relay.get();
+    }
+
+    public boolean getDIO() {
+        SmartShuffleboard.put("Compressor", "DIO", input.get()); //TODO: DELETE!!!!!!!!!!!!!
+        return input.get();
+    }
+
+    public void setRelay(){
+        relay.set(Relay.Value.kOn);
+    }
+
+    public void resetRelay(){
+        relay.set(Relay.Value.kOff);
+    }
 }

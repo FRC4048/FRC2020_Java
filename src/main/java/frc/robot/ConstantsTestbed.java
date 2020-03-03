@@ -55,7 +55,10 @@ interface ConstantsTestbed {
     public static final int SLOT5_A_ID = 18;
     public static final int SLOT5_B_ID = 19;
     public static final int SLOT6_ID = 6;
+    public static final int COMPRESSOR_PRESSURE = 14;
 
+    //Relay
+    public static final int COMPRESSOR_RELAY = 0; 
 
     //PCM
     public static final int INTAKE_PISTON_ID = 0;
