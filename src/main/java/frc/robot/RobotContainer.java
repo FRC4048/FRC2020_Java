@@ -253,38 +253,25 @@ public class RobotContainer {
     //Set up the actual auto sequenece here using the inline command groups.
     switch(autoOption){
       case LEFT_DEPOSIT:
-
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
-        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
-          -> driveTrain.tankDriveVolts(0, 0)).andThen(
-          new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(new DriveStraightWithGyro(driveTrain, 0.6, 4.5).withTimeout(3.5)).andThen(new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(1));
         break;
 
       case MIDDLE_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
-        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
-          -> driveTrain.tankDriveVolts(0, 0)).andThen(
-          new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(new DriveStraightWithGyro(driveTrain, 0.6, 2.5).withTimeout(3)).andThen(new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(1));
         break;
 
       case RIGHT_DEPOSIT:
-        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(trajectoryCommands.get(0)).
-        andThen(new TurnToAngle(driveTrain, 0)).andThen(() 
-          -> driveTrain.tankDriveVolts(0, 0)).andThen(
-          new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(2));
-          break;
+        autoCommand = new WaitCommand(autoChooser.getDelay()).andThen(new DriveStraightWithGyro(driveTrain, 0.6, 2.5).withTimeout(3)).andThen(new ShootBallAuto(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem).withTimeout(1));
+        break;
 
       case CROSS_LINE:
         //Sets the auto function to be going the first trajectory and then the second trajectory and then stopping
-        autoCommand = trajectoryCommands.get(0).andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        autoCommand = new DriveStraightWithGyro(driveTrain, -0.5, 1);
         break;
 
-      case RIGHT_PICKUP:
-         autoCommand = new DriveStraight(4.8, -0.5, driveTrain).andThen(new WaitCommand(0.25)).andThen(
-           new ResetPose(driveTrain)).andThen(trajectoryCommands.get(0)).
-           andThen(new TurnToAngle(driveTrain, 0))  .andThen(
-             () -> driveTrain.tankDriveVolts(0, 0));
-         break;
+      // case RIGHT_PICKUP:
+      //   autoCommand = new DriveStraightWithGyro(driveTrain, -0.2, 1).andThen(new StartIntakeCommand(intakeSubsystem)).andThen(new ParallelDeadlineGroup(new DriveStraightWithGyro(driveTrain, -0.1, 3), new IntakeMotorSpin(intakeSubsystem))).andThen(new StopIntakeCommand(intakeSubsystem));
+      //   break;
 
       case DO_NOTHING:
         autoCommand = new DoNothing();

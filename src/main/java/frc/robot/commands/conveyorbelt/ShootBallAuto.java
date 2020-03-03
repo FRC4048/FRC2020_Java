@@ -48,11 +48,14 @@ public class ShootBallAuto extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooterSubsystem.moveShooter(0);
+    transferConveyorSubsystem.moveTransfer(0);
+    conveyorSubsystem.moveConveyor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ConveyorStateMachine.getState() == BallTransferState.S0;
+    return false;
   }
 }
