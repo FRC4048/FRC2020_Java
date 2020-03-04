@@ -4,10 +4,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.utils.SmartShuffleboard;
 import frc.robot.utils.logging.Logging;
 
 public class CompressorSubsystem extends SubsystemBase {
@@ -47,7 +45,6 @@ public class CompressorSubsystem extends SubsystemBase {
     }
 
     public boolean getDIO() {
-        SmartShuffleboard.put("Compressor", "DIO", input.get()); //TODO: DELETE!!!!!!!!!!!!!
         return input.get();
     }
     
