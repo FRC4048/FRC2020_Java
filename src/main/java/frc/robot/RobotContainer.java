@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.CompressorCommand;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.MotorSpinIntake;
 import frc.robot.commands.StartIntakeCommand;
@@ -130,6 +131,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new Drive(driveTrain, controlPanelSubsystem, () -> joyLeft.getY(), () -> joyRight.getY()));
     conveyorSubsystem.setDefaultCommand(new StateDetector(conveyorSubsystem, transferConveyorSubsystem, shooterSubsystem));
     controlPanelSubsystem.setDefaultCommand(new ManualRotate(controlPanelSubsystem, () -> getXBoxRightJoyX()));
+    compressorSubsystem.setDefaultCommand(new CompressorCommand(compressorSubsystem));
 
     // Configure the button bindings
     configureButtonBindings();
