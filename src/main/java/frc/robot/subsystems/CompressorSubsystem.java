@@ -12,7 +12,7 @@ import frc.robot.utils.logging.Logging;
 
 public class CompressorSubsystem extends SubsystemBase {
 
-    private Compressor compressor;
+    public Compressor compressor;
     private Relay relay; 
     private DigitalInput input;
 
@@ -50,6 +50,7 @@ public class CompressorSubsystem extends SubsystemBase {
         SmartShuffleboard.put("Compressor", "DIO", input.get()); //TODO: DELETE!!!!!!!!!!!!!
         return input.get();
     }
+    
 
     public void setRelay(){
         relay.set(Relay.Value.kOn);

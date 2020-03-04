@@ -15,8 +15,9 @@ public class CompressorCommand extends CommandBase {
   /**
    * Creates a new CompressorCommand.
    */
-  public CompressorCommand() {
+  public CompressorCommand(CompressorSubsystem compressorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.compressorSubsystem = compressorSubsystem;
     addRequirements(compressorSubsystem);
   }
 
@@ -29,9 +30,9 @@ public class CompressorCommand extends CommandBase {
   @Override
   public void execute() {
     if (compressorSubsystem.getDIO()){
-        compressorSubsystem.setRelay();
-    } else {
         compressorSubsystem.resetRelay();
+    } else {
+        compressorSubsystem.setRelay();
     }
   }
 
